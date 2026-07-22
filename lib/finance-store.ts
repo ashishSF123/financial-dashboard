@@ -1,7 +1,7 @@
 // Client-side data store using localStorage
 // This provides immediate functionality while Snowflake tables are provisioned
 
-import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy } from "./finance-types";
+import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy, AdditionalLoan } from "./finance-types";
 
 const KEYS = {
   expenses: "pf_daily_expenses",
@@ -9,6 +9,7 @@ const KEYS = {
   transactions: "pf_investment_transactions",
   budgets: "pf_budget_limits",
   insurance: "pf_insurance_policies",
+  loans: "pf_additional_loans",
 };
 
 function generateId(): string {
@@ -159,6 +160,32 @@ export function setBudgetLimit(category: string, monthlyLimit: number, alertThre
   }
   setStore(KEYS.budgets, budgets);
   return budget;
+}
+
+// --- Additional Loans (Credit Card, Personal Loan, Vehicle Loan) ---
+
+export function getAdditionalLoans(filters?: { type?: string; status?: string }): AdditionalLoan[] {
+  let loans = getStore<AdditionalLoan>(KEYS.loans);
+  if (filters?.type) loans = loans.filter((l) => l.type === filters.type);
+  if (filters?.status) loans = loans.filter((l) => l.status === filters.status);
+  return loans.sort((a, b) => b.interestRate - a.interestRate);
+}
+
+export function addAdditionalLoan(loan: Omit<AdditionalLoan, "id" | "createdAt" | "updatedAt">): AdditionalLoan {
+  const now = new Date().toISOString();
+  const newLoan: AdditionalLoan = { ...loan, id: generateId(), createdAt: now, updatedAt: now };
+  const loans = getStore<AdditionalLoan>(KEYS.loans);
+  loans.push(newLoan);
+  setStore(KEYS.loans, loans);
+  return newLoan;
+}
+
+export function deleteAdditionalLoan(id: string): boolean {
+  const loans = getStore<AdditionalLoan>(KEYS.loans);
+  const filtered = loans.filter((l) => l.id !== id);
+  if (filtered.length === loans.length) return false;
+  setStore(KEYS.loans, filtered);
+  return true;
 }
 
 // --- Insurance Policies ---

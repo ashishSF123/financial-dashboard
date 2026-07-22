@@ -1,8 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
+import type { AdditionalLoan, AdditionalLoanType } from "@/lib/finance-types";
+import { LOAN_TYPE_LABELS } from "@/lib/finance-types";
 import { EditableTable } from "./editable-table";
+import { getAdditionalLoans, addAdditionalLoan, deleteAdditionalLoan } from "@/lib/finance-store";
 
 interface DebtItem {
   id: string;
@@ -26,6 +29,9 @@ const TYPE_META: Record<string, { icon: string; label: string; color: string; bg
   gold: { icon: "🥇", label: "Gold Loan", color: "text-amber-400", bg: "bg-amber-500/10" },
   house: { icon: "🏠", label: "House Loan", color: "text-indigo-400", bg: "bg-indigo-500/10" },
   personal: { icon: "🤝", label: "Personal", color: "text-rose-400", bg: "bg-rose-500/10" },
+  credit_card: { icon: "💳", label: "Credit Card", color: "text-purple-400", bg: "bg-purple-500/10" },
+  personal_loan: { icon: "💰", label: "Personal Loan", color: "text-pink-400", bg: "bg-pink-500/10" },
+  vehicle_loan: { icon: "🚗", label: "Vehicle Loan", color: "text-cyan-400", bg: "bg-cyan-500/10" },
 };
 
 interface Props {
@@ -36,7 +42,23 @@ interface Props {
 export function LoansHub({ data, onUpdate }: Props) {
   const [strategy, setStrategy] = useState<"avalanche" | "snowball">("avalanche");
   const [filterType, setFilterType] = useState<string>("all");
-  const [section, setSection] = useState<"overview" | "gold" | "house" | "settlements">("overview");
+  const [section, setSection] = useState<"overview" | "gold" | "house" | "settlements" | "credit-cards" | "personal-loans" | "vehicle-loans">("overview");
+  const [additionalLoans, setAdditionalLoans] = useState<AdditionalLoan[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [formType, setFormType] = useState<AdditionalLoanType>("credit_card");
+  const [formName, setFormName] = useState("");
+  const [formProvider, setFormProvider] = useState("");
+  const [formBalance, setFormBalance] = useState("");
+  const [formEmi, setFormEmi] = useState("");
+  const [formRate, setFormRate] = useState("");
+  const [formLimit, setFormLimit] = useState("");
+  const [formTenure, setFormTenure] = useState("");
+
+  const refreshLoans = useCallback(() => {
+    setAdditionalLoans(getAdditionalLoans());
+  }, []);
+
+  useEffect(() => { refreshLoans(); }, [refreshLoans]);
 
   const debts: DebtItem[] = useMemo(() => {
     const items: DebtItem[] = [];
@@ -82,8 +104,23 @@ export function LoansHub({ data, onUpdate }: Props) {
         });
       }
     });
+    // Additional loans (credit card, personal loan, vehicle loan)
+    additionalLoans.forEach((l) => {
+      if (l.status !== "closed") {
+        items.push({
+          id: l.id,
+          name: l.name,
+          balance: l.outstandingBalance,
+          monthlyPayment: l.emiAmount,
+          interestRate: l.interestRate,
+          type: l.type,
+          status: l.status,
+          detail: l.provider + (l.remainingMonths ? ` \u2022 ${l.remainingMonths} months left` : ""),
+        });
+      }
+    });
     return items;
-  }, [data]);
+  }, [data, additionalLoans]);
 
   const sorted = useMemo(() => {
     const filtered = filterType === "all" ? debts : debts.filter((d) => d.type === filterType);
@@ -103,6 +140,9 @@ export function LoansHub({ data, onUpdate }: Props) {
     { id: "overview" as const, label: "Priority View", icon: "🎯" },
     { id: "gold" as const, label: "Gold Loans", icon: "🥇" },
     { id: "house" as const, label: "House Loans", icon: "🏠" },
+    { id: "credit-cards" as const, label: "Credit Cards", icon: "💳" },
+    { id: "personal-loans" as const, label: "Personal Loans", icon: "💰" },
+    { id: "vehicle-loans" as const, label: "Vehicle Loans", icon: "🚗" },
     { id: "settlements" as const, label: "Settlements", icon: "🤝" },
   ];
 
@@ -201,8 +241,8 @@ export function LoansHub({ data, onUpdate }: Props) {
       {section === "overview" && (
         <div className="space-y-4">
           {/* Filter pills */}
-          <div className="flex items-center gap-2">
-            {[{ id: "all", label: "All" }, { id: "gold", label: "🥇 Gold" }, { id: "house", label: "🏠 House" }, { id: "personal", label: "🤝 Personal" }].map((f) => (
+          <div className="flex items-center gap-2 flex-wrap">
+            {[{ id: "all", label: "All" }, { id: "gold", label: "Gold" }, { id: "house", label: "House" }, { id: "personal", label: "Personal" }, { id: "credit_card", label: "Credit Card" }, { id: "personal_loan", label: "Personal Loan" }, { id: "vehicle_loan", label: "Vehicle" }].map((f) => (
               <button key={f.id} onClick={() => setFilterType(f.id)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${filterType === f.id ? "bg-white/[0.08] text-white" : "text-slate-500 hover:text-slate-300"}`}>
                 {f.label}
               </button>
@@ -373,6 +413,130 @@ export function LoansHub({ data, onUpdate }: Props) {
             rows={data.lended}
             onUpdate={(updated) => onUpdate((d) => ({ ...d, lended: updated as FinancialData["lended"] }))}
           />
+        </div>
+      )}
+      {/* === Section: Credit Cards / Personal Loans / Vehicle Loans === */}
+      {(section === "credit-cards" || section === "personal-loans" || section === "vehicle-loans") && (
+        <div className="space-y-5">
+          {/* Add form */}
+          {showAddForm ? (
+            <div className="bg-[#12131a] border border-white/[0.08] rounded-2xl p-5">
+              <h3 className="text-[0.9rem] font-semibold text-white mb-4">Add {LOAN_TYPE_LABELS[formType]}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Type</label>
+                  <select value={formType} onChange={(e) => setFormType(e.target.value as AdditionalLoanType)} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-indigo-500/50 appearance-none">
+                    {Object.entries(LOAN_TYPE_LABELS).map(([v, l]) => (<option key={v} value={v} className="bg-[#1a1b23]">{l}</option>))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Name</label>
+                  <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder={formType === "credit_card" ? "e.g. HDFC Regalia" : formType === "vehicle_loan" ? "e.g. Maruti Swift Loan" : "e.g. ICICI Personal Loan"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50" />
+                </div>
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Provider / Bank</label>
+                  <input type="text" value={formProvider} onChange={(e) => setFormProvider(e.target.value)} placeholder="e.g. HDFC Bank" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50" />
+                </div>
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Outstanding (₹)</label>
+                  <input type="number" value={formBalance} onChange={(e) => setFormBalance(e.target.value)} placeholder="0" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">{formType === "credit_card" ? "Min Due / Monthly" : "EMI"} (₹)</label>
+                  <input type="number" value={formEmi} onChange={(e) => setFormEmi(e.target.value)} placeholder="0" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                </div>
+                <div>
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Interest Rate (% p.a.)</label>
+                  <input type="number" value={formRate} onChange={(e) => setFormRate(e.target.value)} placeholder={formType === "credit_card" ? "36" : "12"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                </div>
+                {formType === "credit_card" && (
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Credit Limit (₹)</label>
+                    <input type="number" value={formLimit} onChange={(e) => setFormLimit(e.target.value)} placeholder="200000" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                  </div>
+                )}
+                {formType !== "credit_card" && (
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Tenure (months)</label>
+                    <input type="number" value={formTenure} onChange={(e) => setFormTenure(e.target.value)} placeholder="36" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={() => setShowAddForm(false)} className="px-3 py-2 rounded-lg text-slate-400 text-[0.78rem] hover:text-white transition-colors">Cancel</button>
+                <button onClick={() => {
+                  if (!formName || !formBalance) return;
+                  addAdditionalLoan({
+                    type: formType,
+                    name: formName,
+                    provider: formProvider,
+                    outstandingBalance: parseFloat(formBalance) || 0,
+                    emiAmount: parseFloat(formEmi) || 0,
+                    interestRate: parseFloat(formRate) || 0,
+                    creditLimit: formLimit ? parseFloat(formLimit) : undefined,
+                    tenureMonths: formTenure ? parseInt(formTenure) : undefined,
+                    status: "active",
+                  });
+                  setFormName(""); setFormProvider(""); setFormBalance(""); setFormEmi(""); setFormRate(""); setFormLimit(""); setFormTenure("");
+                  setShowAddForm(false);
+                  refreshLoans();
+                }} className="px-5 py-2 rounded-lg bg-indigo-500 text-white text-[0.78rem] font-semibold hover:bg-indigo-600 transition-colors">Save</button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-end">
+              <button onClick={() => { setFormType(section === "credit-cards" ? "credit_card" : section === "vehicle-loans" ? "vehicle_loan" : "personal_loan"); setShowAddForm(true); }} className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[0.75rem] font-medium hover:bg-indigo-500/30 transition-colors">
+                <span className="text-sm">+</span> Add {section === "credit-cards" ? "Credit Card" : section === "vehicle-loans" ? "Vehicle Loan" : "Personal Loan"}
+              </button>
+            </div>
+          )}
+
+          {/* List */}
+          <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-white/[0.04]">
+              <h3 className="text-[0.85rem] font-semibold text-white">{section === "credit-cards" ? "Credit Card Dues" : section === "vehicle-loans" ? "Vehicle Loans" : "Personal Loans"}</h3>
+            </div>
+            {additionalLoans.filter((l) => l.type === (section === "credit-cards" ? "credit_card" : section === "vehicle-loans" ? "vehicle_loan" : "personal_loan")).length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-3xl mb-3">{section === "credit-cards" ? "💳" : section === "vehicle-loans" ? "🚗" : "💰"}</div>
+                <p className="text-[0.85rem] text-slate-400">No {section === "credit-cards" ? "credit cards" : section === "vehicle-loans" ? "vehicle loans" : "personal loans"} added</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-white/[0.03]">
+                {additionalLoans.filter((l) => l.type === (section === "credit-cards" ? "credit_card" : section === "vehicle-loans" ? "vehicle_loan" : "personal_loan")).map((l) => {
+                  const meta = TYPE_META[l.type];
+                  return (
+                    <div key={l.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.015] transition-colors group">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-lg ${meta?.bg} flex items-center justify-center shrink-0`}>
+                          <span className="text-[0.8rem]">{meta?.icon}</span>
+                        </div>
+                        <div>
+                          <p className="text-[0.82rem] text-slate-200 font-medium">{l.name}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-[0.65rem] text-slate-500">{l.provider}</span>
+                            <span className="text-[0.5rem] text-slate-600">•</span>
+                            <span className="text-[0.65rem] text-slate-500">{l.interestRate}% p.a.</span>
+                            {l.creditLimit && (<><span className="text-[0.5rem] text-slate-600">•</span><span className="text-[0.65rem] text-slate-500">Limit: {formatINR(l.creditLimit)}</span></>)}
+                            {l.tenureMonths && (<><span className="text-[0.5rem] text-slate-600">•</span><span className="text-[0.65rem] text-slate-500">{l.tenureMonths} mo tenure</span></>)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <p className="text-[0.85rem] font-semibold text-white tabular-nums">{formatINR(l.outstandingBalance)}</p>
+                          <p className="text-[0.65rem] text-slate-500 tabular-nums">{formatINR(l.emiAmount)}/mo</p>
+                        </div>
+                        <button onClick={() => { deleteAdditionalLoan(l.id); refreshLoans(); }} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 text-[0.75rem] transition-all p-1" title="Delete">x</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

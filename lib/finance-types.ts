@@ -96,6 +96,35 @@ export const INVESTMENT_TYPE_LABELS: Record<InvestmentType, string> = {
   real_estate: "Real Estate",
 };
 
+// --- Additional Loans (Credit Card, Personal Loan, Vehicle Loan) ---
+
+export type AdditionalLoanType = "credit_card" | "personal_loan" | "vehicle_loan";
+
+export const LOAN_TYPE_LABELS: Record<AdditionalLoanType, string> = {
+  credit_card: "Credit Card",
+  personal_loan: "Personal Loan",
+  vehicle_loan: "Vehicle Loan",
+};
+
+export interface AdditionalLoan {
+  id: string;
+  type: AdditionalLoanType;
+  name: string;
+  provider: string;
+  outstandingBalance: number;
+  creditLimit?: number; // for credit cards
+  emiAmount: number;
+  interestRate: number;
+  minimumDue?: number; // for credit cards
+  tenureMonths?: number;
+  remainingMonths?: number;
+  startDate?: string;
+  dueDate?: string;
+  status: "active" | "closed" | "overdue";
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // --- Insurance ---
 
 export type InsuranceType = "health" | "term" | "vehicle" | "home";
