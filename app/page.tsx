@@ -162,11 +162,11 @@ export default function DashboardPage() {
     const totalLended = d.lended.reduce((s, l) => s + l.amount, 0);
     const totalLease = d.leases.reduce((s, l) => s + l.amount, 0);
     const grandDebt = totalGoldDebt + totalHouseLoan + totalBorrowed + totalLease;
-    const monthlyGoldInterest = d.goldLoans.reduce((s, g) => s + g.monthlyInterest, 0);
-    const monthlyHouseEmi = d.houseLoans.reduce((s, h) => s + h.emiAmount, 0);
-    const monthlyBorrowedInterest = d.borrowed.reduce((s, b) => s + b.monthlyInterest, 0);
-    const monthlyLendedInterest = d.lended.reduce((s, l) => s + l.monthlyInterest, 0);
-    const monthlyExpenses = d.expenses.reduce((s, e) => s + e.amount, 0);
+    const monthlyGoldInterest = Math.round(d.goldLoans.reduce((s, g) => s + g.monthlyInterest, 0));
+    const monthlyHouseEmi = Math.round(d.houseLoans.reduce((s, h) => s + h.emiAmount, 0));
+    const monthlyBorrowedInterest = Math.round(d.borrowed.reduce((s, b) => s + b.monthlyInterest, 0));
+    const monthlyLendedInterest = Math.round(d.lended.reduce((s, l) => s + l.monthlyInterest, 0));
+    const monthlyExpenses = Math.round(d.expenses.reduce((s, e) => s + e.amount, 0));
     const totalGoldWeight = d.goldLoans.reduce((s, g) => s + g.goldWeight, 0);
     const goldMarketValue = totalGoldWeight * d.goldRate22ct;
     const totalAssets = d.assets.reduce((s, a) => s + a.amount, 0) + 8000000;
