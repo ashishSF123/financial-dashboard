@@ -96,6 +96,39 @@ export const INVESTMENT_TYPE_LABELS: Record<InvestmentType, string> = {
   real_estate: "Real Estate",
 };
 
+// --- Insurance ---
+
+export type InsuranceType = "health" | "term" | "vehicle" | "home";
+
+export const INSURANCE_TYPE_LABELS: Record<InsuranceType, string> = {
+  health: "Health Insurance",
+  term: "Term Life Insurance",
+  vehicle: "Vehicle Insurance",
+  home: "Home Insurance",
+};
+
+export interface InsurancePolicy {
+  id: string;
+  type: InsuranceType;
+  name: string;
+  provider: string;
+  policyNumber: string;
+  sumAssured: number;
+  premium: number;
+  premiumFrequency: "monthly" | "quarterly" | "half-yearly" | "yearly";
+  startDate: string;
+  endDate: string;
+  renewalDate: string;
+  lastPaidDate: string;
+  nextDueDate: string;
+  nomineeName: string;
+  coverageDetails: string;
+  claimHistory: string;
+  status: "active" | "lapsed" | "expired" | "claimed";
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export const CATEGORY_ICONS: Record<string, string> = {
   "Food & Dining": "🍽️",
   "Groceries": "🛒",

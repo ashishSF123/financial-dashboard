@@ -91,7 +91,7 @@ const emptyForm = (type: InvestmentType = "mutual_fund"): FormState => ({
   frequency: TYPE_FIELDS[type]?.defaultFreq || "Monthly",
 });
 
-type Section = "investments" | "real-estate" | "insurance" | "mutual-funds";
+type Section = "investments" | "real-estate" | "mutual-funds";
 
 interface Props {
   data?: FinancialData;
@@ -190,7 +190,6 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
   const sections: { id: Section; label: string; icon: string }[] = [
     { id: "investments", label: "Investments", icon: "📈" },
     { id: "real-estate", label: "Real Estate", icon: "🏘️" },
-    { id: "insurance", label: "Insurance", icon: "🛡️" },
     { id: "mutual-funds", label: "Mutual Funds", icon: "💹" },
   ];
 
@@ -470,24 +469,6 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
           ]}
           rows={data.realEstate}
           onUpdate={(updated) => onUpdate((d) => ({ ...d, realEstate: updated as FinancialData["realEstate"] }))}
-        />
-      )}
-
-      {/* === Section: Insurance === */}
-      {section === "insurance" && data && onUpdate && (
-        <EditableTable
-          title="Insurance Policies"
-          description="Life and health insurance coverage details."
-          accent="indigo"
-          columns={[
-            { key: "name", label: "Policy Name", type: "text" },
-            { key: "type", label: "Type", type: "text" },
-            { key: "provider", label: "Provider", type: "text" },
-            { key: "amount", label: "Sum Assured (₹)", type: "currency" },
-            { key: "status", label: "Status", type: "status" },
-          ]}
-          rows={data.insurance}
-          onUpdate={(updated) => onUpdate((d) => ({ ...d, insurance: updated as FinancialData["insurance"] }))}
         />
       )}
 

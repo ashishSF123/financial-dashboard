@@ -1,13 +1,14 @@
 // Client-side data store using localStorage
 // This provides immediate functionality while Snowflake tables are provisioned
 
-import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit } from "./finance-types";
+import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy } from "./finance-types";
 
 const KEYS = {
   expenses: "pf_daily_expenses",
   holdings: "pf_investment_holdings",
   transactions: "pf_investment_transactions",
   budgets: "pf_budget_limits",
+  insurance: "pf_insurance_policies",
 };
 
 function generateId(): string {
@@ -158,6 +159,62 @@ export function setBudgetLimit(category: string, monthlyLimit: number, alertThre
   }
   setStore(KEYS.budgets, budgets);
   return budget;
+}
+
+// --- Insurance Policies ---
+
+export function getInsurancePolicies(filters?: { type?: string; status?: string }): InsurancePolicy[] {
+  let policies = getStore<InsurancePolicy>(KEYS.insurance);
+  if (filters?.type) policies = policies.filter((p) => p.type === filters.type);
+  if (filters?.status) policies = policies.filter((p) => p.status === filters.status);
+  return policies.sort((a, b) => (b.nextDueDate || "").localeCompare(a.nextDueDate || ""));
+}
+
+export function addInsurancePolicy(policy: Omit<InsurancePolicy, "id" | "createdAt" | "updatedAt">): InsurancePolicy {
+  const now = new Date().toISOString();
+  const newPolicy: InsurancePolicy = { ...policy, id: generateId(), createdAt: now, updatedAt: now };
+  const policies = getStore<InsurancePolicy>(KEYS.insurance);
+  policies.push(newPolicy);
+  setStore(KEYS.insurance, policies);
+  return newPolicy;
+}
+
+export function updateInsurancePolicy(id: string, updates: Partial<InsurancePolicy>): InsurancePolicy | null {
+  const policies = getStore<InsurancePolicy>(KEYS.insurance);
+  const idx = policies.findIndex((p) => p.id === id);
+  if (idx === -1) return null;
+  policies[idx] = { ...policies[idx], ...updates, updatedAt: new Date().toISOString() };
+  setStore(KEYS.insurance, policies);
+  return policies[idx];
+}
+
+export function deleteInsurancePolicy(id: string): boolean {
+  const policies = getStore<InsurancePolicy>(KEYS.insurance);
+  const filtered = policies.filter((p) => p.id !== id);
+  if (filtered.length === policies.length) return false;
+  setStore(KEYS.insurance, filtered);
+  return true;
+}
+
+export function getInsuranceSummary() {
+  const policies = getInsurancePolicies({ status: "active" });
+  const totalCoverage = policies.reduce((s, p) => s + p.sumAssured, 0);
+  const totalPremium = policies.reduce((s, p) => s + p.premium, 0);
+  const byType: Record<string, { count: number; coverage: number; premium: number }> = {};
+  policies.forEach((p) => {
+    if (!byType[p.type]) byType[p.type] = { count: 0, coverage: 0, premium: 0 };
+    byType[p.type].count++;
+    byType[p.type].coverage += p.sumAssured;
+    byType[p.type].premium += p.premium;
+  });
+  const upcomingRenewals = policies.filter((p) => {
+    if (!p.nextDueDate) return false;
+    const due = new Date(p.nextDueDate);
+    const now = new Date();
+    const diff = (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+    return diff >= 0 && diff <= 30;
+  });
+  return { totalCoverage, totalPremium, byType, policyCount: policies.length, upcomingRenewals };
 }
 
 // --- Seed Data ---

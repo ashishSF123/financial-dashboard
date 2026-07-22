@@ -15,6 +15,7 @@ import { PaymentCalendar } from "@/components/dashboard/payment-calendar";
 import { DebtPlanner } from "@/components/dashboard/debt-planner";
 import { SettlementTracker } from "@/components/dashboard/settlement-tracker";
 import { LoansHub } from "@/components/dashboard/loans-hub";
+import { InsuranceHub } from "@/components/dashboard/insurance-hub";
 import { BudgetTracker } from "@/components/dashboard/budget-tracker";
 import { GoalsTracker } from "@/components/dashboard/goals-tracker";
 import { CommandBar } from "@/components/dashboard/command-bar";
@@ -164,6 +165,7 @@ export default function DashboardPage() {
     { id: "budget", label: "Budget", icon: "📊" },
     { id: "goals", label: "Goals", icon: "🎯" },
     { id: "loans", label: "Loans & Debt", icon: "💳" },
+    { id: "insurance", label: "Insurance", icon: "🛡️" },
     { id: "expenses", label: "Recurring", icon: "◎" },
 
     { id: "debt-plan", label: "Debt Plan", icon: "🏆" },
@@ -340,6 +342,10 @@ export default function DashboardPage() {
 
         {activeTab === "loans" && (
           <LoansHub data={data} onUpdate={updateData} />
+        )}
+
+        {activeTab === "insurance" && (
+          <InsuranceHub />
         )}
 
 
