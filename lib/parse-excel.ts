@@ -138,7 +138,7 @@ export function parseExcelData(): FinancialData {
         goldWeight: toNum(row[6]),
         principalAmount: principal,
         roiPct: roi,
-        monthlyInterest: toNum(row[10]) || (principal * roi / 12 / 100),
+        monthlyInterest: Math.round(toNum(row[10]) || (principal * roi / 12 / 100)),
         startDate: toStr(row[11]),
         endDate: toStr(row[12]),
         location: toStr(row[14]),
@@ -197,7 +197,7 @@ export function parseExcelData(): FinancialData {
         location: toStr(row[3]),
         date: toStr(row[4]),
         roi: roi,
-        monthlyInterest: toNum(row[6]) || (amt * roi / 100),
+        monthlyInterest: Math.round(toNum(row[6]) || (amt * roi / 100)),
         status,
       });
     }
@@ -220,7 +220,7 @@ export function parseExcelData(): FinancialData {
         location: toStr(row[3]),
         date: toStr(row[4]),
         roi: roi,
-        monthlyInterest: toNum(row[6]) || (amt * roi / 100),
+        monthlyInterest: Math.round(toNum(row[6]) || (amt * roi / 100)),
       });
     }
   }

@@ -363,7 +363,7 @@ export function LoansHub({ data, onUpdate }: Props) {
           onUpdate={(updated) => onUpdate((d) => ({ ...d, goldLoans: updated as FinancialData["goldLoans"] }))}
           recalculate={(row) => {
             const r = row as FinancialData["goldLoans"][0];
-            return { ...r, monthlyInterest: r.principalAmount * r.roiPct / 12 / 100 };
+            return { ...r, monthlyInterest: Math.round(r.principalAmount * r.roiPct / 12 / 100) };
           }}
         />
       )}
