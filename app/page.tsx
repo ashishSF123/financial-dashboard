@@ -14,6 +14,7 @@ import { MonthSelector } from "@/components/dashboard/month-selector";
 import { PaymentCalendar } from "@/components/dashboard/payment-calendar";
 import { DebtPlanner } from "@/components/dashboard/debt-planner";
 import { SettlementTracker } from "@/components/dashboard/settlement-tracker";
+import { LoansHub } from "@/components/dashboard/loans-hub";
 import { BudgetTracker } from "@/components/dashboard/budget-tracker";
 import { GoalsTracker } from "@/components/dashboard/goals-tracker";
 import { CommandBar } from "@/components/dashboard/command-bar";
@@ -162,9 +163,7 @@ export default function DashboardPage() {
     { id: "calendar", label: "Calendar", icon: "📅" },
     { id: "budget", label: "Budget", icon: "📊" },
     { id: "goals", label: "Goals", icon: "🎯" },
-    { id: "gold-loans", label: "Gold Loans", icon: "◆" },
-    { id: "house-loans", label: "House Loans", icon: "⌂" },
-    { id: "settlements", label: "Settlements", icon: "🤝" },
+    { id: "loans", label: "Loans & Debt", icon: "💳" },
     { id: "expenses", label: "Recurring", icon: "◎" },
 
     { id: "debt-plan", label: "Debt Plan", icon: "🏆" },
@@ -339,48 +338,8 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {activeTab === "gold-loans" && (
-          <EditableTable
-            title="Gold Loans"
-            description="Edit principal, interest rate, or gold weight. Monthly interest recalculates automatically."
-            accent="amber"
-            columns={[
-              { key: "accountName", label: "Account", type: "text" },
-              { key: "vendor", label: "Vendor", type: "text" },
-              { key: "goldWeight", label: "Gold (g)", type: "number" },
-              { key: "principalAmount", label: "Principal (₹)", type: "currency" },
-              { key: "roiPct", label: "ROI % p.a.", type: "number" },
-              { key: "monthlyInterest", label: "Monthly Int. (₹)", type: "currency" },
-              { key: "location", label: "Location", type: "text" },
-              { key: "status", label: "Status", type: "status" },
-            ]}
-            rows={data.goldLoans}
-            onUpdate={(updated) => updateData((d) => ({ ...d, goldLoans: updated as FinancialData["goldLoans"] }))}
-            recalculate={(row) => {
-              const r = row as FinancialData["goldLoans"][0];
-              return { ...r, monthlyInterest: r.principalAmount * r.roiPct / 12 / 100 };
-            }}
-          />
-        )}
-
-        {activeTab === "house-loans" && (
-          <EditableTable
-            title="House Loans"
-            description="Update EMI, interest rate, or loan amount to see impact on monthly outflows."
-            accent="indigo"
-            columns={[
-              { key: "loanType", label: "Type", type: "text" },
-              { key: "bank", label: "Bank", type: "text" },
-              { key: "loanAmount", label: "Loan Amount (₹)", type: "currency" },
-              { key: "emiAmount", label: "EMI (₹)", type: "currency" },
-              { key: "interestRate", label: "Rate %", type: "number" },
-              { key: "tenureMonths", label: "Tenure (mo)", type: "number" },
-              { key: "remainingMonths", label: "Remaining", type: "number" },
-              { key: "status", label: "Status", type: "status" },
-            ]}
-            rows={data.houseLoans}
-            onUpdate={(updated) => updateData((d) => ({ ...d, houseLoans: updated as FinancialData["houseLoans"] }))}
-          />
+        {activeTab === "loans" && (
+          <LoansHub data={data} onUpdate={updateData} />
         )}
 
 
@@ -422,9 +381,7 @@ export default function DashboardPage() {
           <GoalsTracker data={data} monthlySurplus={monthlySurplus} />
         )}
 
-        {activeTab === "settlements" && (
-          <SettlementTracker data={data} />
-        )}
+
 
         {activeTab === "debt-plan" && (
           <DebtPlanner data={data} />
