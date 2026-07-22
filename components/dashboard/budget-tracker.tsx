@@ -80,31 +80,31 @@ export function BudgetTracker({ data }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white flex items-center gap-2">
-          <span className="text-lg">📊</span> Budget vs Actual
+          Monthly Spending Plan
         </h2>
-        <p className="text-[0.78rem] text-slate-500 leading-relaxed mt-1">Set spending limits and track where your money goes</p>
+        <p className="text-[0.78rem] text-slate-500 leading-relaxed mt-1">Your planned vs actual spending across all categories</p>
       </div>
 
       {/* Overall Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Total Budget</p>
+          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Monthly Planned</p>
           <p className="text-[1.3rem] font-bold tracking-tight text-white">{formatINR(totalBudget)}</p>
         </div>
         <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Total Spent</p>
+          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Actual Spent</p>
           <p className={`text-[1.3rem] font-bold tracking-tight ${totalActual > totalBudget ? "text-rose-400" : "text-white"}`}>{formatINR(totalActual)}</p>
         </div>
         <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Under Budget</p>
+          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Net Savings</p>
           <p className={`text-[1.3rem] font-bold tracking-tight ${saved > 0 ? "text-emerald-400" : "text-rose-400"}`}>
             {saved > 0 ? formatINR(saved) : `-${formatINR(totalActual - totalBudget)}`}
           </p>
         </div>
         <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Categories Over</p>
+          <p className="text-[0.65rem] uppercase tracking-[0.08em] font-medium text-slate-500 mb-1">Overspent Areas</p>
           <p className={`text-[1.3rem] font-bold tracking-tight ${overBudget.length > 0 ? "text-rose-400" : "text-emerald-400"}`}>
-            {overBudget.length > 0 ? `${overBudget.length} ⚠️` : "None ✓"}
+            {overBudget.length > 0 ? `${overBudget.length}` : "None"}
           </p>
         </div>
       </div>
