@@ -27,6 +27,11 @@ import { Sidebar } from "@/components/dashboard/sidebar";
 import { IncomeTracker } from "@/components/dashboard/income-tracker";
 import { SubscriptionManager } from "@/components/dashboard/subscription-manager";
 import { NetWorthTimeline } from "@/components/dashboard/net-worth-timeline";
+import { OnboardingWizard } from "@/components/dashboard/onboarding-wizard";
+import { AdvisorPanel } from "@/components/dashboard/advisor-panel";
+import { JourneyTimeline } from "@/components/dashboard/journey-timeline";
+import { getUserProfile } from "@/lib/finance-store";
+import type { UserProfile } from "@/lib/finance-types";
 import type { FinancialData } from "@/lib/parse-excel";
 
 interface MonthlySnapshot {
@@ -42,8 +47,20 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load user profile
+  useEffect(() => {
+    const profile = getUserProfile();
+    if (profile && profile.onboardingComplete) {
+      setUserProfile(profile);
+    } else {
+      setShowOnboarding(true);
+    }
+  }, []);
 
   useEffect(() => {
     fetch("/api/data")
@@ -97,6 +114,11 @@ export default function DashboardPage() {
       return updated;
     });
   }, [selectedMonth, saveToDb]);
+
+  // Show onboarding wizard for first-time users
+  if (showOnboarding) {
+    return <OnboardingWizard onComplete={() => { setUserProfile(getUserProfile()); setShowOnboarding(false); }} />;
+  }
 
   if (loading) {
     return (
@@ -218,6 +240,23 @@ export default function DashboardPage() {
           <div className="max-w-[1200px] animate-in fade-in duration-200">
         {activeTab === "overview" && (
           <div className="space-y-8">
+
+            {/* Advisor Panel — personalized guidance */}
+            {userProfile && (
+              <AdvisorPanel
+                profile={userProfile}
+                monthlyIncome={monthlyCredit}
+                monthlyExpenses={monthlyExpenses + monthlyGoldInterest + monthlyHouseEmi + monthlyBorrowedInterest}
+                totalDebt={grandDebt}
+                monthlyDebtPayment={monthlyGoldInterest + monthlyHouseEmi + monthlyBorrowedInterest}
+                totalInvestments={totalAssets - (data.goldLoans?.reduce((s, g) => s + g.goldWeight, 0) || 0) * (data.goldRate22ct || 0)}
+                emergencyFundMonths={monthlySurplus > 0 ? netWorth / (monthlyExpenses + monthlyGoldInterest + monthlyHouseEmi) : 0}
+                highestDebtRate={Math.max(...(data.goldLoans.map((g) => g.roiPct) || [0]), ...(data.houseLoans.map((h) => h.interestRate) || [0]), 0)}
+                unusedSubscriptions={0}
+                insuranceCoverage={0}
+                onNavigate={setActiveTab}
+              />
+            )}
 
             <FinancialHealth
               grandDebt={grandDebt}
@@ -355,6 +394,16 @@ export default function DashboardPage() {
 
         {activeTab === "trends" && (
           <TrendsPanel snapshots={snapshots} />
+        )}
+
+        {activeTab === "journey" && userProfile && (
+          <JourneyTimeline
+            profile={userProfile}
+            currentNetWorth={netWorth}
+            totalDebt={grandDebt}
+            monthlyIncome={monthlyCredit}
+            monthlyExpenses={monthlyExpenses + monthlyGoldInterest + monthlyHouseEmi + monthlyBorrowedInterest}
+          />
         )}
 
         {activeTab === "income" && (

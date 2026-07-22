@@ -14,6 +14,7 @@ import {
   Goal,
   TrendingUp,
   Settings,
+  Compass,
   ChevronLeft,
   ChevronRight,
   IndianRupee,
@@ -62,6 +63,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "Planning",
     items: [
+      { id: "journey", label: "My Journey", icon: <Compass size={18} /> },
       { id: "calendar", label: "Calendar", icon: <CalendarDays size={18} /> },
       { id: "goals", label: "Goals", icon: <Goal size={18} /> },
       { id: "subscriptions", label: "Subscriptions", icon: <Repeat size={18} /> },

@@ -275,3 +275,32 @@ export const CATEGORY_COLORS: Record<string, { bg: string; text: string; dot: st
   "Subscriptions": { bg: "bg-violet-500/10", text: "text-violet-400", dot: "bg-violet-400" },
   "Other": { bg: "bg-slate-500/10", text: "text-slate-400", dot: "bg-slate-400" },
 };
+
+// --- User Profile ---
+
+export type Currency = "INR" | "USD" | "EUR" | "GBP" | "JPY";
+export type NumberFormat = "indian" | "international";
+export type IncomeTier = "low" | "mid" | "high";
+export type FinancialGoal = "debt_free" | "emergency_fund" | "retirement" | "wealth_building" | "home_purchase" | "education" | "travel";
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  monthlyIncome: number;
+  currency: Currency;
+  numberFormat: NumberFormat;
+  goals: FinancialGoal[];
+  incomeTier: IncomeTier;
+  onboardingComplete: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface JourneyMilestone {
+  id: string;
+  title: string;
+  description: string;
+  achievedAt: string;
+  type: "debt" | "savings" | "investment" | "income" | "milestone";
+  icon: string;
+}

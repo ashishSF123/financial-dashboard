@@ -1,7 +1,7 @@
 // Client-side data store using localStorage
 // This provides immediate functionality while Snowflake tables are provisioned
 
-import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy, AdditionalLoan, IncomeSource, Subscription, NetWorthSnapshot } from "./finance-types";
+import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy, AdditionalLoan, IncomeSource, Subscription, NetWorthSnapshot, UserProfile, JourneyMilestone, IncomeTier } from "./finance-types";
 
 const KEYS = {
   expenses: "pf_daily_expenses",
@@ -413,4 +413,50 @@ export function recordNetWorth(snapshot: Omit<NetWorthSnapshot, "recordedAt">): 
   const entry = { ...snapshot, recordedAt: new Date().toISOString() };
   if (existing >= 0) { history[existing] = entry; } else { history.push(entry); }
   setStore(KEYS.netWorth, history);
+}
+
+// === USER PROFILE ===
+
+const PROFILE_KEY = "pf_user_profile";
+const MILESTONES_KEY = "pf_journey_milestones";
+
+function getIncomeTier(monthlyIncome: number): IncomeTier {
+  if (monthlyIncome >= 500000) return "high";
+  if (monthlyIncome >= 50000) return "mid";
+  return "low";
+}
+
+export function getUserProfile(): UserProfile | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem(PROFILE_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+export function saveUserProfile(profile: Partial<UserProfile> & { name: string; monthlyIncome: number }): UserProfile {
+  const existing = getUserProfile();
+  const now = new Date().toISOString();
+  const saved: UserProfile = {
+    id: existing?.id || generateId(),
+    name: profile.name,
+    monthlyIncome: profile.monthlyIncome,
+    currency: profile.currency || existing?.currency || "INR",
+    numberFormat: profile.numberFormat || existing?.numberFormat || "indian",
+    goals: profile.goals || existing?.goals || [],
+    incomeTier: getIncomeTier(profile.monthlyIncome),
+    onboardingComplete: profile.onboardingComplete ?? existing?.onboardingComplete ?? false,
+    createdAt: existing?.createdAt || now,
+    updatedAt: now,
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(saved));
+  return saved;
+}
+
+export function getMilestones(): JourneyMilestone[] {
+  return getStore<JourneyMilestone>(MILESTONES_KEY);
+}
+
+export function addMilestone(milestone: Omit<JourneyMilestone, "id" | "achievedAt">): void {
+  const milestones = getMilestones();
+  milestones.push({ ...milestone, id: generateId(), achievedAt: new Date().toISOString() });
+  setStore(MILESTONES_KEY, milestones);
 }
