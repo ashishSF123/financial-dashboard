@@ -33,6 +33,10 @@ const defaultBudgets: Record<string, { limit: number; color: string }> = {
 export function BudgetTracker({ data }: Props) {
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [newCatLimit, setNewCatLimit] = useState("");
+  const [newCatColor, setNewCatColor] = useState("#6366f1");
 
   const categories: BudgetCategory[] = useMemo(() => {
     const grouped: Record<string, number> = {};
@@ -75,15 +79,68 @@ export function BudgetTracker({ data }: Props) {
     }));
   };
 
+  const handleAddCategory = () => {
+    if (!newCatName.trim() || !newCatLimit) return;
+    setBudgets((prev) => ({
+      ...prev,
+      [newCatName.trim()]: { limit: parseFloat(newCatLimit) || 0, color: newCatColor },
+    }));
+    setNewCatName("");
+    setNewCatLimit("");
+    setNewCatColor("#6366f1");
+    setShowAddCategory(false);
+  };
+
+  const handleDeleteCategory = (name: string) => {
+    setBudgets((prev) => {
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)] flex items-center gap-2">
-          Monthly Spending Plan
-        </h2>
-        <p className="text-[0.78rem] text-[var(--text-muted)] leading-relaxed mt-1">Your planned vs actual spending across all categories</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)] flex items-center gap-2">
+            Monthly Spending Plan
+          </h2>
+          <p className="text-[0.78rem] text-[var(--text-muted)] leading-relaxed mt-1">Your planned vs actual spending across all categories</p>
+        </div>
+        <button
+          onClick={() => setShowAddCategory(true)}
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[0.75rem] font-medium hover:bg-indigo-500/30 transition-colors"
+        >
+          <span className="text-sm">+</span> Add Category
+        </button>
       </div>
+
+      {/* Add Category Form */}
+      {showAddCategory && (
+        <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl p-4">
+          <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] mb-3">Add Budget Category</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Category Name</label>
+              <input type="text" value={newCatName} onChange={(e) => setNewCatName(e.target.value)} placeholder="e.g. Groceries" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50" />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Monthly Limit (Rs)</label>
+              <input type="number" value={newCatLimit} onChange={(e) => setNewCatLimit(e.target.value)} placeholder="10000" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Color</label>
+              <input type="color" value={newCatColor} onChange={(e) => setNewCatColor(e.target.value)} className="w-full h-[38px] bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg cursor-pointer" />
+            </div>
+            <div className="flex items-end gap-2">
+              <button onClick={handleAddCategory} className="px-4 py-2 rounded-lg bg-indigo-500 text-[var(--text-heading)] text-[0.78rem] font-semibold hover:bg-indigo-600 transition-colors">Save</button>
+              <button onClick={() => setShowAddCategory(false)} className="px-3 py-2 rounded-lg text-[var(--text-secondary)] text-[0.78rem] hover:text-[var(--text-heading)] transition-colors">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Overall Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -172,6 +229,7 @@ export function BudgetTracker({ data }: Props) {
                   {isOver && <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400">OVER</span>}
                   {isWarning && <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">WARNING</span>}
                   {!isOver && !isWarning && <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400">OK</span>}
+                  <button onClick={() => handleDeleteCategory(cat.name)} className="text-[0.6rem] text-[var(--text-muted)] hover:text-rose-400 transition-colors" title="Remove category">✕</button>
                 </div>
               </div>
 
