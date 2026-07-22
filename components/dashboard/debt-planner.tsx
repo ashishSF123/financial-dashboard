@@ -1,28 +1,15 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import type { FinancialData } from "@/lib/parse-excel";
+import type { DebtItem } from "@/lib/finance-types";
 
 interface Props {
   data: FinancialData;
 }
 
-interface DebtItem {
-  id: string;
-  name: string;
-  balance: number;
-  monthlyPayment: number;
-  interestRate: number; // annual %
-  type: "gold" | "house" | "personal";
-}
-
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 const typeColors = { gold: "#f59e0b", house: "#6366f1", personal: "#f43f5e" };
 

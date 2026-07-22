@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { formatINR } from "./kpi-cards";
+import { formatINR } from "@/lib/format-currency";
 
 interface Column {
   key: string;

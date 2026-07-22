@@ -1,15 +1,11 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useState, useEffect, useCallback } from "react";
 import { SUBSCRIPTION_CATEGORIES } from "@/lib/finance-types";
 import type { Subscription } from "@/lib/finance-types";
 import { getSubscriptions, addSubscription, deleteSubscription, updateSubscription } from "@/lib/finance-store";
 
-function formatINR(n: number): string {
-  if (n >= 100000) return `Rs ${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `Rs ${(n / 1000).toFixed(1)}K`;
-  return `Rs ${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 function daysSince(dateStr?: string): number | null {
   if (!dateStr) return null;

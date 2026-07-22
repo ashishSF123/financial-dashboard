@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo } from "react";
 import {
@@ -38,13 +39,6 @@ function calcMetrics(d: FinancialData) {
   return { totalGoldDebt, totalHouseLoan, totalBorrowed, totalLease, grandDebt, monthlyExpenses, goldMarketValue, totalAssets, netWorth, monthlyCredit, monthlyOutflows, monthlySurplus };
 }
 
-function formatINR(val: number): string {
-  const abs = Math.abs(val);
-  if (abs >= 10000000) return `${(val / 10000000).toFixed(2)} Cr`;
-  if (abs >= 100000) return `${(val / 100000).toFixed(1)} L`;
-  if (abs >= 1000) return `${(val / 1000).toFixed(1)} K`;
-  return val.toFixed(0);
-}
 
 function pctChange(current: number, previous: number): { value: string; positive: boolean } {
   if (previous === 0) return { value: "—", positive: true };

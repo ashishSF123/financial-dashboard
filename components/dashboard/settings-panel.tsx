@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { formatINR } from "./kpi-cards";
+import { formatINR } from "@/lib/format-currency";
 import { getUserProfile, saveUserProfile } from "@/lib/finance-store";
 import type { Currency, FinancialGoal, UserProfile } from "@/lib/finance-types";
 

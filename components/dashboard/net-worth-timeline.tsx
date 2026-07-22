@@ -1,16 +1,11 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useState, useEffect, useCallback } from "react";
 import { getNetWorthHistory, recordNetWorth, getPortfolioSummary, getAdditionalLoans, getTotalMonthlyIncome } from "@/lib/finance-store";
 import type { NetWorthSnapshot } from "@/lib/finance-types";
 import type { FinancialData } from "@/lib/parse-excel";
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `Rs ${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `Rs ${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `Rs ${(n / 1000).toFixed(1)}K`;
-  return `Rs ${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 interface Props {
   data: FinancialData;

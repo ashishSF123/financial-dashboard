@@ -33,3 +33,14 @@ export function formatCurrency(
 export function getCurrencySymbol(currency: Currency = "INR"): string {
   return CURRENCY_SYMBOLS[currency];
 }
+
+// Canonical INR formatter — use this everywhere instead of local copies
+export function formatINR(value: number): string {
+  if (value === 0) return "₹0";
+  const abs = Math.abs(value);
+  const sign = value < 0 ? "-" : "";
+  if (abs >= 10000000) return `${sign}₹${(abs / 10000000).toFixed(2)} Cr`;
+  if (abs >= 100000) return `${sign}₹${(abs / 100000).toFixed(2)} L`;
+  if (abs >= 1000) return `${sign}₹${(abs / 1000).toFixed(1)}K`;
+  return `${sign}₹${Math.round(abs).toLocaleString("en-IN")}`;
+}

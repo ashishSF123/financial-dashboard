@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo, useState } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
@@ -14,11 +15,6 @@ interface BudgetCategory {
   color: string;
 }
 
-function formatINR(n: number): string {
-  if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 const defaultBudgets: Record<string, { limit: number; color: string }> = {
   "Chit Fund": { limit: 110000, color: "#8b5cf6" },

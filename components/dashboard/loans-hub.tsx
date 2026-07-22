@@ -1,31 +1,16 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo, useState, useEffect, useCallback } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
-import type { AdditionalLoan, AdditionalLoanType } from "@/lib/finance-types";
+import type { AdditionalLoan, AdditionalLoanType, DebtItem } from "@/lib/finance-types";
 import { LOAN_TYPE_LABELS } from "@/lib/finance-types";
 import { EditableTable } from "./editable-table";
 import { AIInsightsCard } from "./ai-insights-card";
 import { computeDebtInsights } from "@/lib/insights-engine";
 import { getAdditionalLoans, addAdditionalLoan, deleteAdditionalLoan } from "@/lib/finance-store";
 
-interface DebtItem {
-  id: string;
-  name: string;
-  balance: number;
-  monthlyPayment: number;
-  interestRate: number;
-  type: "gold" | "house" | "personal";
-  status: string;
-  detail: string;
-}
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 const TYPE_META: Record<string, { icon: string; label: string; color: string; bg: string }> = {
   gold: { icon: "🥇", label: "Gold Loan", color: "text-amber-400", bg: "bg-amber-500/10" },

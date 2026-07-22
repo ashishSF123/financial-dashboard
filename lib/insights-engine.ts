@@ -1,3 +1,4 @@
+import { formatINR } from "./format-currency";
 // AI Financial Insights Engine
 // Rule-based intelligence that analyzes financial data and produces actionable insights
 
@@ -408,9 +409,3 @@ export function computeInsuranceInsights(
 }
 
 // --- HELPER ---
-function formatINR(n: number): string {
-  if (n >= 10000000) return `Rs ${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `Rs ${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `Rs ${(n / 1000).toFixed(1)}K`;
-  return `Rs ${Math.round(n).toLocaleString("en-IN")}`;
-}

@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo, useState } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
@@ -25,12 +26,6 @@ const categoryConfig: Record<string, { bg: string; text: string; dot: string; la
   bill: { bg: "bg-rose-500/10", text: "text-rose-400", dot: "bg-rose-400", label: "Bills", icon: "📋" },
 };
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(2)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 export function PaymentCalendar({ data, selectedMonth }: Props) {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);

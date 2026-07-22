@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useState } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
@@ -19,12 +20,6 @@ interface Props {
   monthlySurplus: number;
 }
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 function monthsUntil(deadline: string): number {
   const d = new Date(deadline);

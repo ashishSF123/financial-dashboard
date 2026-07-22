@@ -1,7 +1,7 @@
 "use client";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { formatINR } from "./kpi-cards";
+import { formatINR } from "@/lib/format-currency";
 import type { FinancialData } from "@/lib/parse-excel";
 
 interface ExpenseBreakdownChartProps {

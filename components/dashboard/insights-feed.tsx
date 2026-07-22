@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useMemo } from "react";
 import type { FinancialData } from "@/lib/parse-excel";
@@ -25,12 +26,6 @@ interface Props {
   } | null;
 }
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 interface Insight {
   icon: string;

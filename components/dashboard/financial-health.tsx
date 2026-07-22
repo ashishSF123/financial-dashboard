@@ -1,6 +1,6 @@
 "use client";
 
-import { formatINR } from "./kpi-cards";
+import { formatINR } from "@/lib/format-currency";
 
 interface FinancialHealthProps {
   grandDebt: number;

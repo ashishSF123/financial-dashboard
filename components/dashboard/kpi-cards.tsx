@@ -1,13 +1,7 @@
 "use client";
 
-export function formatINR(value: number): string {
-  if (value === 0) return "₹0";
-  const abs = Math.abs(value);
-  const sign = value < 0 ? "-" : "";
-  if (abs >= 10000000) return `${sign}₹${(abs / 10000000).toFixed(2)} Cr`;
-  if (abs >= 100000) return `${sign}₹${(abs / 100000).toFixed(2)} L`;
-  return `${sign}₹${Math.round(abs).toLocaleString("en-IN")}`;
-}
+export { formatINR } from "@/lib/format-currency";
+import { formatINR } from "@/lib/format-currency";
 
 interface KpiCardProps {
   label: string;

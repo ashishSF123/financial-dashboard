@@ -1,16 +1,11 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useState, useEffect, useCallback } from "react";
 import { INCOME_TYPE_LABELS } from "@/lib/finance-types";
 import type { IncomeSource, IncomeType } from "@/lib/finance-types";
 import { getIncomeSources, addIncomeSource, deleteIncomeSource, getTotalMonthlyIncome } from "@/lib/finance-store";
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `Rs ${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `Rs ${(n / 100000).toFixed(1)} L`;
-  if (n >= 1000) return `Rs ${(n / 1000).toFixed(1)}K`;
-  return `Rs ${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 const TYPE_ICONS: Record<string, string> = {
   salary: "💼", freelance: "💻", rental: "🏠", business: "🏢",

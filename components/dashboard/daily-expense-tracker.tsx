@@ -1,4 +1,5 @@
 "use client";
+import { formatINR } from "@/lib/format-currency";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
@@ -18,12 +19,6 @@ import {
 import { computeExpenseInsights } from "@/lib/insights-engine";
 import { AIInsightsCard } from "./ai-insights-card";
 
-function formatINR(n: number): string {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
-  if (n >= 100000) return `₹${(n / 100000).toFixed(2)} L`;
-  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${Math.round(n).toLocaleString("en-IN")}`;
-}
 
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");

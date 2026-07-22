@@ -1,5 +1,17 @@
 // Types and constants for the expense & investment modules
 
+// Shared debt item used by loans-hub and debt-planner
+export interface DebtItem {
+  id: string;
+  name: string;
+  balance: number;
+  monthlyPayment: number;
+  interestRate: number;
+  type: string;
+  status?: string;
+  detail?: string;
+}
+
 export interface DailyExpense {
   id: string;
   date: string; // YYYY-MM-DD

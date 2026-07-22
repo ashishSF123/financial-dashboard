@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { formatINR } from "./kpi-cards";
+import { formatINR } from "@/lib/format-currency";
 
 interface DebtChartProps {
   goldDebt: number;
