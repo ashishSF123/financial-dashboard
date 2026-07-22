@@ -21,13 +21,13 @@ export function formatCurrency(
     if (abs >= 10000000) return `${sign}${symbol}${(abs / 10000000).toFixed(2)} Cr`;
     if (abs >= 100000) return `${sign}${symbol}${(abs / 100000).toFixed(1)} L`;
     if (abs >= 1000) return `${sign}${symbol}${(abs / 1000).toFixed(1)}K`;
-    return `${sign}${symbol}${abs.toLocaleString("en-IN")}`;
+    return `${sign}${symbol}${Math.round(abs).toLocaleString("en-IN")}`;
   }
 
   if (abs >= 1000000000) return `${sign}${symbol}${(abs / 1000000000).toFixed(2)}B`;
   if (abs >= 1000000) return `${sign}${symbol}${(abs / 1000000).toFixed(1)}M`;
   if (abs >= 1000) return `${sign}${symbol}${(abs / 1000).toFixed(1)}K`;
-  return `${sign}${symbol}${abs.toLocaleString("en-US")}`;
+  return `${sign}${symbol}${Math.round(abs).toLocaleString("en-US")}`;
 }
 
 export function getCurrencySymbol(currency: Currency = "INR"): string {

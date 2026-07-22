@@ -8,7 +8,7 @@ import { getSubscriptions, addSubscription, deleteSubscription, updateSubscripti
 function formatINR(n: number): string {
   if (n >= 100000) return `Rs ${(n / 100000).toFixed(1)} L`;
   if (n >= 1000) return `Rs ${(n / 1000).toFixed(1)}K`;
-  return `Rs ${n.toLocaleString("en-IN")}`;
+  return `Rs ${Math.round(n).toLocaleString("en-IN")}`;
 }
 
 function daysSince(dateStr?: string): number | null {

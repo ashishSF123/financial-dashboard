@@ -17,7 +17,7 @@ interface BudgetCategory {
 function formatINR(n: number): string {
   if (n >= 100000) return `₹${(n / 100000).toFixed(1)} L`;
   if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
-  return `₹${n.toLocaleString("en-IN")}`;
+  return `₹${Math.round(n).toLocaleString("en-IN")}`;
 }
 
 const defaultBudgets: Record<string, { limit: number; color: string }> = {

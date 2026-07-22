@@ -6,7 +6,7 @@ export function formatINR(value: number): string {
   const sign = value < 0 ? "-" : "";
   if (abs >= 10000000) return `${sign}₹${(abs / 10000000).toFixed(2)} Cr`;
   if (abs >= 100000) return `${sign}₹${(abs / 100000).toFixed(2)} L`;
-  return `${sign}₹${abs.toLocaleString("en-IN")}`;
+  return `${sign}₹${Math.round(abs).toLocaleString("en-IN")}`;
 }
 
 interface KpiCardProps {
