@@ -86,6 +86,60 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
             </p>
           </div>
         </div>
+
+        {/* Emergency Fund Monitor */}
+        <div className="mt-6 pt-5 border-t border-white/[0.04]">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em]">Emergency Fund Status</p>
+            {(() => {
+              const monthlyExpenses = monthlyCredit - monthlySurplus;
+              const requiredFund = monthlyExpenses * 6;
+              const currentLiquid = monthlySurplus > 0 ? monthlySurplus * 3 : 0; // rough estimate
+              const coverMonths = monthlyExpenses > 0 ? currentLiquid / monthlyExpenses : 0;
+              const fundStatus = coverMonths >= 6 ? "FUNDED" : coverMonths >= 3 ? "PARTIAL" : "UNDERFUNDED";
+              const fundColor = coverMonths >= 6 ? "emerald" : coverMonths >= 3 ? "amber" : "rose";
+              const fc: Record<string, string> = { emerald: "bg-emerald-500/[0.08] text-emerald-400 border-emerald-500/20", amber: "bg-amber-500/[0.08] text-amber-400 border-amber-500/20", rose: "bg-rose-500/[0.08] text-rose-400 border-rose-500/20" };
+              return (
+                <span className={`${fc[fundColor]} border text-[0.6rem] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-[0.04em]`}>
+                  {fundStatus}
+                </span>
+              );
+            })()}
+          </div>
+          {(() => {
+            const monthlyExpenses = monthlyCredit - monthlySurplus;
+            const requiredFund = monthlyExpenses * 6;
+            const currentLiquid = monthlySurplus > 0 ? monthlySurplus * 3 : 0;
+            const coverMonths = monthlyExpenses > 0 ? currentLiquid / monthlyExpenses : 0;
+            const gap = Math.max(0, requiredFund - currentLiquid);
+            const pct = requiredFund > 0 ? Math.min((currentLiquid / requiredFund) * 100, 100) : 0;
+            return (
+              <div>
+                <div className="grid grid-cols-3 gap-4 mb-3">
+                  <div>
+                    <p className="text-[0.6rem] text-slate-500">Required (6 months)</p>
+                    <p className="text-[0.85rem] font-bold text-white">{formatINR(requiredFund)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[0.6rem] text-slate-500">Months Covered</p>
+                    <p className={`text-[0.85rem] font-bold ${coverMonths >= 6 ? "text-emerald-400" : coverMonths >= 3 ? "text-amber-400" : "text-rose-400"}`}>{coverMonths.toFixed(1)} months</p>
+                  </div>
+                  <div>
+                    <p className="text-[0.6rem] text-slate-500">Gap to Fill</p>
+                    <p className={`text-[0.85rem] font-bold ${gap > 0 ? "text-rose-400" : "text-emerald-400"}`}>{gap > 0 ? formatINR(gap) : "Fully funded"}</p>
+                  </div>
+                </div>
+                <div className="h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full transition-all duration-700 ${coverMonths >= 6 ? "bg-emerald-500" : coverMonths >= 3 ? "bg-amber-500" : "bg-rose-500"}`} style={{ width: `${pct}%` }} />
+                </div>
+                <p className="text-[0.62rem] text-slate-600 mt-2">
+                  Financial experts recommend 6 months of essential expenses in liquid savings for emergencies.
+                  {gap > 0 && monthlySurplus > 0 ? ` At your current surplus, ${Math.ceil(gap / monthlySurplus)} months to fully fund.` : ""}
+                </p>
+              </div>
+            );
+          })()}
+        </div>
       </div>
     </div>
   );

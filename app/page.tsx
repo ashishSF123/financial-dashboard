@@ -24,6 +24,9 @@ import { DailyExpenseTracker } from "@/components/dashboard/daily-expense-tracke
 import { InvestmentPortfolio } from "@/components/dashboard/investment-portfolio";
 import { BudgetAlerts } from "@/components/dashboard/budget-alerts";
 import { Sidebar } from "@/components/dashboard/sidebar";
+import { IncomeTracker } from "@/components/dashboard/income-tracker";
+import { SubscriptionManager } from "@/components/dashboard/subscription-manager";
+import { NetWorthTimeline } from "@/components/dashboard/net-worth-timeline";
 import type { FinancialData } from "@/lib/parse-excel";
 
 interface MonthlySnapshot {
@@ -298,6 +301,14 @@ export default function DashboardPage() {
           <InsuranceHub />
         )}
 
+        {activeTab === "net-worth" && (
+          <NetWorthTimeline data={data} />
+        )}
+
+        {activeTab === "subscriptions" && (
+          <SubscriptionManager />
+        )}
+
 
 
         {activeTab === "budget" && (
@@ -344,6 +355,10 @@ export default function DashboardPage() {
 
         {activeTab === "trends" && (
           <TrendsPanel snapshots={snapshots} />
+        )}
+
+        {activeTab === "income" && (
+          <IncomeTracker />
         )}
 
         {activeTab === "daily-expenses" && (

@@ -96,6 +96,71 @@ export const INVESTMENT_TYPE_LABELS: Record<InvestmentType, string> = {
   real_estate: "Real Estate",
 };
 
+// --- Income Sources ---
+
+export type IncomeType = "salary" | "freelance" | "rental" | "business" | "interest" | "dividend" | "pension" | "other";
+
+export const INCOME_TYPE_LABELS: Record<IncomeType, string> = {
+  salary: "Salary",
+  freelance: "Freelance / Side Income",
+  rental: "Rental Income",
+  business: "Business Income",
+  interest: "Interest (FD/Savings)",
+  dividend: "Dividends",
+  pension: "Pension",
+  other: "Other Income",
+};
+
+export interface IncomeSource {
+  id: string;
+  type: IncomeType;
+  name: string;
+  amount: number;
+  frequency: "monthly" | "quarterly" | "yearly" | "one-time";
+  isActive: boolean;
+  startDate?: string;
+  notes?: string;
+  createdAt?: string;
+}
+
+// --- Subscriptions ---
+
+export interface Subscription {
+  id: string;
+  name: string;
+  provider: string;
+  amount: number;
+  frequency: "monthly" | "quarterly" | "yearly";
+  category: "streaming" | "music" | "fitness" | "cloud" | "news" | "productivity" | "gaming" | "other";
+  lastUsedDate?: string;
+  nextBillingDate?: string;
+  isActive: boolean;
+  notes?: string;
+  createdAt?: string;
+}
+
+export const SUBSCRIPTION_CATEGORIES: Record<string, string> = {
+  streaming: "Streaming / OTT",
+  music: "Music",
+  fitness: "Health & Fitness",
+  cloud: "Cloud / Storage",
+  news: "News / Reading",
+  productivity: "Productivity / Tools",
+  gaming: "Gaming",
+  other: "Other",
+};
+
+// --- Net Worth Snapshot ---
+
+export interface NetWorthSnapshot {
+  month: string;
+  assets: number;
+  investments: number;
+  debt: number;
+  netWorth: number;
+  recordedAt: string;
+}
+
 // --- Additional Loans ---
 
 export type AdditionalLoanType =

@@ -1,7 +1,7 @@
 // Client-side data store using localStorage
 // This provides immediate functionality while Snowflake tables are provisioned
 
-import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy, AdditionalLoan } from "./finance-types";
+import type { DailyExpense, InvestmentHolding, InvestmentTransaction, BudgetLimit, InsurancePolicy, AdditionalLoan, IncomeSource, Subscription, NetWorthSnapshot } from "./finance-types";
 
 const KEYS = {
   expenses: "pf_daily_expenses",
@@ -10,6 +10,9 @@ const KEYS = {
   budgets: "pf_budget_limits",
   insurance: "pf_insurance_policies",
   loans: "pf_additional_loans",
+  income: "pf_income_sources",
+  subscriptions: "pf_subscriptions",
+  netWorth: "pf_net_worth_history",
 };
 
 function generateId(): string {
@@ -337,4 +340,77 @@ export function getPortfolioSummary() {
   });
 
   return { totalInvested, totalCurrent, totalGain, gainPct, byType, holdingCount: holdings.length };
+}
+
+// --- Income Sources ---
+
+export function getIncomeSources(): IncomeSource[] {
+  return getStore<IncomeSource>(KEYS.income).filter((i) => i.isActive);
+}
+
+export function addIncomeSource(source: Omit<IncomeSource, "id" | "createdAt">): IncomeSource {
+  const newSource: IncomeSource = { ...source, id: generateId(), createdAt: new Date().toISOString() };
+  const sources = getStore<IncomeSource>(KEYS.income);
+  sources.push(newSource);
+  setStore(KEYS.income, sources);
+  return newSource;
+}
+
+export function deleteIncomeSource(id: string): boolean {
+  const sources = getStore<IncomeSource>(KEYS.income);
+  const filtered = sources.filter((s) => s.id !== id);
+  if (filtered.length === sources.length) return false;
+  setStore(KEYS.income, filtered);
+  return true;
+}
+
+export function getTotalMonthlyIncome(): number {
+  return getIncomeSources().reduce((sum, s) => {
+    if (s.frequency === "monthly") return sum + s.amount;
+    if (s.frequency === "quarterly") return sum + s.amount / 3;
+    if (s.frequency === "yearly") return sum + s.amount / 12;
+    return sum;
+  }, 0);
+}
+
+// --- Subscriptions ---
+
+export function getSubscriptions(): Subscription[] {
+  return getStore<Subscription>(KEYS.subscriptions);
+}
+
+export function addSubscription(sub: Omit<Subscription, "id" | "createdAt">): Subscription {
+  const newSub: Subscription = { ...sub, id: generateId(), createdAt: new Date().toISOString() };
+  const subs = getStore<Subscription>(KEYS.subscriptions);
+  subs.push(newSub);
+  setStore(KEYS.subscriptions, subs);
+  return newSub;
+}
+
+export function deleteSubscription(id: string): boolean {
+  const subs = getStore<Subscription>(KEYS.subscriptions);
+  const filtered = subs.filter((s) => s.id !== id);
+  if (filtered.length === subs.length) return false;
+  setStore(KEYS.subscriptions, filtered);
+  return true;
+}
+
+export function updateSubscription(id: string, updates: Partial<Subscription>): void {
+  const subs = getStore<Subscription>(KEYS.subscriptions);
+  const idx = subs.findIndex((s) => s.id === id);
+  if (idx >= 0) { subs[idx] = { ...subs[idx], ...updates }; setStore(KEYS.subscriptions, subs); }
+}
+
+// --- Net Worth History ---
+
+export function getNetWorthHistory(): NetWorthSnapshot[] {
+  return getStore<NetWorthSnapshot>(KEYS.netWorth).sort((a, b) => a.month.localeCompare(b.month));
+}
+
+export function recordNetWorth(snapshot: Omit<NetWorthSnapshot, "recordedAt">): void {
+  const history = getStore<NetWorthSnapshot>(KEYS.netWorth);
+  const existing = history.findIndex((h) => h.month === snapshot.month);
+  const entry = { ...snapshot, recordedAt: new Date().toISOString() };
+  if (existing >= 0) { history[existing] = entry; } else { history.push(entry); }
+  setStore(KEYS.netWorth, history);
 }

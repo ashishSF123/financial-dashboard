@@ -15,6 +15,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  IndianRupee,
+  LineChart,
+  Repeat,
 } from "lucide-react";
 
 interface NavItem {
@@ -33,6 +36,7 @@ const NAV_GROUPS: NavGroup[] = [
     title: "Finance",
     items: [
       { id: "overview", label: "Overview", icon: <LayoutDashboard size={18} /> },
+      { id: "income", label: "Income", icon: <IndianRupee size={18} /> },
       { id: "daily-expenses", label: "Expenses", icon: <Receipt size={18} /> },
       { id: "budget", label: "Monthly Plan", icon: <Wallet size={18} /> },
     ],
@@ -42,6 +46,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "portfolio", label: "Portfolio", icon: <Briefcase size={18} /> },
       { id: "insurance", label: "Insurance", icon: <Shield size={18} /> },
+      { id: "net-worth", label: "Net Worth", icon: <LineChart size={18} /> },
     ],
   },
   {
@@ -56,6 +61,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "calendar", label: "Calendar", icon: <CalendarDays size={18} /> },
       { id: "goals", label: "Goals", icon: <Goal size={18} /> },
+      { id: "subscriptions", label: "Subscriptions", icon: <Repeat size={18} /> },
       { id: "trends", label: "Trends", icon: <TrendingUp size={18} /> },
     ],
   },
