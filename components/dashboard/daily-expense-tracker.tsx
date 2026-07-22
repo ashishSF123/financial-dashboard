@@ -189,7 +189,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
             <div className={`mt-3 px-3 py-2.5 rounded-lg border ${wouldExceed ? "bg-rose-500/[0.06] border-rose-500/20" : wouldWarn ? "bg-amber-500/[0.05] border-amber-500/15" : "bg-white/[0.02] border-white/[0.06]"}`}>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-[0.68rem] text-slate-400">
-                  {CATEGORY_ICONS[formCategory]} <span className="font-medium">{formCategory}</span> budget
+                  {CATEGORY_ICONS[formCategory]} <span className="font-medium">{formCategory}</span> monthly allocation
                 </span>
                 <span className={`text-[0.68rem] font-semibold tabular-nums ${wouldExceed ? "text-rose-400" : wouldWarn ? "text-amber-400" : "text-slate-300"}`}>
                   {formatINR(categorySpent)}{formAmount_num > 0 ? ` + ${formatINR(formAmount_num)}` : ""} / {formatINR(activeBudget.monthlyLimit)}
@@ -203,26 +203,26 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
               </div>
               {wouldExceed && (
                 <p className="text-[0.62rem] text-rose-400 mt-1.5 font-medium">
-                  ⚠️ This expense will exceed your budget by {formatINR(afterExpense - activeBudget.monthlyLimit)}
+                  ⚠️ This expense breaches your monthly cap by {formatINR(afterExpense - activeBudget.monthlyLimit)}
                 </p>
               )}
               {wouldWarn && (
                 <p className="text-[0.62rem] text-amber-400 mt-1.5 font-medium">
-                  ⚡ After this, only {formatINR(activeBudget.monthlyLimit - afterExpense)} remains
+                  ⚡ After this, only {formatINR(activeBudget.monthlyLimit - afterExpense)} headroom remains
                 </p>
               )}
               {!wouldExceed && !wouldWarn && budgetRemaining !== null && (
                 <p className="text-[0.62rem] text-slate-500 mt-1.5">
-                  {formatINR(budgetRemaining - formAmount_num)} remaining after this expense
+                  Available capacity: {formatINR(budgetRemaining - formAmount_num)} after this disbursement
                 </p>
               )}
             </div>
           )}
           {!activeBudget && formAmount_num > 0 && onNavigate && (
             <div className="mt-3 px-3 py-2 rounded-lg bg-white/[0.02] border border-white/[0.04] flex items-center justify-between">
-              <span className="text-[0.65rem] text-slate-500">No budget set for {formCategory}</span>
+              <span className="text-[0.65rem] text-slate-500">No monthly cap set for {formCategory}</span>
               <button onClick={() => onNavigate("budget")} className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium">
-                Set budget →
+                Set allocation →
               </button>
             </div>
           )}
@@ -255,10 +255,10 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
       {topCategories.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-[0.85rem] font-semibold text-white">Budget Utilization</h3>
+            <h3 className="text-[0.85rem] font-semibold text-white">Expense Utilization</h3>
             {onNavigate && (
               <button onClick={() => onNavigate("budget")} className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-                Manage budgets →
+                Manage allocations →
               </button>
             )}
           </div>

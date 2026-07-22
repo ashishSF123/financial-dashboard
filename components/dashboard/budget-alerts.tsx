@@ -82,15 +82,15 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
-            Budget & Alerts
+            Monthly Expense Allocation
           </h2>
           <p className="text-[0.78rem] text-slate-500 mt-0.5">
-            Set monthly spending limits per category and track utilization
+            Define spending caps per category and monitor cash outflow utilization
           </p>
         </div>
         {onNavigate && (
           <button onClick={() => onNavigate("daily-expenses")} className="text-[0.7rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-            View all expenses →
+            View transactions →
           </button>
         )}
       </div>
@@ -99,16 +99,16 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
       {totalBudget > 0 && (
         <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[0.85rem] font-semibold text-white">Monthly Budget Overview</h3>
+            <h3 className="text-[0.85rem] font-semibold text-white">Monthly Expense Summary</h3>
             {alertCount > 0 && (
               <span className="text-[0.6rem] font-semibold px-2 py-1 rounded-md bg-rose-500/15 text-rose-400 border border-rose-500/20">
-                {alertCount} alert{alertCount > 1 ? "s" : ""}
+                {alertCount} breach{alertCount > 1 ? "es" : ""}
               </span>
             )}
           </div>
           <div className="flex items-baseline gap-2 mb-2">
             <span className="text-[1.3rem] font-bold text-white tabular-nums">{formatINR(totalSpent)}</span>
-            <span className="text-[0.75rem] text-slate-500">/ {formatINR(totalBudget)}</span>
+            <span className="text-[0.75rem] text-slate-500">of {formatINR(totalBudget)} allocated</span>
           </div>
           <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
             <div
@@ -122,8 +122,8 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
           </div>
           <p className="text-[0.68rem] text-slate-500 mt-2">
             {totalBudget > totalSpent
-              ? `₹${formatINR(totalBudget - totalSpent)} remaining`
-              : `₹${formatINR(totalSpent - totalBudget)} over budget`
+              ? `Surplus capacity: ${formatINR(totalBudget - totalSpent)} unspent`
+              : `Overspend: ${formatINR(totalSpent - totalBudget)} beyond allocation`
             }
           </p>
         </div>
@@ -153,13 +153,13 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
                     <p className="text-[0.8rem] text-slate-200 font-medium">{category}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-[0.65rem] text-slate-500 tabular-nums">
-                        Spent: {formatINR(spent)}
+                        Disbursed: {formatINR(spent)}
                       </span>
                       {limit > 0 && (
                         <>
                           <span className="text-[0.5rem] text-slate-600">•</span>
                           <span className="text-[0.65rem] text-slate-500 tabular-nums">
-                            Limit: {formatINR(limit)}
+                            Cap: {formatINR(limit)}
                           </span>
                         </>
                       )}
@@ -207,7 +207,7 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
                       onClick={() => { setEditingCategory(category); setEditLimit(limit > 0 ? String(limit) : ""); }}
                       className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
                     >
-                      {limit > 0 ? "Edit" : "Set limit"}
+                      {limit > 0 ? "Revise cap" : "Set cap"}
                     </button>
                   )}
                 </div>
@@ -228,12 +228,12 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
               {/* Alert message */}
               {isOver && (
                 <p className="text-[0.62rem] text-rose-400 mt-1.5 font-medium">
-                  ⚠️ Over budget by {formatINR(spent - limit)}
+                  ⚠️ Expense breach — overspent by {formatINR(spent - limit)}
                 </p>
               )}
               {isWarning && !isOver && (
                 <p className="text-[0.62rem] text-amber-400 mt-1.5 font-medium">
-                  ⚡ Approaching limit — {Math.round((1 - pct) * 100)}% remaining
+                  ⚡ Nearing threshold — {Math.round((1 - pct) * 100)}% headroom remaining
                 </p>
               )}
 

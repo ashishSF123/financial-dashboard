@@ -162,7 +162,7 @@ export default function DashboardPage() {
     { id: "daily-expenses", label: "Daily Expenses", icon: "💸" },
     { id: "portfolio", label: "Portfolio & Assets", icon: "💼" },
     { id: "calendar", label: "Calendar", icon: "📅" },
-    { id: "budget", label: "Budget", icon: "📊" },
+    { id: "budget", label: "Monthly Expense", icon: "📊" },
     { id: "goals", label: "Goals", icon: "🎯" },
     { id: "loans", label: "Loans & Debt", icon: "💳" },
     { id: "insurance", label: "Insurance", icon: "🛡️" },
@@ -376,7 +376,7 @@ export default function DashboardPage() {
           <div className="space-y-8">
             <BudgetTracker data={data} />
             <div className="flex items-center gap-4">
-              <h2 className="text-white text-base font-semibold">Daily Expense Budgets</h2>
+              <h2 className="text-white text-base font-semibold">Monthly Expense Allocation</h2>
               <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent" />
             </div>
             <BudgetAlerts selectedMonth={selectedMonth} onNavigate={setActiveTab} />
