@@ -29,6 +29,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  headers: async () => [{
+    source: '/(.*)',
+    headers: [
+      { key: 'Cache-Control', value: 'no-store, must-revalidate' },
+    ],
+  }],
 }
 
 export default nextConfig
