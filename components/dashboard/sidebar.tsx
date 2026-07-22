@@ -149,11 +149,11 @@ export function Sidebar({ activeTab, onNavigate }: Props) {
         <div className="border-t border-[var(--border-subtle)] p-2 space-y-1">
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 hover:bg-indigo-500/20 hover:text-indigo-200 transition-colors"
             title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            {!collapsed && <span className="text-[0.7rem] font-medium">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>}
+            {!collapsed && <span className="text-[0.72rem] font-semibold">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>}
           </button>
           <button
             onClick={() => setCollapsed(!collapsed)}
