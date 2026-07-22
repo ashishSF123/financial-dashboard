@@ -72,6 +72,15 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
     refresh();
   };
 
+  // Live budget check for the selected category in the form
+  const activeBudget = budgets.find((b) => b.category === formCategory);
+  const categorySpent = summary?.byCategory[formCategory] || 0;
+  const formAmount_num = parseFloat(formAmount) || 0;
+  const afterExpense = categorySpent + formAmount_num;
+  const budgetRemaining = activeBudget ? activeBudget.monthlyLimit - categorySpent : null;
+  const wouldExceed = activeBudget && afterExpense > activeBudget.monthlyLimit;
+  const wouldWarn = activeBudget && afterExpense >= activeBudget.monthlyLimit * (activeBudget.alertThreshold || 0.8) && !wouldExceed;
+
   const handleDelete = (id: string) => {
     deleteExpense(id);
     refresh();
@@ -174,6 +183,49 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
               Cancel
             </button>
           </div>
+
+          {/* Live budget indicator for selected category */}
+          {activeBudget && (
+            <div className={`mt-3 px-3 py-2.5 rounded-lg border ${wouldExceed ? "bg-rose-500/[0.06] border-rose-500/20" : wouldWarn ? "bg-amber-500/[0.05] border-amber-500/15" : "bg-white/[0.02] border-white/[0.06]"}`}>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[0.68rem] text-slate-400">
+                  {CATEGORY_ICONS[formCategory]} <span className="font-medium">{formCategory}</span> budget
+                </span>
+                <span className={`text-[0.68rem] font-semibold tabular-nums ${wouldExceed ? "text-rose-400" : wouldWarn ? "text-amber-400" : "text-slate-300"}`}>
+                  {formatINR(categorySpent)}{formAmount_num > 0 ? ` + ${formatINR(formAmount_num)}` : ""} / {formatINR(activeBudget.monthlyLimit)}
+                </span>
+              </div>
+              <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all ${wouldExceed ? "bg-rose-400" : wouldWarn ? "bg-amber-400" : "bg-emerald-400"}`}
+                  style={{ width: `${Math.min((afterExpense / activeBudget.monthlyLimit) * 100, 100)}%` }}
+                />
+              </div>
+              {wouldExceed && (
+                <p className="text-[0.62rem] text-rose-400 mt-1.5 font-medium">
+                  ⚠️ This expense will exceed your budget by {formatINR(afterExpense - activeBudget.monthlyLimit)}
+                </p>
+              )}
+              {wouldWarn && (
+                <p className="text-[0.62rem] text-amber-400 mt-1.5 font-medium">
+                  ⚡ After this, only {formatINR(activeBudget.monthlyLimit - afterExpense)} remains
+                </p>
+              )}
+              {!wouldExceed && !wouldWarn && budgetRemaining !== null && (
+                <p className="text-[0.62rem] text-slate-500 mt-1.5">
+                  {formatINR(budgetRemaining - formAmount_num)} remaining after this expense
+                </p>
+              )}
+            </div>
+          )}
+          {!activeBudget && formAmount_num > 0 && onNavigate && (
+            <div className="mt-3 px-3 py-2 rounded-lg bg-white/[0.02] border border-white/[0.04] flex items-center justify-between">
+              <span className="text-[0.65rem] text-slate-500">No budget set for {formCategory}</span>
+              <button onClick={() => onNavigate("budget")} className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium">
+                Set budget →
+              </button>
+            </div>
+          )}
         </div>
       )}
 
