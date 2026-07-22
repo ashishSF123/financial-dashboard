@@ -1,14 +1,17 @@
 import { signIn } from "@/lib/auth";
+import { AccessDeniedBanner } from "@/components/access-denied-banner";
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0a0b10] flex items-center justify-center">
       <div className="bg-[#12131a] border border-white/[0.08] rounded-2xl p-8 max-w-sm w-full text-center">
         <div className="w-16 h-16 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-5">
-          <span className="text-2xl">💼</span>
+          <span className="text-2xl">&#128188;</span>
         </div>
         <h1 className="text-xl font-semibold text-white mb-2">Personal Finance Dashboard</h1>
         <p className="text-[0.8rem] text-slate-500 mb-6">Sign in to access your financial data</p>
+
+        <AccessDeniedBanner />
 
         <div className="space-y-3">
           {/* Google Sign In */}
