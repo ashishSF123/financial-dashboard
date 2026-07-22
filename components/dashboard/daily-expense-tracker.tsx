@@ -116,7 +116,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
 
       {/* Quick Add Form */}
       {showForm && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Amount</label>
@@ -137,7 +137,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
                 className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-indigo-500/50 appearance-none"
               >
                 {EXPENSE_CATEGORIES.map((c) => (
-                  <option key={c} value={c} className="bg-[#1a1b23] text-[var(--text-heading)]">{CATEGORY_ICONS[c]} {c}</option>
+                  <option key={c} value={c} className="bg-[var(--bg-secondary)] text-[var(--text-heading)]">{CATEGORY_ICONS[c]} {c}</option>
                 ))}
               </select>
             </div>
@@ -158,7 +158,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
                 className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-indigo-500/50 appearance-none"
               >
                 {PAYMENT_METHODS.map((m) => (
-                  <option key={m} value={m} className="bg-[#1a1b23] text-[var(--text-heading)]">{m}</option>
+                  <option key={m} value={m} className="bg-[var(--bg-secondary)] text-[var(--text-heading)]">{m}</option>
                 ))}
               </select>
             </div>
@@ -234,19 +234,19 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
       {/* Summary KPI Strip */}
       {summary && (
         <div className="grid grid-cols-4 gap-3">
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Today</p>
             <p className="text-[1.1rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(summary.todayTotal)}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">This Week</p>
             <p className="text-[1.1rem] font-bold text-amber-400 tracking-tight mt-0.5">{formatINR(summary.weekTotal)}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">This Month</p>
             <p className="text-[1.1rem] font-bold text-indigo-400 tracking-tight mt-0.5">{formatINR(summary.total)}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Avg/Day</p>
             <p className="text-[1.1rem] font-bold text-emerald-400 tracking-tight mt-0.5">{formatINR(summary.avgPerDay)}</p>
           </div>
@@ -280,7 +280,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
             const colors = CATEGORY_COLORS[cat] || CATEGORY_COLORS["Other"];
 
             return (
-              <div key={cat} className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+              <div key={cat} className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-sm">{CATEGORY_ICONS[cat] || "📌"}</span>
@@ -310,7 +310,7 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
           </div>
         </div>
       )}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
             Recent Transactions
@@ -325,11 +325,11 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
             <p className="text-[0.72rem] text-[var(--text-muted)]">Click "+ Add Expense" to start tracking</p>
           </div>
         ) : (
-          <div className="divide-y divide-white/[0.03]">
+          <div className="divide-y divide-[var(--border-subtle)]">
             {expenses.slice(0, 20).map((exp) => {
               const colors = CATEGORY_COLORS[exp.category] || CATEGORY_COLORS["Other"];
               return (
-                <div key={exp.id} className="flex items-center justify-between px-5 py-3 hover:bg-white/[0.015] transition-colors group">
+                <div key={exp.id} className="flex items-center justify-between px-5 py-3 hover:bg-[var(--bg-card)] transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-lg ${colors.bg} flex items-center justify-center shrink-0`}>
                       <span className="text-[0.7rem]">{CATEGORY_ICONS[exp.category] || "📌"}</span>

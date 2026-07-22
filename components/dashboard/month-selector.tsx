@@ -93,7 +93,7 @@ export function MonthSelector({ months, selectedMonth, onSelect }: MonthSelector
                 </button>
               ))}
             </div>
-            <div className="px-3 py-2 border-t border-[var(--border-subtle)] bg-white/[0.01]">
+            <div className="px-3 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-card)]">
               <p className="text-[9px] text-[var(--text-muted)] font-medium">
                 Historical data is generated from current snapshot with realistic variations
               </p>

@@ -60,19 +60,19 @@ export function SubscriptionManager() {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Monthly Cost</p>
           <p className="text-[1.05rem] font-bold text-violet-400 tracking-tight mt-0.5">{formatINR(monthlyTotal)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Annual Burn</p>
           <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(annualTotal)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Active</p>
           <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{activeSubs.length}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-rose-500/80">Potential Savings</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${potentialSavings > 0 ? "text-rose-400" : "text-emerald-400"}`}>
             {potentialSavings > 0 ? formatINR(potentialSavings) + "/mo" : "None"}
@@ -92,7 +92,7 @@ export function SubscriptionManager() {
 
       {/* Add Form */}
       {showForm && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4">
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Name</label>
@@ -109,15 +109,15 @@ export function SubscriptionManager() {
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Billing</label>
               <select value={formFreq} onChange={(e) => setFormFreq(e.target.value as Subscription["frequency"])} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-violet-500/50 appearance-none">
-                <option value="monthly" className="bg-[#1a1b23]">Monthly</option>
-                <option value="quarterly" className="bg-[#1a1b23]">Quarterly</option>
-                <option value="yearly" className="bg-[#1a1b23]">Yearly</option>
+                <option value="monthly" className="bg-[var(--bg-secondary)]">Monthly</option>
+                <option value="quarterly" className="bg-[var(--bg-secondary)]">Quarterly</option>
+                <option value="yearly" className="bg-[var(--bg-secondary)]">Yearly</option>
               </select>
             </div>
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Category</label>
               <select value={formCategory} onChange={(e) => setFormCategory(e.target.value as Subscription["category"])} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-violet-500/50 appearance-none">
-                {Object.entries(SUBSCRIPTION_CATEGORIES).map(([v, l]) => (<option key={v} value={v} className="bg-[#1a1b23]">{l}</option>))}
+                {Object.entries(SUBSCRIPTION_CATEGORIES).map(([v, l]) => (<option key={v} value={v} className="bg-[var(--bg-secondary)]">{l}</option>))}
               </select>
             </div>
           </div>
@@ -129,7 +129,7 @@ export function SubscriptionManager() {
       )}
 
       {/* Subscription List */}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[var(--border-subtle)]">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">Active Subscriptions</h3>
         </div>
@@ -140,12 +140,12 @@ export function SubscriptionManager() {
             <p className="text-[0.72rem] text-[var(--text-muted)] mt-1">Add Netflix, Spotify, Gym, Cloud storage, etc.</p>
           </div>
         ) : (
-          <div className="divide-y divide-white/[0.03]">
+          <div className="divide-y divide-[var(--border-subtle)]">
             {activeSubs.map((s) => {
               const days = daysSince(s.lastUsedDate);
               const isUnused = days !== null && days > 30;
               return (
-                <div key={s.id} className={`flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.015] transition-colors group ${isUnused ? "bg-rose-500/[0.02]" : ""}`}>
+                <div key={s.id} className={`flex items-center justify-between px-5 py-3.5 hover:bg-[var(--bg-card)] transition-colors group ${isUnused ? "bg-rose-500/[0.02]" : ""}`}>
                   <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 rounded-lg ${isUnused ? "bg-rose-500/10" : "bg-violet-500/10"} flex items-center justify-center shrink-0`}>
                       <span className="text-[0.8rem]">{CAT_ICONS[s.category] || "📱"}</span>
@@ -175,7 +175,7 @@ export function SubscriptionManager() {
           </div>
         )}
         {activeSubs.length > 0 && (
-          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between">
             <span className="text-[0.68rem] text-[var(--text-muted)]">{activeSubs.length} active</span>
             <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(monthlyTotal)}/month</span>
           </div>

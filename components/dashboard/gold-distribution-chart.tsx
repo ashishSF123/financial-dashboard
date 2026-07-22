@@ -22,7 +22,7 @@ export function GoldDistributionChart({ goldLoans }: GoldDistributionChartProps)
   if (data.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
+    <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-6">
       <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.01] to-transparent pointer-events-none" />
       <div className="relative">
         <div className="flex items-center justify-between mb-5">
@@ -46,7 +46,7 @@ export function GoldDistributionChart({ goldLoans }: GoldDistributionChartProps)
               ))}
             </Pie>
             <Tooltip
-              contentStyle={{ background: "#1a1b24", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, fontSize: 11, padding: "8px 12px" }}
+              contentStyle={{ background: "var(--bg-secondary)", border: "1px solid var(--border-card)", borderRadius: 10, fontSize: 11, padding: "8px 12px" }}
               labelStyle={{ color: "#F8FAFC", fontWeight: 600 }}
               formatter={(value: number) => [`${value}g (${((value / total) * 100).toFixed(1)}%)`, "Weight"]}
             />

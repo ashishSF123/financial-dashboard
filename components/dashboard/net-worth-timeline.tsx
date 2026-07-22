@@ -67,19 +67,19 @@ export function NetWorthTimeline({ data }: Props) {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Current Net Worth</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${(latest?.netWorth || 0) >= 0 ? "text-emerald-400" : "text-rose-400"}`}>{formatINR(latest?.netWorth || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Monthly Change</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${monthlyChange >= 0 ? "text-emerald-400" : "text-rose-400"}`}>{monthlyChange >= 0 ? "+" : ""}{formatINR(Math.abs(monthlyChange))}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Assets</p>
           <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(latest?.assets || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Debt</p>
           <p className="text-[1.05rem] font-bold text-rose-400 tracking-tight mt-0.5">{formatINR(latest?.debt || 0)}</p>
         </div>
@@ -87,7 +87,7 @@ export function NetWorthTimeline({ data }: Props) {
 
       {/* Visual timeline (bar chart) */}
       {history.length > 0 && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] mb-4">Net Worth History</h3>
           <div className="flex items-end gap-1 h-32">
             {history.slice(-12).map((h) => {
@@ -114,7 +114,7 @@ export function NetWorthTimeline({ data }: Props) {
 
       {/* Projections */}
       {monthlyIncome > 0 && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] mb-3">Projected Net Worth</h3>
           <p className="text-[0.68rem] text-[var(--text-muted)] mb-3">Based on 30% savings rate of monthly income</p>
           <div className="grid grid-cols-3 gap-4">

@@ -41,7 +41,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
       </div>
 
       {/* Main Settings */}
-      <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
+      <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-6">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.01] to-transparent pointer-events-none" />
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Monthly Credit */}
@@ -93,7 +93,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
       </div>
 
       {/* Lease Liabilities */}
-      <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
+      <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-6">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.01] to-transparent pointer-events-none" />
         <div className="relative">
           <div className="flex items-center justify-between mb-5">

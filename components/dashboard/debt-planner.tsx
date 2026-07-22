@@ -215,7 +215,7 @@ export function DebtPlanner({ data }: Props) {
               <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `M${v}`} />
               <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => formatINR(v)} />
               <Tooltip
-                contentStyle={{ background: "#1e1b2e", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ background: "var(--bg-secondary)", border: "1px solid var(--border-card)", borderRadius: 8, fontSize: 12 }}
                 labelStyle={{ color: "#94a3b8" }}
                 formatter={(value: number) => [formatINR(value), "Total Debt"]}
                 labelFormatter={(v) => `Month ${v}`}

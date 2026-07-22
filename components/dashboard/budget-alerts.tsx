@@ -97,7 +97,7 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
 
       {/* Overall Progress */}
       {totalBudget > 0 && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">Monthly Expense Summary</h3>
             {alertCount > 0 && (
@@ -138,7 +138,7 @@ export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
           return (
             <div
               key={category}
-              className={`bg-[#12131a] border rounded-xl px-4 py-3 transition-colors ${
+              className={`bg-[var(--bg-secondary)] border rounded-xl px-4 py-3 transition-colors ${
                 isOver ? "border-rose-500/30" :
                 isWarning ? "border-amber-500/20" :
                 "border-[var(--border-card)]"

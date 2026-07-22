@@ -135,19 +135,19 @@ export function InsuranceHub() {
       {/* KPIs */}
       {summary && (
         <div className="grid grid-cols-4 gap-3">
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Coverage</p>
             <p className="text-[1.05rem] font-bold text-cyan-400 tracking-tight mt-0.5">{formatINR(summary.totalCoverage)}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Annual Premium</p>
             <p className="text-[1.05rem] font-bold text-amber-400 tracking-tight mt-0.5">{formatINR(summary.totalPremium)}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Active Policies</p>
             <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{summary.policyCount}</p>
           </div>
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
             <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Renewals Due</p>
             <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${summary.upcomingRenewals.length > 0 ? "text-rose-400" : "text-emerald-400"}`}>
               {summary.upcomingRenewals.length > 0 ? `${summary.upcomingRenewals.length} soon` : "✓ Clear"}
@@ -164,7 +164,7 @@ export function InsuranceHub() {
 
       {/* Add Form */}
       {showForm && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-lg">{TYPE_META[form.type]?.icon || "🛡️"}</span>
             <h3 className="text-[0.9rem] font-semibold text-[var(--text-heading)]">Add {INSURANCE_TYPE_LABELS[form.type]}</h3>
@@ -176,7 +176,7 @@ export function InsuranceHub() {
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Type</label>
               <select value={form.type} onChange={(e) => updateForm({ type: e.target.value as InsuranceType })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-cyan-500/50 appearance-none">
                 {Object.entries(INSURANCE_TYPE_LABELS).map(([val, label]) => (
-                  <option key={val} value={val} className="bg-[#1a1b23]">{TYPE_META[val]?.icon} {label}</option>
+                  <option key={val} value={val} className="bg-[var(--bg-secondary)]">{TYPE_META[val]?.icon} {label}</option>
                 ))}
               </select>
             </div>
@@ -207,10 +207,10 @@ export function InsuranceHub() {
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Frequency</label>
               <select value={form.premiumFrequency} onChange={(e) => updateForm({ premiumFrequency: e.target.value as InsurancePolicy["premiumFrequency"] })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-cyan-500/50 appearance-none">
-                <option value="monthly" className="bg-[#1a1b23]">Monthly</option>
-                <option value="quarterly" className="bg-[#1a1b23]">Quarterly</option>
-                <option value="half-yearly" className="bg-[#1a1b23]">Half-Yearly</option>
-                <option value="yearly" className="bg-[#1a1b23]">Yearly</option>
+                <option value="monthly" className="bg-[var(--bg-secondary)]">Monthly</option>
+                <option value="quarterly" className="bg-[var(--bg-secondary)]">Quarterly</option>
+                <option value="half-yearly" className="bg-[var(--bg-secondary)]">Half-Yearly</option>
+                <option value="yearly" className="bg-[var(--bg-secondary)]">Yearly</option>
               </select>
             </div>
             <div>
@@ -265,14 +265,14 @@ export function InsuranceHub() {
       {/* Filter by type */}
       <div className="flex items-center gap-2">
         {[{ id: "all", label: "All", icon: "📋" }, ...Object.entries(INSURANCE_TYPE_LABELS).map(([id, label]) => ({ id, label, icon: TYPE_META[id]?.icon || "🛡️" }))].map((f) => (
-          <button key={f.id} onClick={() => setFilterType(f.id)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${filterType === f.id ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
+          <button key={f.id} onClick={() => setFilterType(f.id)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${filterType === f.id ? "bg-[var(--bg-card-hover)] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
             <span className="text-xs">{f.icon}</span> {f.label}
           </button>
         ))}
       </div>
 
       {/* Policy List */}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[var(--border-subtle)]">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
             Policies {filterType !== "all" && `— ${INSURANCE_TYPE_LABELS[filterType as InsuranceType]}`}
@@ -289,14 +289,14 @@ export function InsuranceHub() {
             </button>
           </div>
         ) : (
-          <div className="divide-y divide-white/[0.03]">
+          <div className="divide-y divide-[var(--border-subtle)]">
             {policies.map((p) => {
               const meta = TYPE_META[p.type];
               const days = daysUntil(p.nextDueDate);
               const isExpanded = expandedId === p.id;
               return (
                 <div key={p.id}>
-                  <div className="flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.015] transition-colors cursor-pointer group" onClick={() => setExpandedId(isExpanded ? null : p.id)}>
+                  <div className="flex items-center justify-between px-5 py-3.5 hover:bg-[var(--bg-card)] transition-colors cursor-pointer group" onClick={() => setExpandedId(isExpanded ? null : p.id)}>
                     <div className="flex items-center gap-3">
                       <div className={`w-9 h-9 rounded-lg ${meta?.bg || "bg-slate-500/10"} flex items-center justify-center shrink-0`}>
                         <span className="text-[0.8rem]">{meta?.icon || "🛡️"}</span>
@@ -326,7 +326,7 @@ export function InsuranceHub() {
                   </div>
                   {/* Expanded details */}
                   {isExpanded && (
-                    <div className="px-5 pb-4 pt-1 bg-white/[0.01] border-t border-white/[0.03]">
+                    <div className="px-5 pb-4 pt-1 bg-[var(--bg-card)] border-t border-white/[0.03]">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[0.7rem]">
                         <div><span className="text-[var(--text-muted)] block mb-0.5">Nominee</span><span className="text-[var(--text-heading)]">{p.nomineeName || "—"}</span></div>
                         <div><span className="text-[var(--text-muted)] block mb-0.5">Start Date</span><span className="text-[var(--text-heading)]">{p.startDate || "—"}</span></div>
@@ -346,7 +346,7 @@ export function InsuranceHub() {
         )}
 
         {policies.length > 0 && (
-          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between">
             <span className="text-[0.68rem] text-[var(--text-muted)]">{policies.length} polic{policies.length > 1 ? "ies" : "y"} • Click to expand details</span>
             <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">Coverage: {formatINR(policies.reduce((s, p) => s + p.sumAssured, 0))}</span>
           </div>

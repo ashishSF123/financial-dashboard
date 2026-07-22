@@ -23,11 +23,11 @@ export function AIInsightsCard({ insights, title = "AI Insights" }: Props) {
   const criticalCount = insights.filter((i) => i.type === "critical" || i.type === "warning").length;
 
   return (
-    <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+    <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
       {/* Header */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full px-5 py-3.5 flex items-center justify-between hover:bg-white/[0.01] transition-colors"
+        className="w-full px-5 py-3.5 flex items-center justify-between hover:bg-[var(--bg-card)] transition-colors"
       >
         <div className="flex items-center gap-3">
           <div className="w-7 h-7 rounded-lg bg-indigo-500/10 flex items-center justify-center">

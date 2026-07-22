@@ -30,7 +30,7 @@ function KpiCard({ label, value, color, subtitle, change }: KpiCardProps) {
   const c = colorConfig[color] || colorConfig.indigo;
 
   return (
-    <div className={`relative overflow-hidden bg-[#12131a] border ${c.border} rounded-xl p-4 hover:border-white/10 transition-all duration-300 hover:-translate-y-0.5 ${c.glow} hover:shadow-lg group`}>
+    <div className={`relative overflow-hidden bg-[var(--bg-secondary)] border ${c.border} rounded-xl p-4 hover:border-white/10 transition-all duration-300 hover:-translate-y-0.5 ${c.glow} hover:shadow-lg group`}>
       {/* Top accent line */}
       <div className={`absolute top-0 left-0 right-0 h-[2px] ${c.accent} opacity-40`} />
       <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">{label}</p>

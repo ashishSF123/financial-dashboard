@@ -219,25 +219,25 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
       {/* Combined KPIs */}
       <div className="grid grid-cols-5 gap-3">
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Invested</p>
           <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(summary?.totalInvested || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Current Value</p>
           <p className="text-[1.05rem] font-bold text-emerald-400 tracking-tight mt-0.5">{formatINR(summary?.totalCurrent || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Net Worth</p>
           <p className="text-[1.05rem] font-bold text-indigo-400 tracking-tight mt-0.5">{formatINR(totalNetWorth)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Returns</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${(summary?.gainPct || 0) >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
             {(summary?.gainPct || 0) >= 0 ? "+" : ""}{(summary?.gainPct || 0).toFixed(1)}%
           </p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Insurance</p>
           <p className="text-[1.05rem] font-bold text-cyan-400 tracking-tight mt-0.5">{formatINR(insuranceCoverage)}</p>
         </div>
@@ -245,7 +245,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
       {/* Combined Asset Allocation */}
       {allocation.length > 0 && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-4">Asset Allocation</h3>
           <div className="h-3 rounded-full overflow-hidden flex mb-4">
             {allocation.map((a) => {
@@ -282,14 +282,14 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
       />
 
       {/* Section Navigation */}
-      <div className="flex items-center gap-1 bg-[#12131a] border border-[var(--border-card)] rounded-xl p-1.5">
+      <div className="flex items-center gap-1 bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl p-1.5">
         {sections.map((s) => (
           <button
             key={s.id}
             onClick={() => setSection(s.id)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.75rem] font-medium transition-all ${
               section === s.id
-                ? "bg-white/[0.08] text-[var(--text-heading)] shadow-sm"
+                ? "bg-[var(--bg-card-hover)] text-[var(--text-heading)] shadow-sm"
                 : "text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)]"
             }`}
           >
@@ -304,7 +304,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
         <div className="space-y-5">
           {/* Add Form */}
           {showForm && (
-            <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+            <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-lg">{TYPE_ICONS[form.type] || "💼"}</span>
                 <h3 className="text-[0.9rem] font-semibold text-[var(--text-heading)]">Add {INVESTMENT_TYPE_LABELS[form.type]}</h3>
@@ -314,7 +314,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
                   <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Type</label>
                   <select value={form.type} onChange={(e) => updateForm({ type: e.target.value as InvestmentType })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
                     {Object.entries(INVESTMENT_TYPE_LABELS).map(([val, label]) => (
-                      <option key={val} value={val} className="bg-[#1a1b23] text-[var(--text-heading)]">{TYPE_ICONS[val]} {label}</option>
+                      <option key={val} value={val} className="bg-[var(--bg-secondary)] text-[var(--text-heading)]">{TYPE_ICONS[val]} {label}</option>
                     ))}
                   </select>
                 </div>
@@ -339,10 +339,10 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
                 <div>
                   <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Frequency</label>
                   <select value={form.frequency} onChange={(e) => updateForm({ frequency: e.target.value as InvestmentHolding["frequency"] })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
-                    <option value="Monthly" className="bg-[#1a1b23]">Monthly (SIP)</option>
-                    <option value="Quarterly" className="bg-[#1a1b23]">Quarterly</option>
-                    <option value="Yearly" className="bg-[#1a1b23]">Yearly</option>
-                    <option value="One-time" className="bg-[#1a1b23]">One-time (Lumpsum)</option>
+                    <option value="Monthly" className="bg-[var(--bg-secondary)]">Monthly (SIP)</option>
+                    <option value="Quarterly" className="bg-[var(--bg-secondary)]">Quarterly</option>
+                    <option value="Yearly" className="bg-[var(--bg-secondary)]">Yearly</option>
+                    <option value="One-time" className="bg-[var(--bg-secondary)]">One-time (Lumpsum)</option>
                   </select>
                 </div>
               </div>
@@ -379,22 +379,22 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
           {/* Filter Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
-            <button onClick={() => setFilterType("all")} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === "all" ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>All</button>
+            <button onClick={() => setFilterType("all")} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === "all" ? "bg-[var(--bg-card-hover)] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>All</button>
             {Object.entries(INVESTMENT_TYPE_LABELS).map(([type, label]) => (
-              <button key={type} onClick={() => setFilterType(type)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === type ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
+              <button key={type} onClick={() => setFilterType(type)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === type ? "bg-[var(--bg-card-hover)] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
                 {TYPE_ICONS[type]} {label}
               </button>
             ))}
           </div>
 
           {/* Holdings List */}
-          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
             <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
               <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
                 Holdings {filterType !== "all" && `— ${INVESTMENT_TYPE_LABELS[filterType as InvestmentType] || filterType}`}
               </h3>
               {filterType !== "all" && (
-                <button onClick={() => openFormForType(filterType as InvestmentType)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] text-[0.68rem] font-medium hover:bg-white/[0.08] hover:text-[var(--text-heading)] transition-colors">
+                <button onClick={() => openFormForType(filterType as InvestmentType)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] text-[0.68rem] font-medium hover:bg-[var(--bg-card-hover)] hover:text-[var(--text-heading)] transition-colors">
                   <span className="text-xs">+</span> Add {INVESTMENT_TYPE_LABELS[filterType as InvestmentType]}
                 </button>
               )}
@@ -410,13 +410,13 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
                 </button>
               </div>
             ) : (
-              <div className="divide-y divide-white/[0.03]">
+              <div className="divide-y divide-[var(--border-subtle)]">
                 {holdings.map((h) => {
                   const gain = h.currentValue - h.investedAmount;
                   const gainPct = h.investedAmount > 0 ? (gain / h.investedAmount) * 100 : 0;
                   const tc = TYPE_COLORS[h.type];
                   return (
-                    <div key={h.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.015] transition-colors group">
+                    <div key={h.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-[var(--bg-card)] transition-colors group">
                       <div className="flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-lg ${tc?.bg || "bg-slate-500/10"} flex items-center justify-center shrink-0`}>
                           <span className="text-[0.8rem]">{TYPE_ICONS[h.type] || "💼"}</span>
@@ -450,7 +450,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
             )}
 
             {holdings.length > 0 && (
-              <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+              <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-[0.68rem] text-[var(--text-muted)]">{holdings.length} holding{holdings.length > 1 ? "s" : ""}</span>
                   <button onClick={() => openFormForType(filterType !== "all" ? filterType as InvestmentType : undefined)} className="text-[0.65rem] text-emerald-400/70 hover:text-emerald-300 font-medium transition-colors">+ Add more</button>
@@ -500,7 +500,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
       {/* Empty state for asset sections without data */}
       {section !== "investments" && (!data || !onUpdate) && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl text-center py-12 px-6">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl text-center py-12 px-6">
           <div className="text-3xl mb-3">{sections.find((s) => s.id === section)?.icon}</div>
           <p className="text-[0.85rem] text-[var(--text-secondary)] mb-1">No data loaded</p>
           <p className="text-[0.72rem] text-[var(--text-muted)]">Upload your financial data file to see {section.replace("-", " ")} details</p>

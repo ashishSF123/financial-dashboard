@@ -24,7 +24,7 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
   const s = styles[healthColor];
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-7">
+    <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-7">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.02] via-transparent to-cyan-500/[0.02] pointer-events-none" />
       

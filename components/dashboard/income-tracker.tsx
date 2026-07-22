@@ -58,19 +58,19 @@ export function IncomeTracker() {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Monthly</p>
           <p className="text-[1.05rem] font-bold text-emerald-400 tracking-tight mt-0.5">{formatINR(totalMonthly)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Annual Income</p>
           <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(totalMonthly * 12)}</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Passive Income</p>
           <p className="text-[1.05rem] font-bold text-indigo-400 tracking-tight mt-0.5">{formatINR(passiveIncome)}/mo</p>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Passive Ratio</p>
           <p className="text-[1.05rem] font-bold text-cyan-400 tracking-tight mt-0.5">{passivePct.toFixed(0)}%</p>
         </div>
@@ -78,12 +78,12 @@ export function IncomeTracker() {
 
       {/* Add Form */}
       {showForm && (
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Type</label>
               <select value={formType} onChange={(e) => setFormType(e.target.value as IncomeType)} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
-                {Object.entries(INCOME_TYPE_LABELS).map(([v, l]) => (<option key={v} value={v} className="bg-[#1a1b23]">{l}</option>))}
+                {Object.entries(INCOME_TYPE_LABELS).map(([v, l]) => (<option key={v} value={v} className="bg-[var(--bg-secondary)]">{l}</option>))}
               </select>
             </div>
             <div>
@@ -97,10 +97,10 @@ export function IncomeTracker() {
             <div>
               <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Frequency</label>
               <select value={formFreq} onChange={(e) => setFormFreq(e.target.value as IncomeSource["frequency"])} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
-                <option value="monthly" className="bg-[#1a1b23]">Monthly</option>
-                <option value="quarterly" className="bg-[#1a1b23]">Quarterly</option>
-                <option value="yearly" className="bg-[#1a1b23]">Yearly</option>
-                <option value="one-time" className="bg-[#1a1b23]">One-time</option>
+                <option value="monthly" className="bg-[var(--bg-secondary)]">Monthly</option>
+                <option value="quarterly" className="bg-[var(--bg-secondary)]">Quarterly</option>
+                <option value="yearly" className="bg-[var(--bg-secondary)]">Yearly</option>
+                <option value="one-time" className="bg-[var(--bg-secondary)]">One-time</option>
               </select>
             </div>
           </div>
@@ -112,7 +112,7 @@ export function IncomeTracker() {
       )}
 
       {/* Income Sources List */}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[var(--border-subtle)]">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">Active Income Streams</h3>
         </div>
@@ -123,9 +123,9 @@ export function IncomeTracker() {
             <p className="text-[0.72rem] text-[var(--text-muted)] mt-1">Add your salary, freelance income, rental, dividends, etc.</p>
           </div>
         ) : (
-          <div className="divide-y divide-white/[0.03]">
+          <div className="divide-y divide-[var(--border-subtle)]">
             {sources.map((s) => (
-              <div key={s.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.015] transition-colors group">
+              <div key={s.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-[var(--bg-card)] transition-colors group">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
                     <span className="text-[0.8rem]">{TYPE_ICONS[s.type] || "💰"}</span>

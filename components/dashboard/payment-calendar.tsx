@@ -173,7 +173,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
 
       {/* Summary Strip — compact horizontal row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Due</p>
@@ -184,7 +184,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
             </div>
           </div>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-amber-500/80">This Week</p>
@@ -195,7 +195,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
             </div>
           </div>
         </div>
-        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-rose-500/80">Overdue</p>
@@ -211,7 +211,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
       </div>
 
       {/* Calendar Grid — compact standard size */}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-4 max-w-md mx-auto">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-4 max-w-md mx-auto">
         {/* Day headers */}
         <div className="grid grid-cols-7 mb-1">
           {dayNames.map((d) => (
@@ -240,10 +240,10 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
                   isToday
                     ? "bg-indigo-500/20 ring-1.5 ring-indigo-500/50 text-[var(--text-heading)] font-bold"
                     : isSelected
-                    ? "bg-white/[0.08] ring-1 ring-white/20 text-[var(--text-heading)]"
+                    ? "bg-[var(--bg-card-hover)] ring-1 ring-white/20 text-[var(--text-heading)]"
                     : hasPayments
                     ? "bg-white/[0.025] hover:bg-[var(--bg-card-hover)] text-[var(--text-secondary)] cursor-pointer"
-                    : "text-[var(--text-muted)] hover:text-[var(--text-muted)] hover:bg-white/[0.015]"
+                    : "text-[var(--text-muted)] hover:text-[var(--text-muted)] hover:bg-[var(--bg-card)]"
                 }`}
               >
                 <span className={`text-[0.7rem] leading-none ${isToday ? "font-bold" : hasPayments ? "font-medium" : ""}`}>{day}</span>
@@ -274,7 +274,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
       </div>
 
       {/* Payment List */}
-      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
         {/* List Header */}
         <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
           <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
@@ -291,11 +291,11 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
         </div>
 
         {/* Payment Items */}
-        <div className="divide-y divide-white/[0.03]">
+        <div className="divide-y divide-[var(--border-subtle)]">
           {filteredPayments.map((p) => {
             const cat = categoryConfig[p.category];
             return (
-              <div key={p.id} className="flex items-center justify-between px-5 py-3 hover:bg-white/[0.015] transition-colors">
+              <div key={p.id} className="flex items-center justify-between px-5 py-3 hover:bg-[var(--bg-card)] transition-colors">
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-lg ${cat.bg} flex items-center justify-center shrink-0`}>
                     <span className="text-[0.7rem]">{cat.icon}</span>
@@ -332,7 +332,7 @@ export function PaymentCalendar({ data, selectedMonth }: Props) {
 
         {/* Footer */}
         {filteredPayments.length > 0 && (
-          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between">
             <span className="text-[0.68rem] text-[var(--text-muted)]">{filteredPayments.length} payment{filteredPayments.length > 1 ? "s" : ""}</span>
             <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">
               Total: {formatINR(filteredPayments.reduce((s, p) => s + p.amount, 0))}

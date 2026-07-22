@@ -105,7 +105,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
   });
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl">
+    <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl">
       {/* Header */}
       <div className="px-6 py-5 border-b border-[var(--border-subtle)]">
         <div className="flex items-center justify-between">

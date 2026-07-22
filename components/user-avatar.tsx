@@ -13,7 +13,7 @@ export async function UserAvatar() {
     >
       <button
         type="submit"
-        className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[0.68rem] text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors"
+        className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[0.68rem] text-[var(--text-muted)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-card-hover)] transition-colors"
         title={`Signed in as ${session.user.name || session.user.email}`}
       >
         {session.user.image && (

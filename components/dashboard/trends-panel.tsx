@@ -113,7 +113,7 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
   ];
 
   const tooltipStyle = {
-    contentStyle: { backgroundColor: "#1a1b26", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", fontSize: "11px" },
+    contentStyle: { backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-card)", borderRadius: "12px", fontSize: "11px" },
     labelStyle: { color: "#94a3b8", fontWeight: 600 },
   };
 

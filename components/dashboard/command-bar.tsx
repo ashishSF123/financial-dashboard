@@ -99,7 +99,7 @@ export function CommandBar({ data, metrics, onNavigate }: Props) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
 
       {/* Command palette */}
-      <div className="relative w-full max-w-lg bg-[#12131a] border border-[var(--border-card)] rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
+      <div className="relative w-full max-w-lg bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
         {/* Search input */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--border-card)]">
           <span className="text-[var(--text-muted)] text-sm">⌘</span>
