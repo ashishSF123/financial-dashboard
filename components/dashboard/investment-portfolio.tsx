@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { INVESTMENT_TYPE_LABELS } from "@/lib/finance-types";
 import type { InvestmentHolding, InvestmentType } from "@/lib/finance-types";
 import type { FinancialData } from "@/lib/parse-excel";
 import { EditableTable } from "./editable-table";
+import { AIInsightsCard } from "./ai-insights-card";
+import { computeInvestmentInsights } from "@/lib/insights-engine";
 import {
   getHoldings,
   addHolding,
@@ -272,6 +274,12 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
           </div>
         </div>
       )}
+
+      {/* AI Insights */}
+      <AIInsightsCard
+        insights={useMemo(() => computeInvestmentInsights(holdings), [holdings])}
+        title="Portfolio Intelligence"
+      />
 
       {/* Section Navigation */}
       <div className="flex items-center gap-1 bg-[#12131a] border border-white/[0.06] rounded-xl p-1.5">

@@ -5,6 +5,8 @@ import type { FinancialData } from "@/lib/parse-excel";
 import type { AdditionalLoan, AdditionalLoanType } from "@/lib/finance-types";
 import { LOAN_TYPE_LABELS } from "@/lib/finance-types";
 import { EditableTable } from "./editable-table";
+import { AIInsightsCard } from "./ai-insights-card";
+import { computeDebtInsights } from "@/lib/insights-engine";
 import { getAdditionalLoans, addAdditionalLoan, deleteAdditionalLoan } from "@/lib/finance-store";
 
 interface DebtItem {
@@ -189,6 +191,18 @@ export function LoansHub({ data, onUpdate }: Props) {
           <p className="text-[1.1rem] font-bold text-white tracking-tight mt-0.5">{activeCount}</p>
         </div>
       </div>
+
+      {/* AI Insights */}
+      <AIInsightsCard
+        insights={useMemo(() => computeDebtInsights(
+          data.goldLoans.filter((g) => g.status?.toLowerCase() !== "completed"),
+          data.houseLoans.filter((h) => h.status?.toLowerCase() !== "completed"),
+          data.borrowed.filter((b) => b.status?.toLowerCase() !== "completed"),
+          additionalLoans.filter((l) => l.status !== "closed"),
+          data.monthlyCredit || 0
+        ), [data, additionalLoans])}
+        title="Debt Intelligence"
+      />
 
       {/* Recommendation Card */}
       {recommendation && (

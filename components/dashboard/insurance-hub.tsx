@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { INSURANCE_TYPE_LABELS } from "@/lib/finance-types";
 import type { InsurancePolicy, InsuranceType } from "@/lib/finance-types";
+import { AIInsightsCard } from "./ai-insights-card";
+import { computeInsuranceInsights } from "@/lib/insights-engine";
 import {
   getInsurancePolicies,
   addInsurancePolicy,
@@ -153,6 +155,12 @@ export function InsuranceHub() {
           </div>
         </div>
       )}
+
+      {/* AI Insights */}
+      <AIInsightsCard
+        insights={useMemo(() => computeInsuranceInsights(policies, 100000), [policies])}
+        title="Insurance Intelligence"
+      />
 
       {/* Add Form */}
       {showForm && (

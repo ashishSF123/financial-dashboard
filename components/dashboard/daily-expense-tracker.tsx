@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   EXPENSE_CATEGORIES,
   PAYMENT_METHODS,
@@ -15,6 +15,8 @@ import {
   getExpenseSummary,
   getBudgetLimits,
 } from "@/lib/finance-store";
+import { computeExpenseInsights } from "@/lib/insights-engine";
+import { AIInsightsCard } from "./ai-insights-card";
 
 function formatINR(n: number): string {
   if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`;
@@ -250,6 +252,12 @@ export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
           </div>
         </div>
       )}
+
+      {/* AI Insights */}
+      <AIInsightsCard
+        insights={useMemo(() => computeExpenseInsights(expenses, budgets, selectedMonth), [expenses, budgets, selectedMonth])}
+        title="Spending Intelligence"
+      />
 
       {/* Category Budget Cards */}
       {topCategories.length > 0 && (
