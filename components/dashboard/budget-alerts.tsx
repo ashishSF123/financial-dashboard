@@ -11,6 +11,7 @@ import {
   getBudgetLimits,
   setBudgetLimit,
   getExpenseSummary,
+  getExpenses,
 } from "@/lib/finance-store";
 
 function formatINR(n: number): string {
@@ -21,17 +22,30 @@ function formatINR(n: number): string {
 
 interface Props {
   selectedMonth: string;
+  onNavigate?: (tab: string) => void;
 }
 
-export function BudgetAlerts({ selectedMonth }: Props) {
+export function BudgetAlerts({ selectedMonth, onNavigate }: Props) {
   const [budgets, setBudgets] = useState<BudgetLimit[]>([]);
   const [summary, setSummary] = useState<ReturnType<typeof getExpenseSummary> | null>(null);
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
   const [editLimit, setEditLimit] = useState("");
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [recentExpenses, setRecentExpenses] = useState<Record<string, { desc: string; amount: number; date: string }[]>>({});
 
   const refresh = useCallback(() => {
     setBudgets(getBudgetLimits());
     setSummary(getExpenseSummary(selectedMonth));
+    // Get recent expenses grouped by category
+    const expenses = getExpenses({ month: selectedMonth });
+    const grouped: Record<string, { desc: string; amount: number; date: string }[]> = {};
+    expenses.forEach((e) => {
+      if (!grouped[e.category]) grouped[e.category] = [];
+      if (grouped[e.category].length < 3) {
+        grouped[e.category].push({ desc: e.description || e.category, amount: e.amount, date: e.date });
+      }
+    });
+    setRecentExpenses(grouped);
   }, [selectedMonth]);
 
   useEffect(() => {
@@ -65,13 +79,20 @@ export function BudgetAlerts({ selectedMonth }: Props) {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <div>
-        <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
-          Budget & Alerts
-        </h2>
-        <p className="text-[0.78rem] text-slate-500 mt-0.5">
-          Set monthly spending limits per category and track utilization
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
+            Budget & Alerts
+          </h2>
+          <p className="text-[0.78rem] text-slate-500 mt-0.5">
+            Set monthly spending limits per category and track utilization
+          </p>
+        </div>
+        {onNavigate && (
+          <button onClick={() => onNavigate("daily-expenses")} className="text-[0.7rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+            View all expenses →
+          </button>
+        )}
       </div>
 
       {/* Overall Progress */}
@@ -214,6 +235,31 @@ export function BudgetAlerts({ selectedMonth }: Props) {
                 <p className="text-[0.62rem] text-amber-400 mt-1.5 font-medium">
                   ⚡ Approaching limit — {Math.round((1 - pct) * 100)}% remaining
                 </p>
+              )}
+
+              {/* Recent transactions for this category (expandable) */}
+              {spent > 0 && (
+                <button
+                  onClick={() => setExpandedCategory(expandedCategory === category ? null : category)}
+                  className="text-[0.6rem] text-slate-500 hover:text-slate-300 mt-1.5 transition-colors"
+                >
+                  {expandedCategory === category ? "▴ Hide transactions" : `▾ ${recentExpenses[category]?.length || 0} recent transactions`}
+                </button>
+              )}
+              {expandedCategory === category && recentExpenses[category] && (
+                <div className="mt-2 space-y-1 pl-11">
+                  {recentExpenses[category].map((exp, i) => (
+                    <div key={i} className="flex items-center justify-between text-[0.65rem]">
+                      <span className="text-slate-400 truncate max-w-[60%]">{exp.desc}</span>
+                      <span className="text-white tabular-nums">{formatINR(exp.amount)}</span>
+                    </div>
+                  ))}
+                  {onNavigate && (
+                    <button onClick={() => onNavigate("daily-expenses")} className="text-[0.6rem] text-indigo-400 hover:text-indigo-300 mt-1">
+                      See all →
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           );

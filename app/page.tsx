@@ -379,7 +379,7 @@ export default function DashboardPage() {
               <h2 className="text-white text-base font-semibold">Daily Expense Budgets</h2>
               <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent" />
             </div>
-            <BudgetAlerts selectedMonth={selectedMonth} />
+            <BudgetAlerts selectedMonth={selectedMonth} onNavigate={setActiveTab} />
           </div>
         )}
 
@@ -398,7 +398,7 @@ export default function DashboardPage() {
         )}
 
         {activeTab === "daily-expenses" && (
-          <DailyExpenseTracker selectedMonth={selectedMonth} />
+          <DailyExpenseTracker selectedMonth={selectedMonth} onNavigate={setActiveTab} />
         )}
 
         {activeTab === "portfolio" && (

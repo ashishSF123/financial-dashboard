@@ -30,9 +30,10 @@ function formatDate(dateStr: string): string {
 
 interface Props {
   selectedMonth: string;
+  onNavigate?: (tab: string) => void;
 }
 
-export function DailyExpenseTracker({ selectedMonth }: Props) {
+export function DailyExpenseTracker({ selectedMonth, onNavigate }: Props) {
   const [expenses, setExpenses] = useState<DailyExpense[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [summary, setSummary] = useState<ReturnType<typeof getExpenseSummary> | null>(null);
@@ -200,7 +201,16 @@ export function DailyExpenseTracker({ selectedMonth }: Props) {
 
       {/* Category Budget Cards */}
       {topCategories.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-[0.85rem] font-semibold text-white">Budget Utilization</h3>
+            {onNavigate && (
+              <button onClick={() => onNavigate("budget")} className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+                Manage budgets →
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {topCategories.map(([cat, spent]) => {
             const budget = budgets.find((b) => b.category === cat);
             const limit = budget?.monthlyLimit || 0;
@@ -237,10 +247,9 @@ export function DailyExpenseTracker({ selectedMonth }: Props) {
               </div>
             );
           })}
+          </div>
         </div>
       )}
-
-      {/* Recent Transactions */}
       <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-white/[0.04] flex items-center justify-between">
           <h3 className="text-[0.85rem] font-semibold text-white tracking-[-0.01em]">
