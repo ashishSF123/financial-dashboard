@@ -148,12 +148,6 @@ export function LoansHub({ data, onUpdate }: Props) {
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => { setSection("other-loans"); setShowAddForm(true); }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[0.75rem] font-medium hover:bg-indigo-500/30 transition-colors"
-          >
-            <span className="text-sm">+</span> Add Loan
-          </button>
-          <button
             onClick={() => setStrategy("avalanche")}
             className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${strategy === "avalanche" ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}
           >

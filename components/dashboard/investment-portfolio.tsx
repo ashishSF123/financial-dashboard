@@ -446,10 +446,7 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
             {holdings.length > 0 && (
               <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-[0.68rem] text-[var(--text-muted)]">{holdings.length} holding{holdings.length > 1 ? "s" : ""}</span>
-                  <button onClick={() => openFormForType(filterType !== "all" ? filterType as InvestmentType : undefined)} className="text-[0.65rem] text-emerald-400/70 hover:text-emerald-300 font-medium transition-colors">+ Add more</button>
-                </div>
+                <span className="text-[0.68rem] text-[var(--text-muted)]">{holdings.length} holding{holdings.length > 1 ? "s" : ""}</span>
                 <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">Total: {formatINR(holdings.reduce((s, h) => s + h.currentValue, 0))}</span>
               </div>
             )}
