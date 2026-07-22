@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import type React from "react"
 import "./globals.css"
+import { UserAvatar } from "@/components/user-avatar"
 
 export const metadata: Metadata = {
   title: "Ashish Financial Dashboard",
@@ -21,6 +22,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased bg-[#0a0b10] text-slate-200 min-h-screen">
+        <div className="fixed top-4 right-6 z-[100]">
+          <UserAvatar />
+        </div>
         {children}
       </body>
     </html>
