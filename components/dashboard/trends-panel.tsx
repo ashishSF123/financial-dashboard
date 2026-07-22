@@ -121,7 +121,7 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
     <div className="space-y-8">
       {/* Progress Summary Cards */}
       <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-[2px] text-slate-500 mb-4">
+        <h3 className="text-[10px] font-bold uppercase tracking-[2px] text-[var(--text-muted)] mb-4">
           6-Month Progress — {oldest.fullLabel} to {newest.fullLabel}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -129,14 +129,14 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
             const change = pctChange(card.current, card.previous);
             const isGood = card.invertPositive ? !change.positive : change.positive;
             return (
-              <div key={card.label} className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
-                <p className="text-[10px] font-bold uppercase tracking-[1.5px] text-slate-500 mb-2">{card.label}</p>
-                <p className="text-xl font-semibold text-white">₹{formatINR(card.current)}</p>
+              <div key={card.label} className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5">
+                <p className="text-[10px] font-bold uppercase tracking-[1.5px] text-[var(--text-muted)] mb-2">{card.label}</p>
+                <p className="text-xl font-semibold text-[var(--text-heading)]">₹{formatINR(card.current)}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <span className={`text-xs font-medium ${isGood ? "text-emerald-400" : "text-rose-400"}`}>
                     {isGood ? "▲" : "▼"} {change.value}
                   </span>
-                  <span className="text-[10px] text-slate-600">from ₹{formatINR(card.previous)}</span>
+                  <span className="text-[10px] text-[var(--text-muted)]">from ₹{formatINR(card.previous)}</span>
                 </div>
               </div>
             );
@@ -147,9 +147,9 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Net Worth & Assets Line Chart */}
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
-          <h3 className="text-[0.88rem] font-semibold text-white tracking-[-0.01em] mb-1">Net Worth & Assets</h3>
-          <p className="text-[10px] text-slate-500 mb-4">Wealth growth over time</p>
+        <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5">
+          <h3 className="text-[0.88rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-1">Net Worth & Assets</h3>
+          <p className="text-[10px] text-[var(--text-muted)] mb-4">Wealth growth over time</p>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={timeSeriesData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
@@ -164,9 +164,9 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
         </div>
 
         {/* Debt Breakdown Stacked Area */}
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
-          <h3 className="text-[0.88rem] font-semibold text-white tracking-[-0.01em] mb-1">Debt Composition</h3>
-          <p className="text-[10px] text-slate-500 mb-4">Breakdown of liabilities over time</p>
+        <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5">
+          <h3 className="text-[0.88rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-1">Debt Composition</h3>
+          <p className="text-[10px] text-[var(--text-muted)] mb-4">Breakdown of liabilities over time</p>
           <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={timeSeriesData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
@@ -183,9 +183,9 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
         </div>
 
         {/* Monthly Cash Flow Bar Chart */}
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 lg:col-span-2">
-          <h3 className="text-[0.88rem] font-semibold text-white tracking-[-0.01em] mb-1">Monthly Cash Flow</h3>
-          <p className="text-[10px] text-slate-500 mb-4">Income vs outflows — tracking your monthly surplus/deficit</p>
+        <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5 lg:col-span-2">
+          <h3 className="text-[0.88rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-1">Monthly Cash Flow</h3>
+          <p className="text-[10px] text-[var(--text-muted)] mb-4">Income vs outflows — tracking your monthly surplus/deficit</p>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={timeSeriesData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
@@ -202,17 +202,17 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
       </div>
 
       {/* Month-over-Month Comparison Table */}
-      <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 overflow-x-auto">
-        <h3 className="text-[0.88rem] font-semibold text-white tracking-[-0.01em] mb-1">Month-over-Month Comparison</h3>
-        <p className="text-[10px] text-slate-500 mb-4">All key metrics across each month with overall change</p>
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5 overflow-x-auto">
+        <h3 className="text-[0.88rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-1">Month-over-Month Comparison</h3>
+        <p className="text-[10px] text-[var(--text-muted)] mb-4">All key metrics across each month with overall change</p>
         <table className="w-full text-xs">
           <thead>
-            <tr className="border-b border-white/[0.06]">
-              <th className="text-left py-2 pr-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Metric</th>
+            <tr className="border-b border-[var(--border-card)]">
+              <th className="text-left py-2 pr-4 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Metric</th>
               {timeSeriesData.map((d) => (
-                <th key={d.month} className="text-right py-2 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">{d.month}</th>
+                <th key={d.month} className="text-right py-2 px-2 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">{d.month}</th>
               ))}
-              <th className="text-right py-2 pl-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Change</th>
+              <th className="text-right py-2 pl-4 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Change</th>
             </tr>
           </thead>
           <tbody>
@@ -224,10 +224,10 @@ export function TrendsPanel({ snapshots }: TrendsPanelProps) {
               const isDebt = ["grandDebt", "totalGoldDebt", "totalHouseLoan", "totalBorrowed", "monthlyExpenses"].includes(metric.key);
               const isGood = isDebt ? !change.positive : change.positive;
               return (
-                <tr key={metric.key} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
-                  <td className="py-2.5 pr-4 text-slate-300 font-medium">{metric.label}</td>
+                <tr key={metric.key} className="border-b border-white/[0.03] hover:bg-[var(--bg-card)] transition-colors">
+                  <td className="py-2.5 pr-4 text-[var(--text-secondary)] font-medium">{metric.label}</td>
                   {values.map((v, i) => (
-                    <td key={i} className="text-right py-2.5 px-2 text-slate-400 tabular-nums">₹{formatINR(v)}</td>
+                    <td key={i} className="text-right py-2.5 px-2 text-[var(--text-secondary)] tabular-nums">₹{formatINR(v)}</td>
                   ))}
                   <td className={`text-right py-2.5 pl-4 font-semibold ${isGood ? "text-emerald-400" : "text-rose-400"}`}>
                     {isGood ? "▲" : "▼"} {change.value}

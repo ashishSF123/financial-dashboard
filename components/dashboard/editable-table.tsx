@@ -84,7 +84,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
     if (str.includes("active") || str.includes("progress")) {
       return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">Active</span>;
     }
-    return <span className="text-slate-500 text-xs">{String(value || "—")}</span>;
+    return <span className="text-[var(--text-muted)] text-xs">{String(value || "—")}</span>;
   };
 
   const formatCell = (col: Column, value: unknown) => {
@@ -105,16 +105,16 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
   });
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl">
+    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl">
       {/* Header */}
-      <div className="px-6 py-5 border-b border-white/[0.04]">
+      <div className="px-6 py-5 border-b border-[var(--border-subtle)]">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-white text-base font-semibold tracking-tight">{title}</h2>
-            <p className="text-slate-500 text-[11px] mt-0.5 font-medium">{description}</p>
+            <h2 className="text-[var(--text-heading)] text-base font-semibold tracking-tight">{title}</h2>
+            <p className="text-[var(--text-muted)] text-[11px] mt-0.5 font-medium">{description}</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] text-slate-600 font-medium">{rows.length} records</span>
+            <span className="text-[10px] text-[var(--text-muted)] font-medium">{rows.length} records</span>
             <button
               onClick={() => setAddingRow(true)}
               className={`${ac.addBtn} ${ac.addBtnHover} border px-3.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all`}
@@ -129,18 +129,18 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-white/[0.02]">
+            <tr className="bg-[var(--bg-card)]">
               {columns.map((col) => (
-                <th key={col.key} className={`text-left ${ac.header} text-[9px] font-bold uppercase tracking-[1px] px-4 py-3 border-b border-white/[0.04]`}>
+                <th key={col.key} className={`text-left ${ac.header} text-[9px] font-bold uppercase tracking-[1px] px-4 py-3 border-b border-[var(--border-subtle)]`}>
                   {col.label}
                 </th>
               ))}
-              <th className="w-10 border-b border-white/[0.04]" />
+              <th className="w-10 border-b border-[var(--border-subtle)]" />
             </tr>
           </thead>
           <tbody>
             {rows.map((row, rowIdx) => (
-              <tr key={String(row.id) || rowIdx} className="border-b border-white/[0.02] hover:bg-white/[0.02] group transition-colors">
+              <tr key={String(row.id) || rowIdx} className="border-b border-white/[0.02] hover:bg-[var(--bg-card)] group transition-colors">
                 {columns.map((col) => {
                   const isEditing = editingCell?.rowIdx === rowIdx && editingCell?.colKey === col.key;
                   return (
@@ -153,7 +153,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
                           onChange={(e) => setEditValue(e.target.value)}
                           onBlur={commitEdit}
                           onKeyDown={(e) => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditingCell(null); }}
-                          className="bg-indigo-500/[0.08] border border-indigo-500/30 rounded-md px-2.5 py-1 text-xs text-white w-full outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                          className="bg-indigo-500/[0.08] border border-indigo-500/30 rounded-md px-2.5 py-1 text-xs text-[var(--text-heading)] w-full outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-500/20 transition-all"
                         />
                       ) : col.type === "status" ? (
                         <span onClick={() => startEdit(rowIdx, col.key, row[col.key])} className="cursor-pointer">
@@ -165,7 +165,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
                           className={`cursor-pointer transition-colors text-xs ${
                             col.type === "currency"
                               ? "font-semibold text-cyan-400 hover:text-cyan-300"
-                              : "text-slate-400 hover:text-white"
+                              : "text-[var(--text-secondary)] hover:text-[var(--text-heading)]"
                           }`}
                         >
                           {formatCell(col, row[col.key])}
@@ -196,14 +196,14 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
                       placeholder={col.label}
                       value={newRow[col.key] || ""}
                       onChange={(e) => setNewRow((p) => ({ ...p, [col.key]: e.target.value }))}
-                      className="bg-white/[0.04] border border-white/[0.08] rounded-md px-2.5 py-1 text-xs text-white w-full outline-none focus:border-indigo-400 placeholder:text-slate-700"
+                      className="bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-md px-2.5 py-1 text-xs text-[var(--text-heading)] w-full outline-none focus:border-indigo-400 placeholder:text-slate-700"
                     />
                   </td>
                 ))}
                 <td className="px-3">
                   <div className="flex gap-1">
                     <button onClick={addRow} className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-[10px] font-bold hover:bg-emerald-500/20 transition-all">✓</button>
-                    <button onClick={() => { setAddingRow(false); setNewRow({}); }} className="w-6 h-6 rounded-md bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 text-[10px] hover:bg-white/[0.06] transition-all">✕</button>
+                    <button onClick={() => { setAddingRow(false); setNewRow({}); }} className="w-6 h-6 rounded-md bg-[var(--bg-card-hover)] border border-[var(--border-card)] flex items-center justify-center text-[var(--text-muted)] text-[10px] hover:bg-[var(--bg-card-hover)] transition-all">✕</button>
                   </div>
                 </td>
               </tr>
@@ -211,13 +211,13 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
 
             {/* Totals row */}
             {currencyCols.length > 0 && rows.length > 0 && (
-              <tr className="bg-white/[0.02] border-t border-white/[0.06]">
+              <tr className="bg-[var(--bg-card)] border-t border-[var(--border-card)]">
                 {columns.map((col, idx) => (
                   <td key={col.key} className="px-4 py-3">
                     {idx === 0 ? (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Total</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Total</span>
                     ) : col.type === "currency" ? (
-                      <span className="text-xs font-bold text-white">{formatINR(totals[col.key])}</span>
+                      <span className="text-xs font-bold text-[var(--text-heading)]">{formatINR(totals[col.key])}</span>
                     ) : null}
                   </td>
                 ))}
@@ -230,10 +230,10 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
 
       {rows.length === 0 && !addingRow && (
         <div className="text-center py-12">
-          <div className="w-12 h-12 rounded-full bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mx-auto mb-3">
-            <span className="text-slate-600 text-lg">∅</span>
+          <div className="w-12 h-12 rounded-full bg-[var(--bg-input)] border border-[var(--border-card)] flex items-center justify-center mx-auto mb-3">
+            <span className="text-[var(--text-muted)] text-lg">∅</span>
           </div>
-          <p className="text-slate-600 text-xs">No records yet</p>
+          <p className="text-[var(--text-muted)] text-xs">No records yet</p>
           <p className="text-slate-700 text-[10px] mt-1">Click &quot;+ Add Row&quot; to begin</p>
         </div>
       )}

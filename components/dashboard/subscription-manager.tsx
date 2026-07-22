@@ -50,8 +50,8 @@ export function SubscriptionManager() {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">Subscriptions</h2>
-          <p className="text-[0.78rem] text-slate-500 mt-0.5">Track recurring payments and find hidden money leaks</p>
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)]">Subscriptions</h2>
+          <p className="text-[0.78rem] text-[var(--text-muted)] mt-0.5">Track recurring payments and find hidden money leaks</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-violet-500/20 border border-violet-500/30 text-violet-300 text-[0.75rem] font-medium hover:bg-violet-500/30 transition-colors">
           <span className="text-sm">+</span> Add Subscription
@@ -60,19 +60,19 @@ export function SubscriptionManager() {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Monthly Cost</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Monthly Cost</p>
           <p className="text-[1.05rem] font-bold text-violet-400 tracking-tight mt-0.5">{formatINR(monthlyTotal)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Annual Burn</p>
-          <p className="text-[1.05rem] font-bold text-white tracking-tight mt-0.5">{formatINR(annualTotal)}</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Annual Burn</p>
+          <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(annualTotal)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Active</p>
-          <p className="text-[1.05rem] font-bold text-white tracking-tight mt-0.5">{activeSubs.length}</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Active</p>
+          <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{activeSubs.length}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
           <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-rose-500/80">Potential Savings</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${potentialSavings > 0 ? "text-rose-400" : "text-emerald-400"}`}>
             {potentialSavings > 0 ? formatINR(potentialSavings) + "/mo" : "None"}
@@ -84,7 +84,7 @@ export function SubscriptionManager() {
       {unusedSubs.length > 0 && (
         <div className="bg-rose-500/[0.04] border border-rose-500/15 rounded-xl p-4">
           <p className="text-[0.75rem] text-rose-300 font-medium">Unused Subscriptions Detected</p>
-          <p className="text-[0.68rem] text-slate-400 mt-1">
+          <p className="text-[0.68rem] text-[var(--text-secondary)] mt-1">
             {unusedSubs.length} subscription{unusedSubs.length > 1 ? "s" : ""} not used in 30+ days: {unusedSubs.map((s) => s.name).join(", ")}. Canceling saves {formatINR(potentialSavings * 12)}/year.
           </p>
         </div>
@@ -92,52 +92,52 @@ export function SubscriptionManager() {
 
       {/* Add Form */}
       {showForm && (
-        <div className="bg-[#12131a] border border-white/[0.08] rounded-2xl p-5">
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4">
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Name</label>
-              <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="e.g. Netflix" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-violet-500/50" />
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Name</label>
+              <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="e.g. Netflix" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-violet-500/50" />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Provider</label>
-              <input type="text" value={formProvider} onChange={(e) => setFormProvider(e.target.value)} placeholder="Company" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-violet-500/50" />
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Provider</label>
+              <input type="text" value={formProvider} onChange={(e) => setFormProvider(e.target.value)} placeholder="Company" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-violet-500/50" />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Amount (Rs)</label>
-              <input type="number" value={formAmount} onChange={(e) => setFormAmount(e.target.value)} placeholder="649" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-violet-500/50 tabular-nums" />
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Amount (Rs)</label>
+              <input type="number" value={formAmount} onChange={(e) => setFormAmount(e.target.value)} placeholder="649" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-violet-500/50 tabular-nums" />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Billing</label>
-              <select value={formFreq} onChange={(e) => setFormFreq(e.target.value as Subscription["frequency"])} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-violet-500/50 appearance-none">
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Billing</label>
+              <select value={formFreq} onChange={(e) => setFormFreq(e.target.value as Subscription["frequency"])} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-violet-500/50 appearance-none">
                 <option value="monthly" className="bg-[#1a1b23]">Monthly</option>
                 <option value="quarterly" className="bg-[#1a1b23]">Quarterly</option>
                 <option value="yearly" className="bg-[#1a1b23]">Yearly</option>
               </select>
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Category</label>
-              <select value={formCategory} onChange={(e) => setFormCategory(e.target.value as Subscription["category"])} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-violet-500/50 appearance-none">
+              <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Category</label>
+              <select value={formCategory} onChange={(e) => setFormCategory(e.target.value as Subscription["category"])} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-violet-500/50 appearance-none">
                 {Object.entries(SUBSCRIPTION_CATEGORIES).map(([v, l]) => (<option key={v} value={v} className="bg-[#1a1b23]">{l}</option>))}
               </select>
             </div>
           </div>
           <div className="flex justify-end gap-2">
-            <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-lg text-slate-400 text-[0.78rem] hover:text-white transition-colors">Cancel</button>
-            <button onClick={handleAdd} className="px-5 py-2 rounded-lg bg-violet-500 text-white text-[0.78rem] font-semibold hover:bg-violet-600 transition-colors">Save</button>
+            <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-lg text-[var(--text-secondary)] text-[0.78rem] hover:text-[var(--text-heading)] transition-colors">Cancel</button>
+            <button onClick={handleAdd} className="px-5 py-2 rounded-lg bg-violet-500 text-[var(--text-heading)] text-[0.78rem] font-semibold hover:bg-violet-600 transition-colors">Save</button>
           </div>
         </div>
       )}
 
       {/* Subscription List */}
-      <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-white/[0.04]">
-          <h3 className="text-[0.85rem] font-semibold text-white">Active Subscriptions</h3>
+      <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+        <div className="px-5 py-3.5 border-b border-[var(--border-subtle)]">
+          <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">Active Subscriptions</h3>
         </div>
         {activeSubs.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-3xl mb-3">📱</div>
-            <p className="text-[0.85rem] text-slate-400">No subscriptions tracked</p>
-            <p className="text-[0.72rem] text-slate-600 mt-1">Add Netflix, Spotify, Gym, Cloud storage, etc.</p>
+            <p className="text-[0.85rem] text-[var(--text-secondary)]">No subscriptions tracked</p>
+            <p className="text-[0.72rem] text-[var(--text-muted)] mt-1">Add Netflix, Spotify, Gym, Cloud storage, etc.</p>
           </div>
         ) : (
           <div className="divide-y divide-white/[0.03]">
@@ -151,23 +151,23 @@ export function SubscriptionManager() {
                       <span className="text-[0.8rem]">{CAT_ICONS[s.category] || "📱"}</span>
                     </div>
                     <div>
-                      <p className="text-[0.82rem] text-slate-200 font-medium">{s.name}</p>
+                      <p className="text-[0.82rem] text-[var(--text-primary)] font-medium">{s.name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="text-[0.65rem] text-violet-400 font-medium">{SUBSCRIPTION_CATEGORIES[s.category]}</span>
-                        {s.provider && (<><span className="text-[0.5rem] text-slate-600">-</span><span className="text-[0.65rem] text-slate-500">{s.provider}</span></>)}
+                        {s.provider && (<><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className="text-[0.65rem] text-[var(--text-muted)]">{s.provider}</span></>)}
                         {days !== null && (
-                          <><span className="text-[0.5rem] text-slate-600">-</span><span className={`text-[0.65rem] ${isUnused ? "text-rose-400 font-medium" : "text-slate-500"}`}>Used {days}d ago{isUnused ? " (unused)" : ""}</span></>
+                          <><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className={`text-[0.65rem] ${isUnused ? "text-rose-400 font-medium" : "text-[var(--text-muted)]"}`}>Used {days}d ago{isUnused ? " (unused)" : ""}</span></>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-[0.85rem] font-semibold text-white tabular-nums">{formatINR(s.amount)}</p>
-                      <p className="text-[0.6rem] text-slate-500 capitalize">{s.frequency}</p>
+                      <p className="text-[0.85rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(s.amount)}</p>
+                      <p className="text-[0.6rem] text-[var(--text-muted)] capitalize">{s.frequency}</p>
                     </div>
                     {isUnused && <span className="text-[0.55rem] font-semibold px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">CANCEL?</span>}
-                    <button onClick={() => { deleteSubscription(s.id); refresh(); }} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 text-[0.75rem] transition-all p-1">x</button>
+                    <button onClick={() => { deleteSubscription(s.id); refresh(); }} className="opacity-0 group-hover:opacity-100 text-[var(--text-muted)] hover:text-rose-400 text-[0.75rem] transition-all p-1">x</button>
                   </div>
                 </div>
               );
@@ -175,9 +175,9 @@ export function SubscriptionManager() {
           </div>
         )}
         {activeSubs.length > 0 && (
-          <div className="px-5 py-3 border-t border-white/[0.04] bg-white/[0.01] flex items-center justify-between">
-            <span className="text-[0.68rem] text-slate-500">{activeSubs.length} active</span>
-            <span className="text-[0.78rem] font-semibold text-white tabular-nums">{formatINR(monthlyTotal)}/month</span>
+          <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+            <span className="text-[0.68rem] text-[var(--text-muted)]">{activeSubs.length} active</span>
+            <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(monthlyTotal)}/month</span>
           </div>
         )}
       </div>

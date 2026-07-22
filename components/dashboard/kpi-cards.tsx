@@ -33,7 +33,7 @@ function KpiCard({ label, value, color, subtitle, change }: KpiCardProps) {
     <div className={`relative overflow-hidden bg-[#12131a] border ${c.border} rounded-xl p-4 hover:border-white/10 transition-all duration-300 hover:-translate-y-0.5 ${c.glow} hover:shadow-lg group`}>
       {/* Top accent line */}
       <div className={`absolute top-0 left-0 right-0 h-[2px] ${c.accent} opacity-40`} />
-      <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">{label}</p>
+      <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">{label}</p>
       <div className="flex items-baseline gap-2">
         <p className={`text-[1.2rem] font-bold tracking-tight ${c.text}`}>{value}</p>
         {change !== undefined && change !== 0 && (
@@ -42,7 +42,7 @@ function KpiCard({ label, value, color, subtitle, change }: KpiCardProps) {
           </span>
         )}
       </div>
-      {subtitle && <p className="text-slate-600 text-[0.68rem] mt-1.5 font-medium">{subtitle}</p>}
+      {subtitle && <p className="text-[var(--text-muted)] text-[0.68rem] mt-1.5 font-medium">{subtitle}</p>}
     </div>
   );
 }
@@ -92,8 +92,8 @@ function pctChange(current: number, previous: number | undefined): number | unde
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-3">
-      <span className="text-slate-500 text-[10px] font-bold uppercase tracking-[1.5px]">{children}</span>
-      <div className="flex-1 h-px bg-white/[0.04]" />
+      <span className="text-[var(--text-muted)] text-[10px] font-bold uppercase tracking-[1.5px]">{children}</span>
+      <div className="flex-1 h-px bg-[var(--bg-card-hover)]" />
     </div>
   );
 }

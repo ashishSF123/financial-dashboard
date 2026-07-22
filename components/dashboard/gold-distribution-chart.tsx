@@ -22,11 +22,11 @@ export function GoldDistributionChart({ goldLoans }: GoldDistributionChartProps)
   if (data.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl p-6">
+    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
       <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.01] to-transparent pointer-events-none" />
       <div className="relative">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-white text-[0.88rem] font-semibold tracking-[-0.01em]">Gold Distribution by Bank</h3>
+          <h3 className="text-[var(--text-heading)] text-[0.88rem] font-semibold tracking-[-0.01em]">Gold Distribution by Bank</h3>
           <span className="text-[10px] text-amber-400/60 font-medium">{total.toFixed(1)}g total</span>
         </div>
         <ResponsiveContainer width="100%" height={220}>
@@ -57,7 +57,7 @@ export function GoldDistributionChart({ goldLoans }: GoldDistributionChartProps)
           {data.map((d, i) => (
             <div key={d.name} className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ background: COLORS[i % COLORS.length] }} />
-              <span className="text-[10px] text-slate-400 font-medium">{d.name}</span>
+              <span className="text-[10px] text-[var(--text-secondary)] font-medium">{d.name}</span>
             </div>
           ))}
         </div>

@@ -100,15 +100,15 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0b10] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="text-center">
           <div className="relative w-16 h-16 mx-auto mb-5">
             <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20" />
             <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-indigo-500 animate-spin" />
             <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-cyan-400 animate-spin" style={{ animationDirection: "reverse", animationDuration: "1.5s" }} />
           </div>
-          <p className="text-slate-400 text-sm font-medium">Loading financial data...</p>
-          <p className="text-slate-600 text-xs mt-1">Parsing Excel workbook</p>
+          <p className="text-[var(--text-secondary)] text-sm font-medium">Loading financial data...</p>
+          <p className="text-[var(--text-muted)] text-xs mt-1">Parsing Excel workbook</p>
         </div>
       </div>
     );
@@ -116,13 +116,13 @@ export default function DashboardPage() {
 
   if (!data || snapshots.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0a0b10] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="bg-rose-500/5 border border-rose-500/20 rounded-2xl p-8 max-w-md text-center">
           <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-4">
             <span className="text-rose-400 text-xl">!</span>
           </div>
           <p className="text-rose-300 font-medium">Failed to load financial data</p>
-          <p className="text-slate-500 text-sm mt-2">Ensure Self_finance_data.xlsx exists in the workspace directory.</p>
+          <p className="text-[var(--text-muted)] text-sm mt-2">Ensure Self_finance_data.xlsx exists in the workspace directory.</p>
         </div>
       </div>
     );
@@ -162,7 +162,7 @@ export default function DashboardPage() {
   const isCurrentMonth = currentSnapshot?.isCurrent || false;
 
   return (
-    <div className="min-h-screen bg-[#0a0b10] text-slate-200 flex">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex">
       {/* Sidebar Navigation */}
       <Sidebar activeTab={activeTab} onNavigate={setActiveTab} />
 
@@ -176,7 +176,7 @@ export default function DashboardPage() {
         />
 
         {/* Top Bar */}
-        <header className="sticky top-0 z-[50] border-b border-white/[0.04] backdrop-blur-xl bg-[#0a0b10]/90">
+        <header className="sticky top-0 z-[50] border-b border-[var(--border-subtle)] backdrop-blur-xl bg-[var(--bg-primary)]/90">
           <div className="px-8 py-3.5 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <MonthSelector
@@ -185,7 +185,7 @@ export default function DashboardPage() {
                 onSelect={setSelectedMonth}
               />
               {isCurrentMonth && (
-                <div className="flex items-center gap-1.5 text-[0.65rem] text-slate-500 bg-white/[0.03] border border-white/[0.04] rounded-full px-2.5 py-1">
+                <div className="flex items-center gap-1.5 text-[0.65rem] text-[var(--text-muted)] bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-full px-2.5 py-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>Live</span>
                 </div>
@@ -259,7 +259,7 @@ export default function DashboardPage() {
 
             {/* Charts section header */}
             <div className="flex items-center gap-4">
-              <h2 className="text-white text-base font-semibold">Financial Analysis</h2>
+              <h2 className="text-[var(--text-heading)] text-base font-semibold">Financial Analysis</h2>
               <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent" />
             </div>
 
@@ -315,12 +315,12 @@ export default function DashboardPage() {
           <div className="space-y-8">
             <BudgetTracker data={data} />
             <div className="flex items-center gap-4">
-              <h2 className="text-white text-base font-semibold">Monthly Expense Allocation</h2>
+              <h2 className="text-[var(--text-heading)] text-base font-semibold">Monthly Expense Allocation</h2>
               <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent" />
             </div>
             <BudgetAlerts selectedMonth={selectedMonth} onNavigate={setActiveTab} />
             <div className="flex items-center gap-4">
-              <h2 className="text-white text-base font-semibold">Recurring Expenses</h2>
+              <h2 className="text-[var(--text-heading)] text-base font-semibold">Recurring Expenses</h2>
               <div className="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent" />
             </div>
             <EditableTable
@@ -381,8 +381,8 @@ export default function DashboardPage() {
         )}
 
         {/* Footer */}
-        <footer className="mt-12 pt-5 border-t border-white/[0.04] text-center">
-          <p className="text-[0.65rem] text-slate-600">
+        <footer className="mt-12 pt-5 border-t border-[var(--border-subtle)] text-center">
+          <p className="text-[0.65rem] text-[var(--text-muted)]">
             Personal Finance Dashboard
           </p>
         </footer>

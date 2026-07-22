@@ -99,25 +99,25 @@ export function CommandBar({ data, metrics, onNavigate }: Props) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
 
       {/* Command palette */}
-      <div className="relative w-full max-w-lg bg-[#12131a] border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
+      <div className="relative w-full max-w-lg bg-[#12131a] border border-[var(--border-card)] rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
         {/* Search input */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06]">
-          <span className="text-slate-500 text-sm">⌘</span>
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--border-card)]">
+          <span className="text-[var(--text-muted)] text-sm">⌘</span>
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search metrics, navigate, or ask..."
-            className="flex-1 bg-transparent text-sm text-white outline-none placeholder-slate-600"
+            className="flex-1 bg-transparent text-sm text-[var(--text-heading)] outline-none placeholder-[var(--text-muted)]"
           />
-          <kbd className="text-[0.6rem] text-slate-600 bg-white/[0.04] border border-white/[0.08] rounded px-1.5 py-0.5">ESC</kbd>
+          <kbd className="text-[0.6rem] text-[var(--text-muted)] bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded px-1.5 py-0.5">ESC</kbd>
         </div>
 
         {/* Results */}
         <div className="max-h-80 overflow-y-auto py-2">
           {filtered.length === 0 && (
-            <p className="text-sm text-slate-500 text-center py-6">No results for &ldquo;{query}&rdquo;</p>
+            <p className="text-sm text-[var(--text-muted)] text-center py-6">No results for &ldquo;{query}&rdquo;</p>
           )}
           {(() => {
             let lastCategory = "";
@@ -127,14 +127,14 @@ export function CommandBar({ data, metrics, onNavigate }: Props) {
               return (
                 <div key={i}>
                   {showHeader && (
-                    <p className="text-[0.6rem] uppercase tracking-[0.08em] text-slate-600 font-medium px-4 pt-2 pb-1">{result.category}</p>
+                    <p className="text-[0.6rem] uppercase tracking-[0.08em] text-[var(--text-muted)] font-medium px-4 pt-2 pb-1">{result.category}</p>
                   )}
                   <button
                     onClick={() => handleSelect(result)}
-                    className="w-full flex items-center justify-between px-4 py-2 hover:bg-white/[0.04] transition-colors text-left"
+                    className="w-full flex items-center justify-between px-4 py-2 hover:bg-[var(--bg-card-hover)] transition-colors text-left"
                   >
-                    <span className="text-sm text-slate-300">{result.label}</span>
-                    <span className="text-xs text-slate-500">{result.value}</span>
+                    <span className="text-sm text-[var(--text-secondary)]">{result.label}</span>
+                    <span className="text-xs text-[var(--text-muted)]">{result.value}</span>
                   </button>
                 </div>
               );
@@ -143,9 +143,9 @@ export function CommandBar({ data, metrics, onNavigate }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-white/[0.06] flex items-center justify-between">
-          <span className="text-[0.6rem] text-slate-600">Navigate with ↑↓ · Select with ↵</span>
-          <span className="text-[0.6rem] text-slate-600">⌘K to toggle</span>
+        <div className="px-4 py-2 border-t border-[var(--border-card)] flex items-center justify-between">
+          <span className="text-[0.6rem] text-[var(--text-muted)]">Navigate with ↑↓ · Select with ↵</span>
+          <span className="text-[0.6rem] text-[var(--text-muted)]">⌘K to toggle</span>
         </div>
       </div>
     </div>

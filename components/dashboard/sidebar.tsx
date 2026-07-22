@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "@/lib/theme-context";
 import {
   LayoutDashboard,
   Receipt,
@@ -18,6 +19,8 @@ import {
   IndianRupee,
   LineChart,
   Repeat,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 interface NavItem {
@@ -80,24 +83,25 @@ interface Props {
 
 export function Sidebar({ activeTab, onNavigate }: Props) {
   const [collapsed, setCollapsed] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <>
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen z-[60] flex flex-col bg-[#0c0d14] border-r border-white/[0.04] transition-all duration-300 ${
+        className={`fixed top-0 left-0 h-screen z-[60] flex flex-col bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] transition-all duration-300 ${
           collapsed ? "w-16" : "w-[220px]"
         }`}
       >
         {/* Logo area */}
-        <div className={`flex items-center gap-3 px-4 py-5 border-b border-white/[0.04] ${collapsed ? "justify-center" : ""}`}>
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
-            <span className="text-indigo-400 font-bold text-sm">A</span>
+        <div className={`flex items-center gap-3 px-4 py-5 border-b border-[var(--border-subtle)] ${collapsed ? "justify-center" : ""}`}>
+          <div className="w-8 h-8 rounded-lg bg-[var(--accent-bg)] flex items-center justify-center shrink-0">
+            <span className="text-[var(--accent)] font-bold text-sm">A</span>
           </div>
           {!collapsed && (
             <div className="overflow-hidden">
-              <p className="text-[0.8rem] font-semibold text-white truncate">Ashish Finance</p>
-              <p className="text-[0.6rem] text-slate-500">Personal Dashboard</p>
+              <p className="text-[0.8rem] font-semibold text-[var(--text-heading)] truncate">Ashish Finance</p>
+              <p className="text-[0.6rem] text-[var(--text-muted)]">Personal Dashboard</p>
             </div>
           )}
         </div>
@@ -107,7 +111,7 @@ export function Sidebar({ activeTab, onNavigate }: Props) {
           {NAV_GROUPS.map((group) => (
             <div key={group.title}>
               {!collapsed && (
-                <p className="px-3 mb-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.1em] text-slate-600">
+                <p className="px-3 mb-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)]">
                   {group.title}
                 </p>
               )}
@@ -123,11 +127,11 @@ export function Sidebar({ activeTab, onNavigate }: Props) {
                         collapsed ? "justify-center px-2 py-2.5" : "px-3 py-2"
                       } ${
                         isActive
-                          ? "bg-indigo-500/[0.08] text-white border-l-2 border-indigo-400"
-                          : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03] border-l-2 border-transparent"
+                          ? "bg-[var(--accent-bg)] text-[var(--text-heading)] border-l-2 border-[var(--accent)]"
+                          : "text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)] border-l-2 border-transparent"
                       }`}
                     >
-                      <span className={`shrink-0 transition-colors ${isActive ? "text-indigo-400" : ""}`}>
+                      <span className={`shrink-0 transition-colors ${isActive ? "text-[var(--accent)]" : ""}`}>
                         {item.icon}
                       </span>
                       {!collapsed && (
@@ -141,11 +145,19 @@ export function Sidebar({ activeTab, onNavigate }: Props) {
           ))}
         </nav>
 
-        {/* Collapse toggle */}
-        <div className="border-t border-white/[0.04] p-2">
+        {/* Theme toggle + Collapse */}
+        <div className="border-t border-[var(--border-subtle)] p-2 space-y-1">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-colors"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            {!collapsed && <span className="text-[0.7rem] font-medium">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>}
+          </button>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-white/[0.03] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-colors"
           >
             {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
             {!collapsed && <span className="text-[0.7rem] font-medium">Collapse</span>}

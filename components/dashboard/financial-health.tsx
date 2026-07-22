@@ -24,17 +24,17 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
   const s = styles[healthColor];
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl p-7">
+    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-7">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.02] via-transparent to-cyan-500/[0.02] pointer-events-none" />
       
       <div className="relative">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-card)] flex items-center justify-center">
               <span className="text-sm">📊</span>
             </div>
-            <h2 className="text-white text-[0.95rem] font-semibold tracking-[-0.02em]">Financial Health Overview</h2>
+            <h2 className="text-[var(--text-heading)] text-[0.95rem] font-semibold tracking-[-0.02em]">Financial Health Overview</h2>
           </div>
           <span className={`${s.badge} border text-[0.65rem] font-bold px-3 py-1 rounded-full tracking-[0.06em] uppercase`}>
             ● {healthStatus}
@@ -44,53 +44,53 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Debt-to-Asset */}
           <div>
-            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Debt-to-Asset Ratio</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Debt-to-Asset Ratio</p>
             <p className={`text-2xl font-bold ${s.text} tracking-tight`}>{debtToAsset.toFixed(1)}%</p>
-            <div className="h-1 bg-white/[0.04] rounded-full mt-3 overflow-hidden">
+            <div className="h-1 bg-[var(--bg-card-hover)] rounded-full mt-3 overflow-hidden">
               <div className={`h-full rounded-full ${s.bar} transition-all duration-700`} style={{ width: `${Math.min(debtToAsset, 100)}%` }} />
             </div>
-            <p className="text-slate-600 text-[0.68rem] mt-1.5">Target: below 50%</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-1.5">Target: below 50%</p>
           </div>
 
           {/* Monthly Surplus */}
           <div>
-            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Monthly Surplus</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Monthly Surplus</p>
             <p className={`text-2xl font-bold tracking-tight ${monthlySurplus > 0 ? "text-emerald-400" : "text-rose-400"}`}>
               {formatINR(monthlySurplus)}
             </p>
-            <p className="text-slate-600 text-[0.68rem] mt-3">
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-3">
               Savings rate: <span className={monthlySurplus > 0 ? "text-emerald-400/80" : "text-rose-400/80"}>{savingsRate.toFixed(0)}%</span>
             </p>
-            <p className="text-slate-600 text-[0.68rem]">Income minus fixed outflows</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem]">Income minus fixed outflows</p>
           </div>
 
           {/* Net Worth */}
           <div>
-            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Net Worth</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Net Worth</p>
             <p className={`text-2xl font-bold tracking-tight ${netWorth > 0 ? "text-emerald-400" : "text-rose-400"}`}>
               {formatINR(netWorth)}
             </p>
-            <p className="text-slate-600 text-[0.68rem] mt-3">Assets minus all liabilities</p>
-            <p className="text-slate-600 text-[0.68rem]">Total assets: {formatINR(totalAssets)}</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-3">Assets minus all liabilities</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem]">Total assets: {formatINR(totalAssets)}</p>
           </div>
 
           {/* Total Liabilities */}
           <div>
-            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Total Liabilities</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Total Liabilities</p>
             <p className="text-2xl font-bold text-rose-400 tracking-tight">{formatINR(grandDebt)}</p>
-            <div className="h-1 bg-white/[0.04] rounded-full mt-3 overflow-hidden">
+            <div className="h-1 bg-[var(--bg-card-hover)] rounded-full mt-3 overflow-hidden">
               <div className="h-full rounded-full bg-rose-500 transition-all duration-700" style={{ width: `${Math.min(debtToAsset, 100)}%` }} />
             </div>
-            <p className="text-slate-600 text-[0.68rem] mt-1.5">
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-1.5">
               {((grandDebt / totalAssets) * 100).toFixed(0)}% of total assets
             </p>
           </div>
         </div>
 
         {/* Emergency Fund Monitor */}
-        <div className="mt-6 pt-5 border-t border-white/[0.04]">
+        <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-slate-500 text-[0.65rem] font-semibold uppercase tracking-[0.08em]">Emergency Fund Status</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em]">Emergency Fund Status</p>
             {(() => {
               const monthlyExpenses = monthlyCredit - monthlySurplus;
               const requiredFund = monthlyExpenses * 6;
@@ -117,22 +117,22 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
               <div>
                 <div className="grid grid-cols-3 gap-4 mb-3">
                   <div>
-                    <p className="text-[0.6rem] text-slate-500">Required (6 months)</p>
-                    <p className="text-[0.85rem] font-bold text-white">{formatINR(requiredFund)}</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">Required (6 months)</p>
+                    <p className="text-[0.85rem] font-bold text-[var(--text-heading)]">{formatINR(requiredFund)}</p>
                   </div>
                   <div>
-                    <p className="text-[0.6rem] text-slate-500">Months Covered</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">Months Covered</p>
                     <p className={`text-[0.85rem] font-bold ${coverMonths >= 6 ? "text-emerald-400" : coverMonths >= 3 ? "text-amber-400" : "text-rose-400"}`}>{coverMonths.toFixed(1)} months</p>
                   </div>
                   <div>
-                    <p className="text-[0.6rem] text-slate-500">Gap to Fill</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">Gap to Fill</p>
                     <p className={`text-[0.85rem] font-bold ${gap > 0 ? "text-rose-400" : "text-emerald-400"}`}>{gap > 0 ? formatINR(gap) : "Fully funded"}</p>
                   </div>
                 </div>
-                <div className="h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
+                <div className="h-1.5 bg-[var(--bg-card-hover)] rounded-full overflow-hidden">
                   <div className={`h-full rounded-full transition-all duration-700 ${coverMonths >= 6 ? "bg-emerald-500" : coverMonths >= 3 ? "bg-amber-500" : "bg-rose-500"}`} style={{ width: `${pct}%` }} />
                 </div>
-                <p className="text-[0.62rem] text-slate-600 mt-2">
+                <p className="text-[0.62rem] text-[var(--text-muted)] mt-2">
                   Financial experts recommend 6 months of essential expenses in liquid savings for emergencies.
                   {gap > 0 && monthlySurplus > 0 ? ` At your current surplus, ${Math.ceil(gap / monthlySurplus)} months to fully fund.` : ""}
                 </p>

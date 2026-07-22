@@ -147,14 +147,14 @@ export function InsightsFeed({ data, metrics, prevMetrics }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <h3 className="text-[0.88rem] font-semibold text-white tracking-[-0.01em]">Smart Insights</h3>
+        <h3 className="text-[0.88rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">Smart Insights</h3>
         <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400">{insights.length} insights</span>
       </div>
       <div className="space-y-2">
         {insights.map((insight, i) => (
           <div key={i} className={`flex items-start gap-3 p-3 rounded-xl border ${typeStyles[insight.type]}`}>
             <span className="text-sm mt-0.5 flex-shrink-0">{insight.icon}</span>
-            <p className="text-xs text-slate-300 leading-relaxed">{insight.text}</p>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{insight.text}</p>
           </div>
         ))}
       </div>

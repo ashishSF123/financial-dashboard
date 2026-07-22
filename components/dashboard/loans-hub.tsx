@@ -40,7 +40,7 @@ const TYPE_META: Record<string, { icon: string; label: string; color: string; bg
   business_loan: { icon: "🏢", label: "Business Loan", color: "text-orange-400", bg: "bg-orange-500/10" },
   consumer_loan: { icon: "🛒", label: "Consumer EMI", color: "text-lime-400", bg: "bg-lime-500/10" },
   peer_lending: { icon: "📱", label: "App Loan", color: "text-fuchsia-400", bg: "bg-fuchsia-500/10" },
-  custom: { icon: "📋", label: "Other", color: "text-slate-400", bg: "bg-slate-500/10" },
+  custom: { icon: "📋", label: "Other", color: "text-[var(--text-secondary)]", bg: "bg-slate-500/10" },
 };
 
 interface Props {
@@ -158,19 +158,19 @@ export function LoansHub({ data, onUpdate }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">Loans & Debt</h2>
-          <p className="text-[0.78rem] text-slate-500 mt-0.5">All liabilities in one place with payoff recommendations</p>
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)]">Loans & Debt</h2>
+          <p className="text-[0.78rem] text-[var(--text-muted)] mt-0.5">All liabilities in one place with payoff recommendations</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setStrategy("avalanche")}
-            className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${strategy === "avalanche" ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" : "text-slate-500 hover:text-slate-300"}`}
+            className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${strategy === "avalanche" ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}
           >
             Avalanche
           </button>
           <button
             onClick={() => setStrategy("snowball")}
-            className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${strategy === "snowball" ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-slate-300"}`}
+            className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${strategy === "snowball" ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}
           >
             Snowball
           </button>
@@ -179,21 +179,21 @@ export function LoansHub({ data, onUpdate }: Props) {
 
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Total Debt</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Debt</p>
           <p className="text-[1.1rem] font-bold text-rose-400 tracking-tight mt-0.5">{formatINR(totalDebt)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Monthly Outflow</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Monthly Outflow</p>
           <p className="text-[1.1rem] font-bold text-amber-400 tracking-tight mt-0.5">{formatINR(totalMonthly)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Highest Rate</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Highest Rate</p>
           <p className="text-[1.1rem] font-bold text-rose-400 tracking-tight mt-0.5">{highestRate.toFixed(1)}% p.a.</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Active Loans</p>
-          <p className="text-[1.1rem] font-bold text-white tracking-tight mt-0.5">{activeCount}</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Active Loans</p>
+          <p className="text-[1.1rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{activeCount}</p>
         </div>
       </div>
 
@@ -217,10 +217,10 @@ export function LoansHub({ data, onUpdate }: Props) {
               <span className="text-lg">🎯</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-[0.9rem] font-semibold text-white mb-1">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--text-heading)] mb-1">
                 Close &quot;{recommendation.name}&quot; first
               </h3>
-              <p className="text-[0.78rem] text-slate-400 leading-relaxed">
+              <p className="text-[0.78rem] text-[var(--text-secondary)] leading-relaxed">
                 {strategy === "avalanche" ? (
                   <>Highest interest rate at <span className="text-rose-400 font-semibold">{recommendation.interestRate.toFixed(1)}% p.a.</span> — you&apos;re paying <span className="text-amber-400 font-semibold">{formatINR(recommendation.monthlyPayment)}/mo</span> in interest alone. Closing this first saves the most money over time.</>
                 ) : (
@@ -231,7 +231,7 @@ export function LoansHub({ data, onUpdate }: Props) {
                 <span className={`text-[0.65rem] px-2.5 py-1 rounded-md font-semibold ${strategy === "avalanche" ? "bg-indigo-500/15 text-indigo-300 border border-indigo-500/20" : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/20"}`}>
                   Strategy: {strategy === "avalanche" ? "Avalanche (save most ₹)" : "Snowball (quick wins)"}
                 </span>
-                <span className="text-[0.65rem] text-slate-500">
+                <span className="text-[0.65rem] text-[var(--text-muted)]">
                   {TYPE_META[recommendation.type].icon} {TYPE_META[recommendation.type].label} • {recommendation.detail}
                 </span>
               </div>
@@ -241,13 +241,13 @@ export function LoansHub({ data, onUpdate }: Props) {
       )}
 
       {/* Section Navigation */}
-      <div className="flex items-center gap-1 bg-[#12131a] border border-white/[0.06] rounded-xl p-1.5">
+      <div className="flex items-center gap-1 bg-[#12131a] border border-[var(--border-card)] rounded-xl p-1.5">
         {sections.map((s) => (
           <button
             key={s.id}
             onClick={() => setSection(s.id)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.75rem] font-medium transition-all ${
-              section === s.id ? "bg-white/[0.08] text-white shadow-sm" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
+              section === s.id ? "bg-white/[0.08] text-[var(--text-heading)] shadow-sm" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)]"
             }`}
           >
             <span className="text-xs">{s.icon}</span>
@@ -262,16 +262,16 @@ export function LoansHub({ data, onUpdate }: Props) {
           {/* Filter pills */}
           <div className="flex items-center gap-2 flex-wrap">
             {[{ id: "all", label: "All" }, { id: "gold", label: "Gold" }, { id: "house", label: "House" }, { id: "personal", label: "Borrowed" }, { id: "credit_card", label: "Credit Card" }, { id: "personal_loan", label: "Personal" }, { id: "vehicle_loan", label: "Vehicle" }, { id: "chit_fund", label: "Chit Fund" }, { id: "mortgage", label: "Mortgage" }, { id: "education_loan", label: "Education" }, { id: "business_loan", label: "Business" }, { id: "consumer_loan", label: "Consumer" }, { id: "peer_lending", label: "App Loan" }].map((f) => (
-              <button key={f.id} onClick={() => setFilterType(f.id)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${filterType === f.id ? "bg-white/[0.08] text-white" : "text-slate-500 hover:text-slate-300"}`}>
+              <button key={f.id} onClick={() => setFilterType(f.id)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors ${filterType === f.id ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
                 {f.label}
               </button>
             ))}
           </div>
 
           {/* Prioritized list */}
-          <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-white/[0.04]">
-              <h3 className="text-[0.85rem] font-semibold text-white tracking-[-0.01em]">
+          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-[var(--border-subtle)]">
+              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
                 Payoff Priority ({strategy === "avalanche" ? "Highest Rate First" : "Smallest Balance First"})
               </h3>
             </div>
@@ -280,7 +280,7 @@ export function LoansHub({ data, onUpdate }: Props) {
               <div className="text-center py-12">
                 <div className="text-3xl mb-3">🎉</div>
                 <p className="text-[0.85rem] text-emerald-400 font-medium">Debt free!</p>
-                <p className="text-[0.72rem] text-slate-600">No active loans in this category</p>
+                <p className="text-[0.72rem] text-[var(--text-muted)]">No active loans in this category</p>
               </div>
             ) : (
               <div className="divide-y divide-white/[0.03]">
@@ -288,7 +288,7 @@ export function LoansHub({ data, onUpdate }: Props) {
                   const meta = TYPE_META[debt.type];
                   const priority = idx === 0 ? { label: "CLOSE FIRST", bg: "bg-rose-500/15", text: "text-rose-400", border: "border-rose-500/20" }
                     : idx === 1 ? { label: "NEXT", bg: "bg-amber-500/10", text: "text-amber-400", border: "border-amber-500/15" }
-                    : { label: `#${idx + 1}`, bg: "bg-white/[0.03]", text: "text-slate-500", border: "border-white/[0.06]" };
+                    : { label: `#${idx + 1}`, bg: "bg-[var(--bg-input)]", text: "text-[var(--text-muted)]", border: "border-[var(--border-card)]" };
 
                   return (
                     <div key={debt.id} className="flex items-center justify-between px-5 py-4 hover:bg-white/[0.015] transition-colors">
@@ -302,24 +302,24 @@ export function LoansHub({ data, onUpdate }: Props) {
                           <span className="text-[0.8rem]">{meta.icon}</span>
                         </div>
                         <div>
-                          <p className="text-[0.82rem] text-slate-200 font-medium">{debt.name}</p>
+                          <p className="text-[0.82rem] text-[var(--text-primary)] font-medium">{debt.name}</p>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className={`text-[0.65rem] ${meta.color} font-medium`}>{meta.label}</span>
-                            <span className="text-[0.5rem] text-slate-600">•</span>
-                            <span className="text-[0.65rem] text-slate-500">{debt.detail}</span>
+                            <span className="text-[0.5rem] text-[var(--text-muted)]">•</span>
+                            <span className="text-[0.65rem] text-[var(--text-muted)]">{debt.detail}</span>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">
-                          <p className="text-[0.85rem] font-semibold text-white tabular-nums">{formatINR(debt.balance)}</p>
-                          <p className="text-[0.65rem] text-slate-500 tabular-nums">{formatINR(debt.monthlyPayment)}/mo</p>
+                          <p className="text-[0.85rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(debt.balance)}</p>
+                          <p className="text-[0.65rem] text-[var(--text-muted)] tabular-nums">{formatINR(debt.monthlyPayment)}/mo</p>
                         </div>
                         <div className="text-right w-14">
-                          <p className={`text-[0.8rem] font-bold tabular-nums ${debt.interestRate >= 15 ? "text-rose-400" : debt.interestRate >= 10 ? "text-amber-400" : "text-slate-300"}`}>
+                          <p className={`text-[0.8rem] font-bold tabular-nums ${debt.interestRate >= 15 ? "text-rose-400" : debt.interestRate >= 10 ? "text-amber-400" : "text-[var(--text-secondary)]"}`}>
                             {debt.interestRate.toFixed(1)}%
                           </p>
-                          <p className="text-[0.6rem] text-slate-600">p.a.</p>
+                          <p className="text-[0.6rem] text-[var(--text-muted)]">p.a.</p>
                         </div>
                       </div>
                     </div>
@@ -329,23 +329,23 @@ export function LoansHub({ data, onUpdate }: Props) {
             )}
 
             {sorted.length > 0 && (
-              <div className="px-5 py-3 border-t border-white/[0.04] bg-white/[0.01] flex items-center justify-between">
-                <span className="text-[0.68rem] text-slate-500">{sorted.length} active loan{sorted.length > 1 ? "s" : ""}</span>
-                <span className="text-[0.78rem] font-semibold text-white tabular-nums">Total: {formatINR(sorted.reduce((s, d) => s + d.balance, 0))}</span>
+              <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+                <span className="text-[0.68rem] text-[var(--text-muted)]">{sorted.length} active loan{sorted.length > 1 ? "s" : ""}</span>
+                <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">Total: {formatINR(sorted.reduce((s, d) => s + d.balance, 0))}</span>
               </div>
             )}
           </div>
 
           {/* Strategy explanation */}
-          <div className="bg-[#12131a] border border-white/[0.06] rounded-xl p-4">
+          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl p-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className={`p-3 rounded-lg border ${strategy === "avalanche" ? "border-indigo-500/20 bg-indigo-500/[0.04]" : "border-white/[0.04]"}`}>
+              <div className={`p-3 rounded-lg border ${strategy === "avalanche" ? "border-indigo-500/20 bg-indigo-500/[0.04]" : "border-[var(--border-subtle)]"}`}>
                 <p className="text-[0.72rem] font-semibold text-indigo-400 mb-1">⚡ Avalanche Strategy</p>
-                <p className="text-[0.65rem] text-slate-500 leading-relaxed">Pay highest interest rate first. Saves the most money over time. Mathematically optimal.</p>
+                <p className="text-[0.65rem] text-[var(--text-muted)] leading-relaxed">Pay highest interest rate first. Saves the most money over time. Mathematically optimal.</p>
               </div>
-              <div className={`p-3 rounded-lg border ${strategy === "snowball" ? "border-emerald-500/20 bg-emerald-500/[0.04]" : "border-white/[0.04]"}`}>
+              <div className={`p-3 rounded-lg border ${strategy === "snowball" ? "border-emerald-500/20 bg-emerald-500/[0.04]" : "border-[var(--border-subtle)]"}`}>
                 <p className="text-[0.72rem] font-semibold text-emerald-400 mb-1">🏔️ Snowball Strategy</p>
-                <p className="text-[0.65rem] text-slate-500 leading-relaxed">Pay smallest balance first. Quick wins build momentum. Better for motivation.</p>
+                <p className="text-[0.65rem] text-[var(--text-muted)] leading-relaxed">Pay smallest balance first. Quick wins build momentum. Better for motivation.</p>
               </div>
             </div>
           </div>
@@ -439,52 +439,52 @@ export function LoansHub({ data, onUpdate }: Props) {
         <div className="space-y-5">
           {/* Add form */}
           {showAddForm ? (
-            <div className="bg-[#12131a] border border-white/[0.08] rounded-2xl p-5">
-              <h3 className="text-[0.9rem] font-semibold text-white mb-4">Add {LOAN_TYPE_LABELS[formType]}</h3>
+            <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--text-heading)] mb-4">Add {LOAN_TYPE_LABELS[formType]}</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Loan Type</label>
-                  <select value={formType} onChange={(e) => setFormType(e.target.value as AdditionalLoanType)} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-indigo-500/50 appearance-none">
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Loan Type</label>
+                  <select value={formType} onChange={(e) => setFormType(e.target.value as AdditionalLoanType)} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-indigo-500/50 appearance-none">
                     {Object.entries(LOAN_TYPE_LABELS).map(([v, l]) => (<option key={v} value={v} className="bg-[#1a1b23]">{l}</option>))}
                   </select>
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Name</label>
-                  <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder={formType === "credit_card" ? "e.g. HDFC Regalia" : formType === "chit_fund" ? "e.g. Mahila Chit 25L" : formType === "mortgage" ? "e.g. SBI LAP" : formType === "education_loan" ? "e.g. MBA Loan" : "Loan name"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Name</label>
+                  <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} placeholder={formType === "credit_card" ? "e.g. HDFC Regalia" : formType === "chit_fund" ? "e.g. Mahila Chit 25L" : formType === "mortgage" ? "e.g. SBI LAP" : formType === "education_loan" ? "e.g. MBA Loan" : "Loan name"} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Provider / Bank</label>
-                  <input type="text" value={formProvider} onChange={(e) => setFormProvider(e.target.value)} placeholder={formType === "chit_fund" ? "e.g. Margadarsi / Local group" : formType === "peer_lending" ? "e.g. KreditBee / MoneyTap" : "Bank / Financier"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Provider / Bank</label>
+                  <input type="text" value={formProvider} onChange={(e) => setFormProvider(e.target.value)} placeholder={formType === "chit_fund" ? "e.g. Margadarsi / Local group" : formType === "peer_lending" ? "e.g. KreditBee / MoneyTap" : "Bank / Financier"} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Outstanding (Rs)</label>
-                  <input type="number" value={formBalance} onChange={(e) => setFormBalance(e.target.value)} placeholder="0" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Outstanding (Rs)</label>
+                  <input type="number" value={formBalance} onChange={(e) => setFormBalance(e.target.value)} placeholder="0" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">{formType === "credit_card" ? "Monthly Payment" : formType === "chit_fund" ? "Monthly Installment" : "EMI"} (Rs)</label>
-                  <input type="number" value={formEmi} onChange={(e) => setFormEmi(e.target.value)} placeholder="0" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">{formType === "credit_card" ? "Monthly Payment" : formType === "chit_fund" ? "Monthly Installment" : "EMI"} (Rs)</label>
+                  <input type="number" value={formEmi} onChange={(e) => setFormEmi(e.target.value)} placeholder="0" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Interest Rate (% p.a.)</label>
-                  <input type="number" value={formRate} onChange={(e) => setFormRate(e.target.value)} placeholder={formType === "credit_card" ? "36" : formType === "chit_fund" ? "0" : "12"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Interest Rate (% p.a.)</label>
+                  <input type="number" value={formRate} onChange={(e) => setFormRate(e.target.value)} placeholder={formType === "credit_card" ? "36" : formType === "chit_fund" ? "0" : "12"} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
                 </div>
                 {formType === "credit_card" && (
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Credit Limit (Rs)</label>
-                    <input type="number" value={formLimit} onChange={(e) => setFormLimit(e.target.value)} placeholder="200000" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Credit Limit (Rs)</label>
+                    <input type="number" value={formLimit} onChange={(e) => setFormLimit(e.target.value)} placeholder="200000" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
                   </div>
                 )}
                 {formType !== "credit_card" && (
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">{formType === "chit_fund" ? "Total Months" : "Tenure (months)"}</label>
-                    <input type="number" value={formTenure} onChange={(e) => setFormTenure(e.target.value)} placeholder={formType === "chit_fund" ? "25" : "36"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 tabular-nums" />
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">{formType === "chit_fund" ? "Total Months" : "Tenure (months)"}</label>
+                    <input type="number" value={formTenure} onChange={(e) => setFormTenure(e.target.value)} placeholder={formType === "chit_fund" ? "25" : "36"} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 tabular-nums" />
                   </div>
                 )}
               </div>
               <div className="flex justify-end gap-2">
-                <button onClick={() => setShowAddForm(false)} className="px-3 py-2 rounded-lg text-slate-400 text-[0.78rem] hover:text-white transition-colors">Cancel</button>
+                <button onClick={() => setShowAddForm(false)} className="px-3 py-2 rounded-lg text-[var(--text-secondary)] text-[0.78rem] hover:text-[var(--text-heading)] transition-colors">Cancel</button>
                 <button onClick={() => {
                   if (!formName || !formBalance) return;
                   addAdditionalLoan({
@@ -501,7 +501,7 @@ export function LoansHub({ data, onUpdate }: Props) {
                   setFormName(""); setFormProvider(""); setFormBalance(""); setFormEmi(""); setFormRate(""); setFormLimit(""); setFormTenure("");
                   setShowAddForm(false);
                   refreshLoans();
-                }} className="px-5 py-2 rounded-lg bg-indigo-500 text-white text-[0.78rem] font-semibold hover:bg-indigo-600 transition-colors">Save</button>
+                }} className="px-5 py-2 rounded-lg bg-indigo-500 text-[var(--text-heading)] text-[0.78rem] font-semibold hover:bg-indigo-600 transition-colors">Save</button>
               </div>
             </div>
           ) : (
@@ -513,16 +513,16 @@ export function LoansHub({ data, onUpdate }: Props) {
           )}
 
           {/* Grouped by type */}
-          <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-white/[0.04] flex items-center justify-between">
-              <h3 className="text-[0.85rem] font-semibold text-white">All Loans & Dues</h3>
-              <span className="text-[0.65rem] text-slate-500">{additionalLoans.length} entries</span>
+          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
+              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">All Loans & Dues</h3>
+              <span className="text-[0.65rem] text-[var(--text-muted)]">{additionalLoans.length} entries</span>
             </div>
             {additionalLoans.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-3xl mb-3">💳</div>
-                <p className="text-[0.85rem] text-slate-400">No additional loans added</p>
-                <p className="text-[0.72rem] text-slate-600 mt-1">Add credit cards, chit funds, vehicle loans, education loans, and more</p>
+                <p className="text-[0.85rem] text-[var(--text-secondary)]">No additional loans added</p>
+                <p className="text-[0.72rem] text-[var(--text-muted)] mt-1">Add credit cards, chit funds, vehicle loans, education loans, and more</p>
               </div>
             ) : (
               <div className="divide-y divide-white/[0.03]">
@@ -535,22 +535,22 @@ export function LoansHub({ data, onUpdate }: Props) {
                           <span className="text-[0.8rem]">{meta.icon}</span>
                         </div>
                         <div>
-                          <p className="text-[0.82rem] text-slate-200 font-medium">{l.name}</p>
+                          <p className="text-[0.82rem] text-[var(--text-primary)] font-medium">{l.name}</p>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className={`text-[0.65rem] ${meta.color} font-medium`}>{meta.label}</span>
-                            {l.provider && (<><span className="text-[0.5rem] text-slate-600">-</span><span className="text-[0.65rem] text-slate-500">{l.provider}</span></>)}
-                            {l.interestRate > 0 && (<><span className="text-[0.5rem] text-slate-600">-</span><span className="text-[0.65rem] text-slate-500">{l.interestRate}% p.a.</span></>)}
-                            {l.tenureMonths && (<><span className="text-[0.5rem] text-slate-600">-</span><span className="text-[0.65rem] text-slate-500">{l.tenureMonths} months</span></>)}
-                            {l.creditLimit && (<><span className="text-[0.5rem] text-slate-600">-</span><span className="text-[0.65rem] text-slate-500">Limit: {formatINR(l.creditLimit)}</span></>)}
+                            {l.provider && (<><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className="text-[0.65rem] text-[var(--text-muted)]">{l.provider}</span></>)}
+                            {l.interestRate > 0 && (<><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className="text-[0.65rem] text-[var(--text-muted)]">{l.interestRate}% p.a.</span></>)}
+                            {l.tenureMonths && (<><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className="text-[0.65rem] text-[var(--text-muted)]">{l.tenureMonths} months</span></>)}
+                            {l.creditLimit && (<><span className="text-[0.5rem] text-[var(--text-muted)]">-</span><span className="text-[0.65rem] text-[var(--text-muted)]">Limit: {formatINR(l.creditLimit)}</span></>)}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <p className="text-[0.85rem] font-semibold text-white tabular-nums">{formatINR(l.outstandingBalance)}</p>
-                          {l.emiAmount > 0 && <p className="text-[0.65rem] text-slate-500 tabular-nums">{formatINR(l.emiAmount)}/mo</p>}
+                          <p className="text-[0.85rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(l.outstandingBalance)}</p>
+                          {l.emiAmount > 0 && <p className="text-[0.65rem] text-[var(--text-muted)] tabular-nums">{formatINR(l.emiAmount)}/mo</p>}
                         </div>
-                        <button onClick={() => { deleteAdditionalLoan(l.id); refreshLoans(); }} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 text-[0.75rem] transition-all p-1" title="Delete">x</button>
+                        <button onClick={() => { deleteAdditionalLoan(l.id); refreshLoans(); }} className="opacity-0 group-hover:opacity-100 text-[var(--text-muted)] hover:text-rose-400 text-[0.75rem] transition-all p-1" title="Delete">x</button>
                       </div>
                     </div>
                   );
@@ -558,9 +558,9 @@ export function LoansHub({ data, onUpdate }: Props) {
               </div>
             )}
             {additionalLoans.length > 0 && (
-              <div className="px-5 py-3 border-t border-white/[0.04] bg-white/[0.01] flex items-center justify-between">
-                <span className="text-[0.68rem] text-slate-500">{additionalLoans.length} loan{additionalLoans.length > 1 ? "s" : ""}</span>
-                <span className="text-[0.78rem] font-semibold text-white tabular-nums">Total: {formatINR(additionalLoans.reduce((s, l) => s + l.outstandingBalance, 0))}</span>
+              <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
+                <span className="text-[0.68rem] text-[var(--text-muted)]">{additionalLoans.length} loan{additionalLoans.length > 1 ? "s" : ""}</span>
+                <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">Total: {formatINR(additionalLoans.reduce((s, l) => s + l.outstandingBalance, 0))}</span>
               </div>
             )}
           </div>

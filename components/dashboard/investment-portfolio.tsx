@@ -200,10 +200,10 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
+          <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)]">
             Portfolio & Assets
           </h2>
-          <p className="text-[0.78rem] text-slate-500 mt-0.5">
+          <p className="text-[0.78rem] text-[var(--text-muted)] mt-0.5">
             Unified view of investments, property, and insurance
           </p>
         </div>
@@ -219,34 +219,34 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
       {/* Combined KPIs */}
       <div className="grid grid-cols-5 gap-3">
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Total Invested</p>
-          <p className="text-[1.05rem] font-bold text-white tracking-tight mt-0.5">{formatINR(summary?.totalInvested || 0)}</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Total Invested</p>
+          <p className="text-[1.05rem] font-bold text-[var(--text-heading)] tracking-tight mt-0.5">{formatINR(summary?.totalInvested || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Current Value</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Current Value</p>
           <p className="text-[1.05rem] font-bold text-emerald-400 tracking-tight mt-0.5">{formatINR(summary?.totalCurrent || 0)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Net Worth</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Net Worth</p>
           <p className="text-[1.05rem] font-bold text-indigo-400 tracking-tight mt-0.5">{formatINR(totalNetWorth)}</p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Returns</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Returns</p>
           <p className={`text-[1.05rem] font-bold tracking-tight mt-0.5 ${(summary?.gainPct || 0) >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
             {(summary?.gainPct || 0) >= 0 ? "+" : ""}{(summary?.gainPct || 0).toFixed(1)}%
           </p>
         </div>
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-xl px-4 py-3">
-          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500">Insurance</p>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-xl px-4 py-3">
+          <p className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)]">Insurance</p>
           <p className="text-[1.05rem] font-bold text-cyan-400 tracking-tight mt-0.5">{formatINR(insuranceCoverage)}</p>
         </div>
       </div>
 
       {/* Combined Asset Allocation */}
       {allocation.length > 0 && (
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl p-5">
-          <h3 className="text-[0.85rem] font-semibold text-white tracking-[-0.01em] mb-4">Asset Allocation</h3>
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
+          <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em] mb-4">Asset Allocation</h3>
           <div className="h-3 rounded-full overflow-hidden flex mb-4">
             {allocation.map((a) => {
               const color = TYPE_COLORS[a.type]?.text.replace("text-", "bg-")
@@ -265,8 +265,8 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
                 <div key={a.type} className="flex items-center gap-2">
                   <span className={`w-2.5 h-2.5 rounded-sm ${dotColor}`} />
                   <div>
-                    <span className="text-[0.68rem] text-slate-300">{a.label}</span>
-                    <span className="text-[0.62rem] text-slate-500 ml-1.5">{a.pct.toFixed(0)}% • {formatINR(a.value)}</span>
+                    <span className="text-[0.68rem] text-[var(--text-secondary)]">{a.label}</span>
+                    <span className="text-[0.62rem] text-[var(--text-muted)] ml-1.5">{a.pct.toFixed(0)}% • {formatINR(a.value)}</span>
                   </div>
                 </div>
               );
@@ -282,15 +282,15 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
       />
 
       {/* Section Navigation */}
-      <div className="flex items-center gap-1 bg-[#12131a] border border-white/[0.06] rounded-xl p-1.5">
+      <div className="flex items-center gap-1 bg-[#12131a] border border-[var(--border-card)] rounded-xl p-1.5">
         {sections.map((s) => (
           <button
             key={s.id}
             onClick={() => setSection(s.id)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.75rem] font-medium transition-all ${
               section === s.id
-                ? "bg-white/[0.08] text-white shadow-sm"
-                : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
+                ? "bg-white/[0.08] text-[var(--text-heading)] shadow-sm"
+                : "text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)]"
             }`}
           >
             <span className="text-xs">{s.icon}</span>
@@ -304,41 +304,41 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
         <div className="space-y-5">
           {/* Add Form */}
           {showForm && (
-            <div className="bg-[#12131a] border border-white/[0.08] rounded-2xl p-5">
+            <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-lg">{TYPE_ICONS[form.type] || "💼"}</span>
-                <h3 className="text-[0.9rem] font-semibold text-white">Add {INVESTMENT_TYPE_LABELS[form.type]}</h3>
+                <h3 className="text-[0.9rem] font-semibold text-[var(--text-heading)]">Add {INVESTMENT_TYPE_LABELS[form.type]}</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Type</label>
-                  <select value={form.type} onChange={(e) => updateForm({ type: e.target.value as InvestmentType })} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-emerald-500/50 appearance-none">
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Type</label>
+                  <select value={form.type} onChange={(e) => updateForm({ type: e.target.value as InvestmentType })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
                     {Object.entries(INVESTMENT_TYPE_LABELS).map(([val, label]) => (
-                      <option key={val} value={val} className="bg-[#1a1b23] text-white">{TYPE_ICONS[val]} {label}</option>
+                      <option key={val} value={val} className="bg-[#1a1b23] text-[var(--text-heading)]">{TYPE_ICONS[val]} {label}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Name</label>
-                  <input type="text" value={form.name} onChange={(e) => updateForm({ name: e.target.value })} placeholder={form.type === "mutual_fund" ? "e.g. Axis Bluechip Fund" : form.type === "stock" ? "e.g. Reliance Industries" : "Investment name"} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Name</label>
+                  <input type="text" value={form.name} onChange={(e) => updateForm({ name: e.target.value })} placeholder={form.type === "mutual_fund" ? "e.g. Axis Bluechip Fund" : form.type === "stock" ? "e.g. Reliance Industries" : "Investment name"} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Provider</label>
-                  <input type="text" value={form.provider} onChange={(e) => updateForm({ provider: e.target.value })} placeholder="AMC / Broker / Bank" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Provider</label>
+                  <input type="text" value={form.provider} onChange={(e) => updateForm({ provider: e.target.value })} placeholder="AMC / Broker / Bank" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Invested Amount (₹)</label>
-                  <input type="number" value={form.invested} onChange={(e) => updateForm({ invested: e.target.value })} placeholder="0" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 tabular-nums" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Invested Amount (₹)</label>
+                  <input type="number" value={form.invested} onChange={(e) => updateForm({ invested: e.target.value })} placeholder="0" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50 tabular-nums" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Current Value (₹)</label>
-                  <input type="number" value={form.current} onChange={(e) => updateForm({ current: e.target.value })} placeholder="Same as invested if blank" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 tabular-nums" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Current Value (₹)</label>
+                  <input type="number" value={form.current} onChange={(e) => updateForm({ current: e.target.value })} placeholder="Same as invested if blank" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50 tabular-nums" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Frequency</label>
-                  <select value={form.frequency} onChange={(e) => updateForm({ frequency: e.target.value as InvestmentHolding["frequency"] })} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-emerald-500/50 appearance-none">
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Frequency</label>
+                  <select value={form.frequency} onChange={(e) => updateForm({ frequency: e.target.value as InvestmentHolding["frequency"] })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50 appearance-none">
                     <option value="Monthly" className="bg-[#1a1b23]">Monthly (SIP)</option>
                     <option value="Quarterly" className="bg-[#1a1b23]">Quarterly</option>
                     <option value="Yearly" className="bg-[#1a1b23]">Yearly</option>
@@ -349,52 +349,52 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
                 {typeConfig.showUnits && (
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">{typeConfig.unitLabel}</label>
-                    <input type="number" value={form.units} onChange={(e) => updateForm({ units: e.target.value })} placeholder="0" step="0.0001" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 tabular-nums" />
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">{typeConfig.unitLabel}</label>
+                    <input type="number" value={form.units} onChange={(e) => updateForm({ units: e.target.value })} placeholder="0" step="0.0001" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50 tabular-nums" />
                   </div>
                 )}
                 {typeConfig.showRate && (
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">{typeConfig.rateLabel}</label>
-                    <input type="number" value={form.rate} onChange={(e) => updateForm({ rate: e.target.value })} placeholder="0" step="0.01" className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 tabular-nums" />
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">{typeConfig.rateLabel}</label>
+                    <input type="number" value={form.rate} onChange={(e) => updateForm({ rate: e.target.value })} placeholder="0" step="0.01" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-emerald-500/50 tabular-nums" />
                   </div>
                 )}
                 <div>
-                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Start Date</label>
-                  <input type="date" value={form.startDate} onChange={(e) => updateForm({ startDate: e.target.value })} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-emerald-500/50" />
+                  <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Start Date</label>
+                  <input type="date" value={form.startDate} onChange={(e) => updateForm({ startDate: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50" />
                 </div>
                 {typeConfig.showMaturity && (
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-slate-500 mb-1.5 block">Maturity Date</label>
-                    <input type="date" value={form.maturityDate} onChange={(e) => updateForm({ maturityDate: e.target.value })} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[0.85rem] text-white focus:outline-none focus:border-emerald-500/50" />
+                    <label className="text-[0.6rem] uppercase tracking-[0.08em] font-semibold text-[var(--text-muted)] mb-1.5 block">Maturity Date</label>
+                    <input type="date" value={form.maturityDate} onChange={(e) => updateForm({ maturityDate: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-[0.85rem] text-[var(--text-heading)] focus:outline-none focus:border-emerald-500/50" />
                   </div>
                 )}
               </div>
               <div className="flex justify-end gap-2">
-                <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-lg text-slate-400 text-[0.78rem] hover:text-white transition-colors">Cancel</button>
-                <button onClick={handleAdd} className="px-5 py-2 rounded-lg bg-emerald-500 text-white text-[0.78rem] font-semibold hover:bg-emerald-600 transition-colors">Save {INVESTMENT_TYPE_LABELS[form.type]}</button>
+                <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-lg text-[var(--text-secondary)] text-[0.78rem] hover:text-[var(--text-heading)] transition-colors">Cancel</button>
+                <button onClick={handleAdd} className="px-5 py-2 rounded-lg bg-emerald-500 text-[var(--text-heading)] text-[0.78rem] font-semibold hover:bg-emerald-600 transition-colors">Save {INVESTMENT_TYPE_LABELS[form.type]}</button>
               </div>
             </div>
           )}
 
           {/* Filter Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
-            <button onClick={() => setFilterType("all")} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === "all" ? "bg-white/[0.08] text-white" : "text-slate-500 hover:text-slate-300"}`}>All</button>
+            <button onClick={() => setFilterType("all")} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === "all" ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>All</button>
             {Object.entries(INVESTMENT_TYPE_LABELS).map(([type, label]) => (
-              <button key={type} onClick={() => setFilterType(type)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === type ? "bg-white/[0.08] text-white" : "text-slate-500 hover:text-slate-300"}`}>
+              <button key={type} onClick={() => setFilterType(type)} className={`px-3 py-1.5 rounded-lg text-[0.7rem] font-medium transition-colors whitespace-nowrap ${filterType === type ? "bg-white/[0.08] text-[var(--text-heading)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"}`}>
                 {TYPE_ICONS[type]} {label}
               </button>
             ))}
           </div>
 
           {/* Holdings List */}
-          <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-white/[0.04] flex items-center justify-between">
-              <h3 className="text-[0.85rem] font-semibold text-white tracking-[-0.01em]">
+          <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
+              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">
                 Holdings {filterType !== "all" && `— ${INVESTMENT_TYPE_LABELS[filterType as InvestmentType] || filterType}`}
               </h3>
               {filterType !== "all" && (
-                <button onClick={() => openFormForType(filterType as InvestmentType)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.06] text-slate-400 text-[0.68rem] font-medium hover:bg-white/[0.08] hover:text-white transition-colors">
+                <button onClick={() => openFormForType(filterType as InvestmentType)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] text-[0.68rem] font-medium hover:bg-white/[0.08] hover:text-[var(--text-heading)] transition-colors">
                   <span className="text-xs">+</span> Add {INVESTMENT_TYPE_LABELS[filterType as InvestmentType]}
                 </button>
               )}
@@ -403,8 +403,8 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
             {holdings.length === 0 ? (
               <div className="text-center py-12 px-6">
                 <div className="text-3xl mb-3">{filterType !== "all" ? TYPE_ICONS[filterType] || "💼" : "💼"}</div>
-                <p className="text-[0.85rem] text-slate-400 mb-1">{filterType !== "all" ? `No ${INVESTMENT_TYPE_LABELS[filterType as InvestmentType]} holdings yet` : "No investments added yet"}</p>
-                <p className="text-[0.72rem] text-slate-600 mb-4">Add your first investment to start tracking</p>
+                <p className="text-[0.85rem] text-[var(--text-secondary)] mb-1">{filterType !== "all" ? `No ${INVESTMENT_TYPE_LABELS[filterType as InvestmentType]} holdings yet` : "No investments added yet"}</p>
+                <p className="text-[0.72rem] text-[var(--text-muted)] mb-4">Add your first investment to start tracking</p>
                 <button onClick={() => openFormForType(filterType !== "all" ? filterType as InvestmentType : undefined)} className="px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[0.75rem] font-medium hover:bg-emerald-500/30 transition-colors">
                   + Add {filterType !== "all" ? INVESTMENT_TYPE_LABELS[filterType as InvestmentType] : "Investment"}
                 </button>
@@ -422,26 +422,26 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
                           <span className="text-[0.8rem]">{TYPE_ICONS[h.type] || "💼"}</span>
                         </div>
                         <div>
-                          <p className="text-[0.82rem] text-slate-200 font-medium">{h.name}</p>
+                          <p className="text-[0.82rem] text-[var(--text-primary)] font-medium">{h.name}</p>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className={`text-[0.65rem] ${tc?.text || "text-slate-400"} font-medium`}>{INVESTMENT_TYPE_LABELS[h.type]}</span>
-                            {h.provider && (<><span className="text-[0.5rem] text-slate-600">•</span><span className="text-[0.65rem] text-slate-500">{h.provider}</span></>)}
-                            {h.frequency && (<><span className="text-[0.5rem] text-slate-600">•</span><span className="text-[0.65rem] text-slate-500">{h.frequency}</span></>)}
-                            {h.units && (<><span className="text-[0.5rem] text-slate-600">•</span><span className="text-[0.65rem] text-slate-500">{h.units} units</span></>)}
+                            <span className={`text-[0.65rem] ${tc?.text || "text-[var(--text-secondary)]"} font-medium`}>{INVESTMENT_TYPE_LABELS[h.type]}</span>
+                            {h.provider && (<><span className="text-[0.5rem] text-[var(--text-muted)]">•</span><span className="text-[0.65rem] text-[var(--text-muted)]">{h.provider}</span></>)}
+                            {h.frequency && (<><span className="text-[0.5rem] text-[var(--text-muted)]">•</span><span className="text-[0.65rem] text-[var(--text-muted)]">{h.frequency}</span></>)}
+                            {h.units && (<><span className="text-[0.5rem] text-[var(--text-muted)]">•</span><span className="text-[0.65rem] text-[var(--text-muted)]">{h.units} units</span></>)}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-5">
                         <div className="text-right">
-                          <p className="text-[0.85rem] font-semibold text-white tabular-nums">{formatINR(h.currentValue)}</p>
+                          <p className="text-[0.85rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(h.currentValue)}</p>
                           {h.investedAmount > 0 && (
                             <p className={`text-[0.65rem] font-medium tabular-nums ${gain >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
                               {gain >= 0 ? "+" : ""}{formatINR(Math.abs(gain))} ({gainPct >= 0 ? "+" : ""}{gainPct.toFixed(1)}%)
                             </p>
                           )}
-                          {h.investedAmount === 0 && <p className="text-[0.65rem] text-slate-500">Inv: ₹0</p>}
+                          {h.investedAmount === 0 && <p className="text-[0.65rem] text-[var(--text-muted)]">Inv: ₹0</p>}
                         </div>
-                        <button onClick={() => handleDelete(h.id)} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 text-[0.75rem] transition-all p-1" title="Delete">×</button>
+                        <button onClick={() => handleDelete(h.id)} className="opacity-0 group-hover:opacity-100 text-[var(--text-muted)] hover:text-rose-400 text-[0.75rem] transition-all p-1" title="Delete">×</button>
                       </div>
                     </div>
                   );
@@ -450,12 +450,12 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
             )}
 
             {holdings.length > 0 && (
-              <div className="px-5 py-3 border-t border-white/[0.04] bg-white/[0.01] flex items-center justify-between">
+              <div className="px-5 py-3 border-t border-[var(--border-subtle)] bg-white/[0.01] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-[0.68rem] text-slate-500">{holdings.length} holding{holdings.length > 1 ? "s" : ""}</span>
+                  <span className="text-[0.68rem] text-[var(--text-muted)]">{holdings.length} holding{holdings.length > 1 ? "s" : ""}</span>
                   <button onClick={() => openFormForType(filterType !== "all" ? filterType as InvestmentType : undefined)} className="text-[0.65rem] text-emerald-400/70 hover:text-emerald-300 font-medium transition-colors">+ Add more</button>
                 </div>
-                <span className="text-[0.78rem] font-semibold text-white tabular-nums">Total: {formatINR(holdings.reduce((s, h) => s + h.currentValue, 0))}</span>
+                <span className="text-[0.78rem] font-semibold text-[var(--text-heading)] tabular-nums">Total: {formatINR(holdings.reduce((s, h) => s + h.currentValue, 0))}</span>
               </div>
             )}
           </div>
@@ -500,10 +500,10 @@ export function InvestmentPortfolio({ data, onUpdate }: Props) {
 
       {/* Empty state for asset sections without data */}
       {section !== "investments" && (!data || !onUpdate) && (
-        <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl text-center py-12 px-6">
+        <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl text-center py-12 px-6">
           <div className="text-3xl mb-3">{sections.find((s) => s.id === section)?.icon}</div>
-          <p className="text-[0.85rem] text-slate-400 mb-1">No data loaded</p>
-          <p className="text-[0.72rem] text-slate-600">Upload your financial data file to see {section.replace("-", " ")} details</p>
+          <p className="text-[0.85rem] text-[var(--text-secondary)] mb-1">No data loaded</p>
+          <p className="text-[0.72rem] text-[var(--text-muted)]">Upload your financial data file to see {section.replace("-", " ")} details</p>
         </div>
       )}
     </div>

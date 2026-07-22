@@ -23,7 +23,7 @@ export function AIInsightsCard({ insights, title = "AI Insights" }: Props) {
   const criticalCount = insights.filter((i) => i.type === "critical" || i.type === "warning").length;
 
   return (
-    <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl overflow-hidden">
+    <div className="bg-[#12131a] border border-[var(--border-card)] rounded-2xl overflow-hidden">
       {/* Header */}
       <button
         onClick={() => setExpanded(!expanded)}
@@ -33,8 +33,8 @@ export function AIInsightsCard({ insights, title = "AI Insights" }: Props) {
           <div className="w-7 h-7 rounded-lg bg-indigo-500/10 flex items-center justify-center">
             <span className="text-indigo-400 text-[0.7rem] font-bold">AI</span>
           </div>
-          <h3 className="text-[0.85rem] font-semibold text-white tracking-[-0.01em]">{title}</h3>
-          <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-white/[0.06] text-slate-400 font-medium">
+          <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] tracking-[-0.01em]">{title}</h3>
+          <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-[var(--bg-card-hover)] text-[var(--text-secondary)] font-medium">
             {insights.length}
           </span>
           {criticalCount > 0 && (
@@ -43,7 +43,7 @@ export function AIInsightsCard({ insights, title = "AI Insights" }: Props) {
             </span>
           )}
         </div>
-        <span className="text-slate-500 text-[0.7rem]">{expanded ? "▴" : "▾"}</span>
+        <span className="text-[var(--text-muted)] text-[0.7rem]">{expanded ? "▴" : "▾"}</span>
       </button>
 
       {/* Insights list */}
@@ -58,12 +58,12 @@ export function AIInsightsCard({ insights, title = "AI Insights" }: Props) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-[0.75rem] font-semibold text-slate-200">{insight.title}</p>
+                    <p className="text-[0.75rem] font-semibold text-[var(--text-primary)]">{insight.title}</p>
                     {insight.metric && (
-                      <span className="text-[0.6rem] font-mono font-semibold text-slate-400 shrink-0">{insight.metric}</span>
+                      <span className="text-[0.6rem] font-mono font-semibold text-[var(--text-secondary)] shrink-0">{insight.metric}</span>
                     )}
                   </div>
-                  <p className="text-[0.68rem] text-slate-400 leading-relaxed mt-0.5">{insight.description}</p>
+                  <p className="text-[0.68rem] text-[var(--text-secondary)] leading-relaxed mt-0.5">{insight.description}</p>
                 </div>
               </div>
             );

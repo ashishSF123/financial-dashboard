@@ -23,11 +23,11 @@ export function CashFlowChart({ credit, houseEmi, goldInterest, borrowedInterest
   ];
 
   return (
-    <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl p-6">
+    <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.01] to-transparent pointer-events-none" />
       <div className="relative">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-white text-[0.88rem] font-semibold tracking-[-0.01em]">Monthly Cash Flow</h3>
+          <h3 className="text-[var(--text-heading)] text-[0.88rem] font-semibold tracking-[-0.01em]">Monthly Cash Flow</h3>
           <span className={`text-[10px] font-semibold ${net >= 0 ? "text-emerald-400/70" : "text-rose-400/70"}`}>
             Net: {formatINR(net)}
           </span>

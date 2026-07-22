@@ -34,27 +34,27 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
     <div className="space-y-6 max-w-3xl">
       {/* Header */}
       <div>
-        <h2 className="text-white text-lg font-semibold tracking-tight">Global Settings</h2>
-        <p className="text-slate-500 text-[11px] mt-0.5 font-medium">
+        <h2 className="text-[var(--text-heading)] text-lg font-semibold tracking-tight">Global Settings</h2>
+        <p className="text-[var(--text-muted)] text-[11px] mt-0.5 font-medium">
           Update these values to instantly recalculate all dashboard metrics.
         </p>
       </div>
 
       {/* Main Settings */}
-      <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl p-6">
+      <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.01] to-transparent pointer-events-none" />
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Monthly Credit */}
           <div>
-            <label className="text-slate-400 text-[10px] font-bold uppercase tracking-[1px] block mb-2.5">Monthly Credit Income</label>
+            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2.5">Monthly Credit Income</label>
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-xs">₹</span>
                 <input
                   type="number"
                   value={creditVal}
                   onChange={(e) => setCreditVal(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg pl-7 pr-3 py-2.5 text-sm text-white outline-none focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/10 transition-all"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg pl-7 pr-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/10 transition-all"
                 />
               </div>
               <button
@@ -64,20 +64,20 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                 {saved === "credit" ? "✓ Saved" : "Apply"}
               </button>
             </div>
-            <p className="text-slate-600 text-[9px] mt-2 font-medium">Current: {formatINR(monthlyCredit)} (Salary + Rentals)</p>
+            <p className="text-[var(--text-muted)] text-[9px] mt-2 font-medium">Current: {formatINR(monthlyCredit)} (Salary + Rentals)</p>
           </div>
 
           {/* Gold Rate */}
           <div>
-            <label className="text-slate-400 text-[10px] font-bold uppercase tracking-[1px] block mb-2.5">Gold Rate (22ct / gram)</label>
+            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2.5">Gold Rate (22ct / gram)</label>
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-xs">₹</span>
                 <input
                   type="number"
                   value={goldRateVal}
                   onChange={(e) => setGoldRateVal(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg pl-7 pr-3 py-2.5 text-sm text-white outline-none focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 transition-all"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg pl-7 pr-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 transition-all"
                 />
               </div>
               <button
@@ -87,19 +87,19 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                 {saved === "gold" ? "✓ Saved" : "Apply"}
               </button>
             </div>
-            <p className="text-slate-600 text-[9px] mt-2 font-medium">Current: ₹{goldRate.toLocaleString("en-IN")}/gram</p>
+            <p className="text-[var(--text-muted)] text-[9px] mt-2 font-medium">Current: ₹{goldRate.toLocaleString("en-IN")}/gram</p>
           </div>
         </div>
       </div>
 
       {/* Lease Liabilities */}
-      <div className="relative overflow-hidden bg-[#12131a] border border-white/[0.06] rounded-2xl p-6">
+      <div className="relative overflow-hidden bg-[#12131a] border border-[var(--border-card)] rounded-2xl p-6">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.01] to-transparent pointer-events-none" />
         <div className="relative">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h3 className="text-white text-[0.88rem] font-semibold tracking-[-0.01em]">Lease Liabilities</h3>
-              <p className="text-slate-500 text-[10px] mt-0.5">Zero-interest principal obligations</p>
+              <h3 className="text-[var(--text-heading)] text-[0.88rem] font-semibold tracking-[-0.01em]">Lease Liabilities</h3>
+              <p className="text-[var(--text-muted)] text-[10px] mt-0.5">Zero-interest principal obligations</p>
             </div>
             <span className="text-[10px] text-cyan-400/60 font-semibold">
               Total: {formatINR(leaseVals.reduce((s, l) => s + (parseFloat(l.amount) || 0), 0))}
@@ -117,11 +117,11 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                     updated[idx] = { ...updated[idx], name: e.target.value };
                     setLeaseVals(updated);
                   }}
-                  className="w-40 bg-white/[0.03] border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-cyan-500/30 transition-all"
+                  className="w-40 bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2 text-xs text-[var(--text-heading)] outline-none focus:border-cyan-500/30 transition-all"
                   placeholder="Name"
                 />
                 <div className="relative flex-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-[10px]">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-[10px]">₹</span>
                   <input
                     type="number"
                     value={lease.amount}
@@ -130,7 +130,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                       updated[idx] = { ...updated[idx], amount: e.target.value };
                       setLeaseVals(updated);
                     }}
-                    className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg pl-7 pr-3 py-2 text-xs text-white outline-none focus:border-cyan-500/30 transition-all"
+                    className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg pl-7 pr-3 py-2 text-xs text-[var(--text-heading)] outline-none focus:border-cyan-500/30 transition-all"
                   />
                 </div>
                 <button
@@ -143,7 +143,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             ))}
           </div>
 
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.04]">
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-subtle)]">
             <button
               onClick={() => setLeaseVals([...leaseVals, { name: "", amount: "0" }])}
               className="text-cyan-400/70 text-[11px] font-medium hover:text-cyan-300 transition-colors"
@@ -167,7 +167,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             <span className="text-indigo-400 text-[10px]">i</span>
           </div>
           <div>
-            <p className="text-slate-400 text-[11px] font-medium leading-relaxed">
+            <p className="text-[var(--text-secondary)] text-[11px] font-medium leading-relaxed">
               All changes are reflected instantly across the entire dashboard. KPI cards, health indicators, and charts update in real-time when you modify any value here or in the data tables.
             </p>
           </div>
