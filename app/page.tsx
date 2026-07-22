@@ -23,6 +23,7 @@ import { InsightsFeed } from "@/components/dashboard/insights-feed";
 import { DailyExpenseTracker } from "@/components/dashboard/daily-expense-tracker";
 import { InvestmentPortfolio } from "@/components/dashboard/investment-portfolio";
 import { BudgetAlerts } from "@/components/dashboard/budget-alerts";
+import { Sidebar } from "@/components/dashboard/sidebar";
 import type { FinancialData } from "@/lib/parse-excel";
 
 interface MonthlySnapshot {
@@ -157,114 +158,63 @@ export default function DashboardPage() {
   const { totalGoldDebt, totalHouseLoan, totalBorrowed, totalLended, totalLease, grandDebt, monthlyGoldInterest, monthlyHouseEmi, monthlyBorrowedInterest, monthlyLendedInterest, monthlyExpenses, goldMarketValue, totalAssets, netWorth, monthlyCredit, monthlySurplus } = m;
   const isCurrentMonth = currentSnapshot?.isCurrent || false;
 
-  const tabs = [
-    { id: "overview", label: "Overview", icon: "◈" },
-    { id: "daily-expenses", label: "Daily Expenses", icon: "💸" },
-    { id: "portfolio", label: "Portfolio & Assets", icon: "💼" },
-    { id: "calendar", label: "Calendar", icon: "📅" },
-    { id: "budget", label: "Monthly Expense", icon: "📊" },
-    { id: "goals", label: "Goals", icon: "🎯" },
-    { id: "loans", label: "Loans & Debt", icon: "💳" },
-    { id: "insurance", label: "Insurance", icon: "🛡️" },
-    { id: "expenses", label: "Recurring", icon: "◎" },
-
-    { id: "debt-plan", label: "Debt Plan", icon: "🏆" },
-    { id: "trends", label: "Trends", icon: "📈" },
-    { id: "settings", label: "Settings", icon: "⚙" },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#0a0b10] text-slate-200">
-      {/* Command Bar (Cmd+K) */}
-      <CommandBar
-        data={data}
-        metrics={{ grandDebt: m.grandDebt, totalAssets: m.totalAssets, netWorth: m.netWorth, monthlySurplus: m.monthlySurplus, monthlyCredit: m.monthlyCredit, monthlyOutflows: m.monthlyOutflows, totalGoldDebt: m.totalGoldDebt, totalHouseLoan: m.totalHouseLoan, totalBorrowed: m.totalBorrowed, totalLended: m.totalLended }}
-        onNavigate={setActiveTab}
-      />
+    <div className="min-h-screen bg-[#0a0b10] text-slate-200 flex">
+      {/* Sidebar Navigation */}
+      <Sidebar activeTab={activeTab} onNavigate={setActiveTab} />
 
-      {/* Ambient background effects */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-[10%] w-[500px] h-[500px] bg-indigo-600/[0.03] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-cyan-500/[0.02] rounded-full blur-[100px]" />
-        <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-purple-500/[0.02] rounded-full blur-[80px]" />
-      </div>
+      {/* Main Area */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        {/* Command Bar (Cmd+K) */}
+        <CommandBar
+          data={data}
+          metrics={{ grandDebt: m.grandDebt, totalAssets: m.totalAssets, netWorth: m.netWorth, monthlySurplus: m.monthlySurplus, monthlyCredit: m.monthlyCredit, monthlyOutflows: m.monthlyOutflows, totalGoldDebt: m.totalGoldDebt, totalHouseLoan: m.totalHouseLoan, totalBorrowed: m.totalBorrowed, totalLended: m.totalLended }}
+          onNavigate={setActiveTab}
+        />
 
-      {/* Header */}
-      <header className="relative z-[50] border-b border-white/[0.04] backdrop-blur-xl bg-[#0a0b10]/80">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3.5">
-            <img src="/profile.jpg" alt="Ashish" className="w-11 h-11 rounded-xl object-cover shadow-lg shadow-indigo-500/20 ring-2 ring-indigo-500/30" />
-            <div>
-              <h1 className="text-[1.05rem] font-semibold text-white tracking-[-0.02em]">Ashish Financial Dashboard</h1>
-              <p className="text-[0.68rem] text-slate-500 font-medium tracking-wide mt-0.5">Personal Finance Management</p>
+        {/* Top Bar */}
+        <header className="sticky top-0 z-[50] border-b border-white/[0.04] backdrop-blur-xl bg-[#0a0b10]/90">
+          <div className="px-8 py-3.5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <MonthSelector
+                months={snapshots.map((s) => ({ month: s.month, label: s.label, isCurrent: s.isCurrent }))}
+                selectedMonth={selectedMonth}
+                onSelect={setSelectedMonth}
+              />
+              {isCurrentMonth && (
+                <div className="flex items-center gap-1.5 text-[0.65rem] text-slate-500 bg-white/[0.03] border border-white/[0.04] rounded-full px-2.5 py-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Live</span>
+                </div>
+              )}
+              {!isCurrentMonth && (
+                <div className="flex items-center gap-1.5 text-[0.65rem] text-amber-400/70 bg-amber-500/[0.04] border border-amber-500/10 rounded-full px-2.5 py-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  <span>Historical</span>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              {saveStatus !== "idle" && (
+                <div className={`flex items-center gap-1.5 text-[0.65rem] px-2.5 py-1 rounded-full transition-opacity duration-300 ${
+                  saveStatus === "saving" ? "text-blue-400 bg-blue-500/10 border border-blue-500/15" :
+                  saveStatus === "saved" ? "text-emerald-400 bg-emerald-500/10 border border-emerald-500/15" :
+                  "text-rose-400 bg-rose-500/10 border border-rose-500/15"
+                }`}>
+                  {saveStatus === "saving" && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />}
+                  {saveStatus === "saved" && <span>Done</span>}
+                  {saveStatus === "error" && <span>Failed</span>}
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <MonthSelector
-              months={snapshots.map((s) => ({ month: s.month, label: s.label, isCurrent: s.isCurrent }))}
-              selectedMonth={selectedMonth}
-              onSelect={setSelectedMonth}
-            />
-            {isCurrentMonth && (
-              <div className="hidden md:flex items-center gap-2 text-[10px] text-slate-500 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Editable</span>
-              </div>
-            )}
-            {!isCurrentMonth && (
-              <div className="hidden md:flex items-center gap-2 text-[10px] text-amber-400/70 bg-amber-500/[0.05] border border-amber-500/15 rounded-full px-3 py-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                <span>Historical View</span>
-              </div>
-            )}
-            {saveStatus !== "idle" && (
-              <div className={`flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full transition-opacity duration-300 ${
-                saveStatus === "saving" ? "text-blue-400 bg-blue-500/10 border border-blue-500/20" :
-                saveStatus === "saved" ? "text-emerald-400 bg-emerald-500/10 border border-emerald-500/20" :
-                "text-rose-400 bg-rose-500/10 border border-rose-500/20"
-              }`}>
-                {saveStatus === "saving" && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />}
-                {saveStatus === "saved" && <span>✓</span>}
-                {saveStatus === "error" && <span>!</span>}
-                <span>{saveStatus === "saving" ? "Saving..." : saveStatus === "saved" ? "Saved" : "Save failed"}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Navigation */}
-      <nav className="relative z-[30] border-b border-white/[0.04] backdrop-blur-lg bg-[#0a0b10]/60">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-          <div className="flex gap-0.5 overflow-x-auto py-2.5 scrollbar-hide">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`group flex items-center gap-2 px-4 py-2 text-[0.75rem] font-medium rounded-lg whitespace-nowrap transition-all duration-200 ${
-                  activeTab === tab.id
-                    ? "bg-white/[0.06] text-white border border-white/[0.08] shadow-sm"
-                    : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.02]"
-                }`}
-              >
-                <span className={`text-[0.7rem] transition-colors ${activeTab === tab.id ? "text-indigo-400" : "text-slate-600 group-hover:text-slate-400"}`}>{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </nav>
-
-      {/* Content */}
-      <main className="relative z-10 px-6 md:px-10 py-8 max-w-[1440px] mx-auto">
+        {/* Content */}
+        <main className="flex-1 px-8 py-6 overflow-y-auto">
+          <div className="max-w-[1200px] animate-in fade-in duration-200">
         {activeTab === "overview" && (
           <div className="space-y-8">
-            {/* Motivational banner */}
-            <div className="text-center py-2">
-              <p className="text-[10px] font-bold uppercase tracking-[6px] bg-gradient-to-r from-rose-400 via-amber-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">
-                Imagine · Believe · Achieve
-              </p>
-            </div>
 
             <FinancialHealth
               grandDebt={grandDebt}
@@ -350,28 +300,6 @@ export default function DashboardPage() {
 
 
 
-        {activeTab === "expenses" && (
-          <EditableTable
-            title="Monthly Expenses"
-            description="Edit or add recurring monthly expenses. Changes reflect immediately in the surplus calculation."
-            accent="purple"
-            columns={[
-              { key: "name", label: "Expense Name", type: "text" },
-              { key: "type", label: "Category", type: "text" },
-              { key: "provider", label: "Provider", type: "text" },
-              { key: "amount", label: "Amount (₹)", type: "currency" },
-            ]}
-            rows={data.expenses}
-            onUpdate={(updated) => updateData((d) => ({ ...d, expenses: updated as FinancialData["expenses"] }))}
-          />
-        )}
-
-
-
-        {activeTab === "calendar" && (
-          <PaymentCalendar data={data} selectedMonth={selectedMonth} />
-        )}
-
         {activeTab === "budget" && (
           <div className="space-y-8">
             <BudgetTracker data={data} />
@@ -380,7 +308,28 @@ export default function DashboardPage() {
               <div className="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent" />
             </div>
             <BudgetAlerts selectedMonth={selectedMonth} onNavigate={setActiveTab} />
+            <div className="flex items-center gap-4">
+              <h2 className="text-white text-base font-semibold">Recurring Expenses</h2>
+              <div className="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent" />
+            </div>
+            <EditableTable
+              title="Fixed Monthly Outflows"
+              description="Recurring commitments that affect your monthly surplus calculation."
+              accent="purple"
+              columns={[
+                { key: "name", label: "Expense Name", type: "text" },
+                { key: "type", label: "Category", type: "text" },
+                { key: "provider", label: "Provider", type: "text" },
+                { key: "amount", label: "Amount (₹)", type: "currency" },
+              ]}
+              rows={data.expenses}
+              onUpdate={(updated) => updateData((d) => ({ ...d, expenses: updated as FinancialData["expenses"] }))}
+            />
           </div>
+        )}
+
+        {activeTab === "calendar" && (
+          <PaymentCalendar data={data} selectedMonth={selectedMonth} />
         )}
 
         {activeTab === "goals" && (
@@ -417,12 +366,14 @@ export default function DashboardPage() {
         )}
 
         {/* Footer */}
-        <footer className="mt-16 pt-6 border-t border-white/[0.04] text-center">
-          <p className="text-[11px] text-slate-600">
-            Ashish Financial Dashboard — Built with <span className="text-indigo-400/60">Next.js</span> on Snowflake App Runtime
+        <footer className="mt-12 pt-5 border-t border-white/[0.04] text-center">
+          <p className="text-[0.65rem] text-slate-600">
+            Personal Finance Dashboard
           </p>
         </footer>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
