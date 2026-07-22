@@ -96,14 +96,31 @@ export const INVESTMENT_TYPE_LABELS: Record<InvestmentType, string> = {
   real_estate: "Real Estate",
 };
 
-// --- Additional Loans (Credit Card, Personal Loan, Vehicle Loan) ---
+// --- Additional Loans ---
 
-export type AdditionalLoanType = "credit_card" | "personal_loan" | "vehicle_loan";
+export type AdditionalLoanType =
+  | "credit_card"
+  | "personal_loan"
+  | "vehicle_loan"
+  | "chit_fund"
+  | "mortgage"
+  | "education_loan"
+  | "business_loan"
+  | "consumer_loan"
+  | "peer_lending"
+  | "custom";
 
 export const LOAN_TYPE_LABELS: Record<AdditionalLoanType, string> = {
-  credit_card: "Credit Card",
+  credit_card: "Credit Card Due",
   personal_loan: "Personal Loan",
-  vehicle_loan: "Vehicle Loan",
+  vehicle_loan: "Vehicle / Auto Loan",
+  chit_fund: "Chit Fund Payment",
+  mortgage: "Mortgage / LAP",
+  education_loan: "Education Loan",
+  business_loan: "Business Loan",
+  consumer_loan: "Consumer / EMI Purchase",
+  peer_lending: "Peer / App Loan",
+  custom: "Other Loan",
 };
 
 export interface AdditionalLoan {
