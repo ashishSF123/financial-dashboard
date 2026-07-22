@@ -44,39 +44,39 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Debt-to-Asset */}
           <div>
-            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Debt-to-Asset Ratio</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">How Much You Owe vs Own</p>
             <p className={`text-2xl font-bold ${s.text} tracking-tight`}>{debtToAsset.toFixed(1)}%</p>
             <div className="h-1 bg-[var(--bg-card-hover)] rounded-full mt-3 overflow-hidden">
               <div className={`h-full rounded-full ${s.bar} transition-all duration-700`} style={{ width: `${Math.min(debtToAsset, 100)}%` }} />
             </div>
-            <p className="text-[var(--text-muted)] text-[0.68rem] mt-1.5">Target: below 50%</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-1.5">Keep this below 50% for good health</p>
           </div>
 
           {/* Monthly Surplus */}
           <div>
-            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Monthly Surplus</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Money Left After Bills</p>
             <p className={`text-2xl font-bold tracking-tight ${monthlySurplus > 0 ? "text-emerald-400" : "text-rose-400"}`}>
               {formatINR(monthlySurplus)}
             </p>
             <p className="text-[var(--text-muted)] text-[0.68rem] mt-3">
-              Savings rate: <span className={monthlySurplus > 0 ? "text-emerald-400/80" : "text-rose-400/80"}>{savingsRate.toFixed(0)}%</span>
+              You save: <span className={monthlySurplus > 0 ? "text-emerald-400/80" : "text-rose-400/80"}>{savingsRate.toFixed(0)}%</span> of your income
             </p>
-            <p className="text-[var(--text-muted)] text-[0.68rem]">Income minus fixed outflows</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem]">What you keep after all expenses & EMIs</p>
           </div>
 
           {/* Net Worth */}
           <div>
-            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Net Worth</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">What You're Worth Today</p>
             <p className={`text-2xl font-bold tracking-tight ${netWorth > 0 ? "text-emerald-400" : "text-rose-400"}`}>
               {formatINR(netWorth)}
             </p>
-            <p className="text-[var(--text-muted)] text-[0.68rem] mt-3">Assets minus all liabilities</p>
-            <p className="text-[var(--text-muted)] text-[0.68rem]">Total assets: {formatINR(totalAssets)}</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem] mt-3">Everything you own minus everything you owe</p>
+            <p className="text-[var(--text-muted)] text-[0.68rem]">Your assets: {formatINR(totalAssets)}</p>
           </div>
 
           {/* Total Liabilities */}
           <div>
-            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Total Liabilities</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em] mb-2">Total You Owe</p>
             <p className="text-2xl font-bold text-rose-400 tracking-tight">{formatINR(grandDebt)}</p>
             <div className="h-1 bg-[var(--bg-card-hover)] rounded-full mt-3 overflow-hidden">
               <div className="h-full rounded-full bg-rose-500 transition-all duration-700" style={{ width: `${Math.min(debtToAsset, 100)}%` }} />
@@ -90,7 +90,7 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
         {/* Emergency Fund Monitor */}
         <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em]">Emergency Fund Status</p>
+            <p className="text-[var(--text-muted)] text-[0.65rem] font-semibold uppercase tracking-[0.08em]">Rainy Day Fund</p>
             {(() => {
               const monthlyExpenses = monthlyCredit - monthlySurplus;
               const requiredFund = monthlyExpenses * 6;
@@ -117,15 +117,15 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
               <div>
                 <div className="grid grid-cols-3 gap-4 mb-3">
                   <div>
-                    <p className="text-[0.6rem] text-[var(--text-muted)]">Required (6 months)</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">You Need (6 months)</p>
                     <p className="text-[0.85rem] font-bold text-[var(--text-heading)]">{formatINR(requiredFund)}</p>
                   </div>
                   <div>
-                    <p className="text-[0.6rem] text-[var(--text-muted)]">Months Covered</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">You're Covered For</p>
                     <p className={`text-[0.85rem] font-bold ${coverMonths >= 6 ? "text-emerald-400" : coverMonths >= 3 ? "text-amber-400" : "text-rose-400"}`}>{coverMonths.toFixed(1)} months</p>
                   </div>
                   <div>
-                    <p className="text-[0.6rem] text-[var(--text-muted)]">Gap to Fill</p>
+                    <p className="text-[0.6rem] text-[var(--text-muted)]">Still Need to Save</p>
                     <p className={`text-[0.85rem] font-bold ${gap > 0 ? "text-rose-400" : "text-emerald-400"}`}>{gap > 0 ? formatINR(gap) : "Fully funded"}</p>
                   </div>
                 </div>
@@ -133,8 +133,8 @@ export function FinancialHealth({ grandDebt, totalAssets, netWorth, monthlySurpl
                   <div className={`h-full rounded-full transition-all duration-700 ${coverMonths >= 6 ? "bg-emerald-500" : coverMonths >= 3 ? "bg-amber-500" : "bg-rose-500"}`} style={{ width: `${pct}%` }} />
                 </div>
                 <p className="text-[0.62rem] text-[var(--text-muted)] mt-2">
-                  Financial experts recommend 6 months of essential expenses in liquid savings for emergencies.
-                  {gap > 0 && monthlySurplus > 0 ? ` At your current surplus, ${Math.ceil(gap / monthlySurplus)} months to fully fund.` : ""}
+                  Experts suggest keeping 6 months of living expenses in easy-to-access savings for unexpected events.
+                  {gap > 0 && monthlySurplus > 0 ? ` At your current pace, you'll be fully covered in ${Math.ceil(gap / monthlySurplus)} months.` : ""}
                 </p>
               </div>
             );
