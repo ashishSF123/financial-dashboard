@@ -1,0 +1,224 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import {
+  EXPENSE_CATEGORIES,
+  CATEGORY_ICONS,
+  CATEGORY_COLORS,
+} from "@/lib/finance-types";
+import type { BudgetLimit } from "@/lib/finance-types";
+import {
+  getBudgetLimits,
+  setBudgetLimit,
+  getExpenseSummary,
+} from "@/lib/finance-store";
+
+function formatINR(n: number): string {
+  if (n >= 100000) return `₹${(n / 100000).toFixed(2)} L`;
+  if (n >= 1000) return `₹${(n / 1000).toFixed(1)}K`;
+  return `₹${n.toLocaleString("en-IN")}`;
+}
+
+interface Props {
+  selectedMonth: string;
+}
+
+export function BudgetAlerts({ selectedMonth }: Props) {
+  const [budgets, setBudgets] = useState<BudgetLimit[]>([]);
+  const [summary, setSummary] = useState<ReturnType<typeof getExpenseSummary> | null>(null);
+  const [editingCategory, setEditingCategory] = useState<string | null>(null);
+  const [editLimit, setEditLimit] = useState("");
+
+  const refresh = useCallback(() => {
+    setBudgets(getBudgetLimits());
+    setSummary(getExpenseSummary(selectedMonth));
+  }, [selectedMonth]);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  const handleSetLimit = (category: string) => {
+    const limit = parseFloat(editLimit);
+    if (!limit || limit <= 0) return;
+    setBudgetLimit(category, limit);
+    setEditingCategory(null);
+    setEditLimit("");
+    refresh();
+  };
+
+  // Categories with spending, sorted by usage
+  const categoryData = EXPENSE_CATEGORIES.map((cat) => {
+    const spent = summary?.byCategory[cat] || 0;
+    const budget = budgets.find((b) => b.category === cat);
+    const limit = budget?.monthlyLimit || 0;
+    const pct = limit > 0 ? spent / limit : 0;
+    const isOver = limit > 0 && spent > limit;
+    const isWarning = limit > 0 && pct >= (budget?.alertThreshold || 0.8);
+    return { category: cat, spent, limit, pct, isOver, isWarning, budget };
+  }).sort((a, b) => b.spent - a.spent);
+
+  const alertCount = categoryData.filter((c) => c.isOver || c.isWarning).length;
+  const totalBudget = budgets.reduce((s, b) => s + b.monthlyLimit, 0);
+  const totalSpent = summary?.total || 0;
+
+  return (
+    <div className="space-y-5">
+      {/* Header */}
+      <div>
+        <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
+          Budget & Alerts
+        </h2>
+        <p className="text-[0.78rem] text-slate-500 mt-0.5">
+          Set monthly spending limits per category and track utilization
+        </p>
+      </div>
+
+      {/* Overall Progress */}
+      {totalBudget > 0 && (
+        <div className="bg-[#12131a] border border-white/[0.06] rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-[0.85rem] font-semibold text-white">Monthly Budget Overview</h3>
+            {alertCount > 0 && (
+              <span className="text-[0.6rem] font-semibold px-2 py-1 rounded-md bg-rose-500/15 text-rose-400 border border-rose-500/20">
+                {alertCount} alert{alertCount > 1 ? "s" : ""}
+              </span>
+            )}
+          </div>
+          <div className="flex items-baseline gap-2 mb-2">
+            <span className="text-[1.3rem] font-bold text-white tabular-nums">{formatINR(totalSpent)}</span>
+            <span className="text-[0.75rem] text-slate-500">/ {formatINR(totalBudget)}</span>
+          </div>
+          <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all ${
+                totalSpent > totalBudget ? "bg-rose-400" :
+                totalSpent / totalBudget > 0.8 ? "bg-amber-400" :
+                "bg-emerald-400"
+              }`}
+              style={{ width: `${Math.min((totalSpent / totalBudget) * 100, 100)}%` }}
+            />
+          </div>
+          <p className="text-[0.68rem] text-slate-500 mt-2">
+            {totalBudget > totalSpent
+              ? `₹${formatINR(totalBudget - totalSpent)} remaining`
+              : `₹${formatINR(totalSpent - totalBudget)} over budget`
+            }
+          </p>
+        </div>
+      )}
+
+      {/* Category Budget Cards */}
+      <div className="space-y-2">
+        {categoryData.map(({ category, spent, limit, pct, isOver, isWarning, budget }) => {
+          const colors = CATEGORY_COLORS[category] || CATEGORY_COLORS["Other"];
+          const isEditing = editingCategory === category;
+
+          return (
+            <div
+              key={category}
+              className={`bg-[#12131a] border rounded-xl px-4 py-3 transition-colors ${
+                isOver ? "border-rose-500/30" :
+                isWarning ? "border-amber-500/20" :
+                "border-white/[0.06]"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg ${colors.bg} flex items-center justify-center shrink-0`}>
+                    <span className="text-[0.7rem]">{CATEGORY_ICONS[category] || "📌"}</span>
+                  </div>
+                  <div>
+                    <p className="text-[0.8rem] text-slate-200 font-medium">{category}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-[0.65rem] text-slate-500 tabular-nums">
+                        Spent: {formatINR(spent)}
+                      </span>
+                      {limit > 0 && (
+                        <>
+                          <span className="text-[0.5rem] text-slate-600">•</span>
+                          <span className="text-[0.65rem] text-slate-500 tabular-nums">
+                            Limit: {formatINR(limit)}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {limit > 0 && (
+                    <div className="text-right">
+                      <span className={`text-[0.75rem] font-semibold tabular-nums ${
+                        isOver ? "text-rose-400" : isWarning ? "text-amber-400" : "text-slate-300"
+                      }`}>
+                        {Math.round(pct * 100)}%
+                      </span>
+                    </div>
+                  )}
+
+                  {isEditing ? (
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="number"
+                        value={editLimit}
+                        onChange={(e) => setEditLimit(e.target.value)}
+                        placeholder="₹"
+                        className="w-20 bg-white/[0.04] border border-white/[0.1] rounded px-2 py-1 text-[0.75rem] text-white tabular-nums focus:outline-none focus:border-indigo-500/50"
+                        autoFocus
+                        onKeyDown={(e) => e.key === "Enter" && handleSetLimit(category)}
+                      />
+                      <button
+                        onClick={() => handleSetLimit(category)}
+                        className="text-[0.65rem] text-emerald-400 hover:text-emerald-300 font-medium"
+                      >
+                        ✓
+                      </button>
+                      <button
+                        onClick={() => { setEditingCategory(null); setEditLimit(""); }}
+                        className="text-[0.65rem] text-slate-500 hover:text-slate-300"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => { setEditingCategory(category); setEditLimit(limit > 0 ? String(limit) : ""); }}
+                      className="text-[0.65rem] text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                    >
+                      {limit > 0 ? "Edit" : "Set limit"}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Progress bar */}
+              {limit > 0 && (
+                <div className="mt-2 h-1 bg-white/[0.06] rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      isOver ? "bg-rose-400" : isWarning ? "bg-amber-400" : colors.dot
+                    }`}
+                    style={{ width: `${Math.min(pct * 100, 100)}%` }}
+                  />
+                </div>
+              )}
+
+              {/* Alert message */}
+              {isOver && (
+                <p className="text-[0.62rem] text-rose-400 mt-1.5 font-medium">
+                  ⚠️ Over budget by {formatINR(spent - limit)}
+                </p>
+              )}
+              {isWarning && !isOver && (
+                <p className="text-[0.62rem] text-amber-400 mt-1.5 font-medium">
+                  ⚡ Approaching limit — {Math.round((1 - pct) * 100)}% remaining
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

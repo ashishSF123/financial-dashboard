@@ -1,0 +1,133 @@
+// Types and constants for the expense & investment modules
+
+export interface DailyExpense {
+  id: string;
+  date: string; // YYYY-MM-DD
+  amount: number;
+  category: string;
+  description: string;
+  paymentMethod: "Cash" | "UPI" | "Card" | "Bank Transfer";
+  createdAt?: string;
+}
+
+export interface InvestmentHolding {
+  id: string;
+  type: InvestmentType;
+  name: string;
+  provider: string;
+  investedAmount: number;
+  currentValue: number;
+  units?: number;
+  rateOrNav?: number;
+  startDate?: string;
+  maturityDate?: string;
+  frequency?: "Monthly" | "Quarterly" | "Yearly" | "One-time";
+  status: "active" | "matured" | "sold" | "closed";
+  metadata?: Record<string, any>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InvestmentTransaction {
+  id: string;
+  holdingId: string;
+  type: "buy" | "sell" | "sip" | "dividend" | "interest" | "contribution";
+  date: string;
+  amount: number;
+  units?: number;
+  navOrPrice?: number;
+  notes?: string;
+  createdAt?: string;
+}
+
+export interface BudgetLimit {
+  id: string;
+  category: string;
+  monthlyLimit: number;
+  alertThreshold: number; // 0-1, e.g. 0.8 = alert at 80%
+}
+
+export type InvestmentType =
+  | "mutual_fund"
+  | "stock"
+  | "fd"
+  | "rd"
+  | "ppf"
+  | "epf"
+  | "nps"
+  | "ssy"
+  | "gold_physical"
+  | "gold_sgb"
+  | "gold_digital"
+  | "real_estate";
+
+export const EXPENSE_CATEGORIES = [
+  "Food & Dining",
+  "Groceries",
+  "Transport & Fuel",
+  "Shopping",
+  "Bills & Utilities",
+  "Health & Medical",
+  "Education",
+  "Entertainment",
+  "Personal Care",
+  "Household",
+  "Gifts & Donations",
+  "Travel",
+  "EMI & Loan Payments",
+  "Subscriptions",
+  "Other",
+] as const;
+
+export const PAYMENT_METHODS = ["Cash", "UPI", "Card", "Bank Transfer"] as const;
+
+export const INVESTMENT_TYPE_LABELS: Record<InvestmentType, string> = {
+  mutual_fund: "Mutual Fund",
+  stock: "Stock",
+  fd: "Fixed Deposit",
+  rd: "Recurring Deposit",
+  ppf: "PPF",
+  epf: "EPF",
+  nps: "NPS",
+  ssy: "SSY",
+  gold_physical: "Gold (Physical)",
+  gold_sgb: "Sovereign Gold Bond",
+  gold_digital: "Gold (Digital)",
+  real_estate: "Real Estate",
+};
+
+export const CATEGORY_ICONS: Record<string, string> = {
+  "Food & Dining": "🍽️",
+  "Groceries": "🛒",
+  "Transport & Fuel": "⛽",
+  "Shopping": "🛍️",
+  "Bills & Utilities": "💡",
+  "Health & Medical": "🏥",
+  "Education": "📚",
+  "Entertainment": "🎬",
+  "Personal Care": "💅",
+  "Household": "🏠",
+  "Gifts & Donations": "🎁",
+  "Travel": "✈️",
+  "EMI & Loan Payments": "🏦",
+  "Subscriptions": "📱",
+  "Other": "📌",
+};
+
+export const CATEGORY_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
+  "Food & Dining": { bg: "bg-orange-500/10", text: "text-orange-400", dot: "bg-orange-400" },
+  "Groceries": { bg: "bg-green-500/10", text: "text-green-400", dot: "bg-green-400" },
+  "Transport & Fuel": { bg: "bg-blue-500/10", text: "text-blue-400", dot: "bg-blue-400" },
+  "Shopping": { bg: "bg-pink-500/10", text: "text-pink-400", dot: "bg-pink-400" },
+  "Bills & Utilities": { bg: "bg-yellow-500/10", text: "text-yellow-400", dot: "bg-yellow-400" },
+  "Health & Medical": { bg: "bg-red-500/10", text: "text-red-400", dot: "bg-red-400" },
+  "Education": { bg: "bg-indigo-500/10", text: "text-indigo-400", dot: "bg-indigo-400" },
+  "Entertainment": { bg: "bg-purple-500/10", text: "text-purple-400", dot: "bg-purple-400" },
+  "Personal Care": { bg: "bg-fuchsia-500/10", text: "text-fuchsia-400", dot: "bg-fuchsia-400" },
+  "Household": { bg: "bg-teal-500/10", text: "text-teal-400", dot: "bg-teal-400" },
+  "Gifts & Donations": { bg: "bg-rose-500/10", text: "text-rose-400", dot: "bg-rose-400" },
+  "Travel": { bg: "bg-sky-500/10", text: "text-sky-400", dot: "bg-sky-400" },
+  "EMI & Loan Payments": { bg: "bg-amber-500/10", text: "text-amber-400", dot: "bg-amber-400" },
+  "Subscriptions": { bg: "bg-violet-500/10", text: "text-violet-400", dot: "bg-violet-400" },
+  "Other": { bg: "bg-slate-500/10", text: "text-slate-400", dot: "bg-slate-400" },
+};
