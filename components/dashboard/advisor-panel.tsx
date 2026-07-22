@@ -69,10 +69,10 @@ export function AdvisorPanel({ profile, onNavigate, ...ctx }: Props) {
       {/* Quick Actions */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: "Log Expense", icon: "💸", tab: "daily-expenses" },
-          { label: "Check Budget", icon: "📊", tab: "budget" },
-          { label: "Record Income", icon: "💵", tab: "income" },
-          { label: "Review Loans", icon: "🏦", tab: "loans" },
+          { label: "Add Spending", icon: "💸", tab: "daily-expenses" },
+          { label: "My Budget", icon: "📊", tab: "budget" },
+          { label: "Add Income", icon: "💵", tab: "income" },
+          { label: "My Loans", icon: "🏦", tab: "loans" },
         ].map((a) => (
           <button key={a.tab} onClick={() => onNavigate(a.tab)}
             className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-card)] hover:border-indigo-500/30 hover:bg-indigo-500/[0.03] transition-all"
