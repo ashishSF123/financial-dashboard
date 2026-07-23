@@ -365,23 +365,45 @@ export function LoansHub({ data, onUpdate }: Props) {
 
       {/* === Section: House Loans (Editable) === */}
       {section === "house" && (
-        <EditableTable
-          title="House Loans"
-          description="Home loans, plot loans, construction loans. Long tenure (15-30 years) with fixed EMIs. Your biggest asset builder."
-          accent="indigo"
-          columns={[
-            { key: "loanType", label: "Type", type: "text" },
-            { key: "bank", label: "Bank", type: "text" },
-            { key: "loanAmount", label: "Loan Amount (₹)", type: "currency" },
-            { key: "emiAmount", label: "EMI (₹)", type: "currency" },
-            { key: "interestRate", label: "Rate %", type: "number" },
-            { key: "tenureMonths", label: "Tenure (mo)", type: "number" },
-            { key: "remainingMonths", label: "Remaining", type: "number" },
-            { key: "status", label: "Status", type: "status" },
-          ]}
-          rows={data.houseLoans}
-          onUpdate={(updated) => onUpdate((d) => ({ ...d, houseLoans: updated as FinancialData["houseLoans"] }))}
-        />
+        <div className="space-y-6">
+          <EditableTable
+            title="House Loans"
+            description="Home loans, plot loans, construction loans. Long tenure (15-30 years) with fixed EMIs. Your biggest asset builder."
+            accent="indigo"
+            columns={[
+              { key: "loanType", label: "Type", type: "text" },
+              { key: "bank", label: "Bank", type: "text" },
+              { key: "loanAmount", label: "Loan Amount (₹)", type: "currency" },
+              { key: "emiAmount", label: "EMI (₹)", type: "currency" },
+              { key: "interestRate", label: "Rate %", type: "number" },
+              { key: "tenureMonths", label: "Tenure (mo)", type: "number" },
+              { key: "remainingMonths", label: "Remaining", type: "number" },
+              { key: "status", label: "Status", type: "status" },
+            ]}
+            rows={data.houseLoans}
+            onUpdate={(updated) => onUpdate((d) => ({ ...d, houseLoans: updated as FinancialData["houseLoans"] }))}
+          />
+          {/* Mortgage-type additional loans also belong here */}
+          {additionalLoans.filter((l) => l.type === "mortgage").length > 0 && (
+            <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-5">
+              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)] mb-3">Mortgage & Loan Against Property</h3>
+              <div className="divide-y divide-[var(--border-subtle)]">
+                {additionalLoans.filter((l) => l.type === "mortgage").map((l) => (
+                  <div key={l.id} className="flex items-center justify-between py-3">
+                    <div>
+                      <p className="text-[0.82rem] text-[var(--text-primary)] font-medium">{l.name}</p>
+                      <p className="text-[0.68rem] text-[var(--text-muted)]">{l.provider} {l.interestRate > 0 ? `• ${l.interestRate}% p.a.` : ""} {l.tenureMonths ? `• ${l.tenureMonths} months` : ""}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[0.85rem] font-semibold text-[var(--text-heading)] tabular-nums">{formatINR(l.outstandingBalance)}</p>
+                      {l.emiAmount > 0 && <p className="text-[0.65rem] text-[var(--text-muted)] tabular-nums">{formatINR(l.emiAmount)}/mo</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       )}
 
       {/* === Section: Settlements (Borrowed + Lended) === */}
@@ -472,7 +494,7 @@ export function LoansHub({ data, onUpdate }: Props) {
               <div className="flex justify-end gap-2">
                 <button onClick={() => setShowAddForm(false)} className="px-3 py-2 rounded-lg text-[var(--text-secondary)] text-[0.78rem] hover:text-[var(--text-heading)] transition-colors">Cancel</button>
                 <button onClick={() => {
-                  if (!formName || !formBalance) return;
+                  if (!formName || !formBalance || parseFloat(formBalance) <= 0) return;
                   addAdditionalLoan({
                     type: formType,
                     name: formName,
