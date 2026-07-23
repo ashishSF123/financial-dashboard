@@ -98,7 +98,10 @@ export default function LoginPage({ searchParams }: { searchParams: Promise<{ ve
           </form>
 
           <p className="text-[0.68rem] text-[var(--text-muted)] text-center mt-4">
-            Don&apos;t have an account? Contact admin to get access.
+            Don&apos;t have an account?{" "}
+            <a href="mailto:ashish.sf.123@gmail.com?subject=Request%20Access%20-%20Personal%20Finance%20Dashboard&body=Hi%2C%20I%20would%20like%20to%20request%20access%20to%20the%20Personal%20Finance%20Dashboard.%0A%0AMy%20Name%3A%20%0AMy%20Email%3A%20%0AMobile%3A%20" className="text-indigo-400 hover:text-indigo-300 font-medium underline underline-offset-2 transition-colors">
+              Create Account
+            </a>
           </p>
         </div>
 
