@@ -8,12 +8,14 @@ const ALLOWED_EMAILS = [
   "ashish.sf.123@gmail.com",
 ];
 
+// Only include Resend if API key is configured
+const providers = [GitHub, Google];
+if (process.env.AUTH_RESEND_KEY && !process.env.AUTH_RESEND_KEY.includes("placeholder")) {
+  providers.push(Resend({ from: "Personal Finance <onboarding@resend.dev>" }) as any);
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    GitHub,
-    Google,
-    Resend({ from: "Personal Finance <onboarding@resend.dev>" }),
-  ],
+  providers,
   pages: {
     signIn: "/login",
     error: "/login",
@@ -21,7 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     signIn({ user }) {
-      // Block users not in the allowlist
       if (!user.email || !ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
         return false;
       }
