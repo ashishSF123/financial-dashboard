@@ -112,8 +112,24 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             </div>
             <div>
               <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Date of Birth</label>
-              <input type="date" value={profileDob} onChange={(e) => setProfileDob(e.target.value)}
-                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all" />
+              <div className="flex gap-2">
+                <select value={profileDob.split("-")[2] || ""} onChange={(e) => { const parts = profileDob.split("-"); setProfileDob(`${parts[0] || "1990"}-${parts[1] || "01"}-${e.target.value.padStart(2, "0")}`); }}
+                  className="flex-1 bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-2 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all appearance-none">
+                  <option value="">Day</option>
+                  {Array.from({ length: 31 }, (_, i) => <option key={i + 1} value={String(i + 1).padStart(2, "0")}>{i + 1}</option>)}
+                </select>
+                <select value={profileDob.split("-")[1] || ""} onChange={(e) => { const parts = profileDob.split("-"); setProfileDob(`${parts[0] || "1990"}-${e.target.value}-${parts[2] || "01"}`); }}
+                  className="flex-1 bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-2 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all appearance-none">
+                  <option value="">Month</option>
+                  {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m, i) => <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>)}
+                </select>
+                <select value={profileDob.split("-")[0] || ""} onChange={(e) => { const parts = profileDob.split("-"); setProfileDob(`${e.target.value}-${parts[1] || "01"}-${parts[2] || "01"}`); }}
+                  className="flex-1 bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-2 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all appearance-none">
+                  <option value="">Year</option>
+                  {Array.from({ length: 80 }, (_, i) => { const y = new Date().getFullYear() - i; return <option key={y} value={String(y)}>{y}</option>; })}
+                </select>
+              </div>
+              {profileDob && <p className="text-[var(--text-muted)] text-[9px] mt-1.5">Age: {Math.floor((Date.now() - new Date(profileDob).getTime()) / 31557600000)} years</p>}
             </div>
             <div>
               <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Occupation</label>
