@@ -68,7 +68,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
         <div className="relative">
           <div className="flex items-center gap-4 mb-6">
             {/* Profile Image */}
-            <div className="relative">
+            <div className="relative group">
               <div className="w-16 h-16 rounded-full bg-[var(--bg-card-hover)] border-2 border-[var(--border-card)] flex items-center justify-center overflow-hidden">
                 {profileImage ? (
                   <img src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
@@ -76,6 +76,17 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                   <span className="text-2xl text-[var(--text-muted)]">{profileName ? profileName[0].toUpperCase() : "U"}</span>
                 )}
               </div>
+              <label className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                <span className="text-white text-[10px] font-medium">Change</span>
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  if (file.size > 500000) { alert("Please use an image under 500KB"); return; }
+                  const reader = new FileReader();
+                  reader.onload = () => setProfileImage(reader.result as string);
+                  reader.readAsDataURL(file);
+                }} />
+              </label>
             </div>
             <div>
               <h2 className="text-[var(--text-heading)] text-lg font-semibold tracking-tight">{profileName || "Your Profile"}</h2>
@@ -115,12 +126,6 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                 className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all tabular-nums" />
               <p className="text-[var(--text-muted)] text-[9px] mt-1.5">Your target net worth to achieve</p>
             </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Profile Photo URL</label>
-            <input type="url" value={profileImage} onChange={(e) => setProfileImage(e.target.value)} placeholder="https://example.com/your-photo.jpg"
-              className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all" />
           </div>
 
           <button onClick={() => {
