@@ -36,7 +36,7 @@ interface Props {
 export function LoansHub({ data, onUpdate }: Props) {
   const [strategy, setStrategy] = useState<"avalanche" | "snowball">("avalanche");
   const [filterType, setFilterType] = useState<string>("all");
-  const [section, setSection] = useState<"overview" | "gold" | "house" | "settlements" | "other-loans">("overview");
+  const [section, setSection] = useState<"overview" | "gold" | "house" | "settlements" | "other-loans" | "leases">("overview");
   const [additionalLoans, setAdditionalLoans] = useState<AdditionalLoan[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [formType, setFormType] = useState<AdditionalLoanType>("credit_card");
@@ -136,6 +136,7 @@ export function LoansHub({ data, onUpdate }: Props) {
     { id: "house" as const, label: "House Loans", icon: "🏠" },
     { id: "other-loans" as const, label: "All Other Loans", icon: "💳" },
     { id: "settlements" as const, label: "Settlements", icon: "🤝" },
+    { id: "leases" as const, label: "Lease Liabilities", icon: "📋" },
   ];
 
   return (
@@ -550,6 +551,21 @@ export function LoansHub({ data, onUpdate }: Props) {
             )}
           </div>
         </div>
+      )}
+
+      {/* === Section: Lease Liabilities === */}
+      {section === "leases" && (
+        <EditableTable
+          title="Lease Liabilities"
+          description="Zero-interest principal obligations (e.g., borrowed items, equipment deposits, advance payments)."
+          accent="cyan"
+          columns={[
+            { key: "name", label: "Description", type: "text" },
+            { key: "amount", label: "Amount (₹)", type: "currency" },
+          ]}
+          rows={data.leases.map((l, i) => ({ id: `lease-${i}`, ...l }))}
+          onUpdate={(updated) => onUpdate((d) => ({ ...d, leases: updated.map((r) => ({ name: String(r.name), amount: Number(r.amount) })) }))}
+        />
       )}
     </div>
   );
