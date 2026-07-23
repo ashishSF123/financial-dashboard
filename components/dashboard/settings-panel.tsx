@@ -144,6 +144,55 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             </div>
           </div>
 
+          {/* Income & Currency */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Monthly Income</label>
+              <input type="number" value={profileIncome} onChange={(e) => setProfileIncome(e.target.value)}
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all tabular-nums" />
+              <p className="text-[var(--text-muted)] text-[9px] mt-1.5">
+                {parseFloat(profileIncome) >= 500000 ? "High tier: tax optimization & diversification" :
+                 parseFloat(profileIncome) >= 50000 ? "Mid tier: debt reduction & SIP focus" :
+                 "Low tier: expense control & basic savings"}
+              </p>
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Currency</label>
+              <select value={profileCurrency} onChange={(e) => setProfileCurrency(e.target.value as Currency)}
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all appearance-none">
+                <option value="INR">{"\u20b9"} INR (Indian Rupee)</option>
+                <option value="USD">$ USD (US Dollar)</option>
+                <option value="EUR">{"\u20ac"} EUR (Euro)</option>
+                <option value="GBP">{"\u00a3"} GBP (British Pound)</option>
+                <option value="JPY">{"\u00a5"} JPY (Japanese Yen)</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Net Worth Goal</label>
+              <input type="number" value={profileNetWorthTarget} onChange={(e) => setProfileNetWorthTarget(e.target.value)} placeholder="e.g. 10000000"
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all tabular-nums" />
+            </div>
+          </div>
+
+          {/* Financial Goals */}
+          <div className="mb-4">
+            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Financial Goals</label>
+            <div className="flex flex-wrap gap-2">
+              {(["debt_free", "emergency_fund", "retirement", "wealth_building", "home_purchase", "education"] as FinancialGoal[]).map((g) => {
+                const labels: Record<string, string> = { debt_free: "\ud83c\udfaf Debt-Free", emergency_fund: "\ud83d\udee1\ufe0f Emergency Fund", retirement: "\ud83c\udfd6\ufe0f Retirement", wealth_building: "\ud83d\udcc8 Wealth", home_purchase: "\ud83c\udfe0 Home", education: "\ud83c\udf93 Education" };
+                const isSelected = profileGoals.includes(g);
+                return (
+                  <button key={g} onClick={() => setProfileGoals(prev => prev.includes(g) ? prev.filter(x => x !== g) : [...prev, g])}
+                    className={`px-3 py-1.5 rounded-lg text-[0.72rem] font-medium border transition-all ${
+                      isSelected ? "bg-indigo-500/10 text-indigo-300 border-indigo-500/30" : "text-[var(--text-muted)] border-[var(--border-card)] hover:text-[var(--text-secondary)]"
+                    }`}>
+                    {labels[g]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <button onClick={() => {
             const updated = saveUserProfile({
               name: profileName,
@@ -161,8 +210,18 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             setProfile(updated);
             showSaved("personal");
           }} className="bg-indigo-500/[0.1] text-indigo-300 border border-indigo-500/20 px-5 py-2.5 rounded-lg text-[11px] font-semibold hover:bg-indigo-500/[0.18] transition-all">
-            {saved === "personal" ? "✓ Profile Saved" : "Save Profile"}
+            {saved === "personal" ? "\u2713 Profile Saved" : "Save Profile"}
           </button>
+
+          {profile && (
+            <span className={`ml-3 text-[10px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider ${
+              profile.incomeTier === "high" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
+              profile.incomeTier === "mid" ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" :
+              "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+            }`}>
+              {profile.incomeTier} tier
+            </span>
+          )}
         </div>
       </div>
 
@@ -240,82 +299,6 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
         </div>
       </div>
 
-      {/* My Profile */}
-      <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.01] to-transparent pointer-events-none" />
-        <div className="relative">
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h3 className="text-[var(--text-heading)] text-[0.88rem] font-semibold tracking-[-0.01em]">My Profile</h3>
-              <p className="text-[var(--text-muted)] text-[10px] mt-0.5">Update your income to change advisor tier and recommendations</p>
-            </div>
-            {profile && (
-              <span className={`text-[10px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider ${
-                profile.incomeTier === "high" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-                profile.incomeTier === "mid" ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" :
-                "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-              }`}>
-                {profile.incomeTier} tier
-              </span>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div>
-              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Name</label>
-              <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)}
-                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-emerald-500/40 transition-all" />
-            </div>
-            <div>
-              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Monthly Income</label>
-              <input type="number" value={profileIncome} onChange={(e) => setProfileIncome(e.target.value)}
-                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-emerald-500/40 transition-all tabular-nums" />
-              <p className="text-[var(--text-muted)] text-[9px] mt-1.5">
-                {parseFloat(profileIncome) >= 500000 ? "High tier: tax optimization & diversification" :
-                 parseFloat(profileIncome) >= 50000 ? "Mid tier: debt reduction & SIP focus" :
-                 "Low tier: expense control & basic savings"}
-              </p>
-            </div>
-            <div>
-              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Currency</label>
-              <select value={profileCurrency} onChange={(e) => setProfileCurrency(e.target.value as Currency)}
-                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-emerald-500/40 transition-all appearance-none">
-                <option value="INR">₹ INR (Indian Rupee)</option>
-                <option value="USD">$ USD (US Dollar)</option>
-                <option value="EUR">€ EUR (Euro)</option>
-                <option value="GBP">£ GBP (British Pound)</option>
-                <option value="JPY">¥ JPY (Japanese Yen)</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Financial Goals</label>
-            <div className="flex flex-wrap gap-2">
-              {(["debt_free", "emergency_fund", "retirement", "wealth_building", "home_purchase", "education"] as FinancialGoal[]).map((g) => {
-                const labels: Record<string, string> = { debt_free: "🎯 Debt-Free", emergency_fund: "🛡️ Emergency Fund", retirement: "🏖️ Retirement", wealth_building: "📈 Wealth", home_purchase: "🏠 Home", education: "🎓 Education" };
-                const isSelected = profileGoals.includes(g);
-                return (
-                  <button key={g} onClick={() => setProfileGoals(prev => prev.includes(g) ? prev.filter(x => x !== g) : [...prev, g])}
-                    className={`px-3 py-1.5 rounded-lg text-[0.72rem] font-medium border transition-all ${
-                      isSelected ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" : "text-[var(--text-muted)] border-[var(--border-card)] hover:text-[var(--text-secondary)]"
-                    }`}>
-                    {labels[g]}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <button onClick={() => {
-            const updated = saveUserProfile({ name: profileName, monthlyIncome: parseFloat(profileIncome) || 0, currency: profileCurrency, goals: profileGoals, onboardingComplete: true });
-            setProfile(updated);
-            showSaved("profile");
-          }} className="bg-emerald-500/[0.1] text-emerald-300 border border-emerald-500/20 px-5 py-2 rounded-lg text-[11px] font-semibold hover:bg-emerald-500/[0.18] transition-all">
-            {saved === "profile" ? "✓ Profile Saved" : "Save Profile"}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
