@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@/lib/theme-context";
+import { getUserProfile } from "@/lib/finance-store";
 import {
   LayoutDashboard,
   Receipt,
@@ -86,6 +87,16 @@ interface Props {
 export function Sidebar({ activeTab, onNavigate }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileName, setProfileName] = useState("Ashish Finance");
+
+  useEffect(() => {
+    const p = getUserProfile();
+    if (p) {
+      if (p.profileImage) setProfileImage(p.profileImage);
+      if (p.name) setProfileName(p.name);
+    }
+  }, []);
 
   return (
     <>
@@ -95,18 +106,25 @@ export function Sidebar({ activeTab, onNavigate }: Props) {
           collapsed ? "w-16" : "w-[220px]"
         }`}
       >
-        {/* Logo area */}
-        <div className={`flex items-center gap-3 px-4 py-5 border-b border-[var(--border-subtle)] ${collapsed ? "justify-center" : ""}`}>
-          <div className="w-8 h-8 rounded-lg bg-[var(--accent-bg)] flex items-center justify-center shrink-0">
-            <span className="text-[var(--accent)] font-bold text-sm">A</span>
+        {/* Profile area — click to go to Settings */}
+        <button
+          onClick={() => onNavigate("settings")}
+          className={`flex items-center gap-3 px-4 py-5 border-b border-[var(--border-subtle)] hover:bg-[var(--bg-card-hover)] transition-colors ${collapsed ? "justify-center" : ""}`}
+        >
+          <div className="w-8 h-8 rounded-full bg-[var(--accent-bg)] flex items-center justify-center shrink-0 overflow-hidden border border-[var(--border-card)]">
+            {profileImage ? (
+              <img src={profileImage} alt="" className="w-full h-full object-cover rounded-full" />
+            ) : (
+              <span className="text-[var(--accent)] font-bold text-sm">{profileName[0]?.toUpperCase()}</span>
+            )}
           </div>
           {!collapsed && (
-            <div className="overflow-hidden">
-              <p className="text-[0.8rem] font-semibold text-[var(--text-heading)] truncate">Ashish Finance</p>
+            <div className="overflow-hidden text-left">
+              <p className="text-[0.8rem] font-semibold text-[var(--text-heading)] truncate">{profileName}</p>
               <p className="text-[0.6rem] text-[var(--text-muted)]">Personal Dashboard</p>
             </div>
           )}
-        </div>
+        </button>
 
         {/* Navigation groups */}
         <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
