@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import Resend from "next-auth/providers/resend";
 
 // Only these emails can access the dashboard
 const ALLOWED_EMAILS = [
@@ -8,10 +9,15 @@ const ALLOWED_EMAILS = [
 ];
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [GitHub, Google],
+  providers: [
+    GitHub,
+    Google,
+    Resend({ from: "Personal Finance <onboarding@resend.dev>" }),
+  ],
   pages: {
     signIn: "/login",
     error: "/login",
+    verifyRequest: "/login?verify=1",
   },
   callbacks: {
     signIn({ user }) {
