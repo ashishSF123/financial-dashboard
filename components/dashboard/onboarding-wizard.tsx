@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { Currency, FinancialGoal } from "@/lib/finance-types";
 import { saveUserProfile } from "@/lib/finance-store";
-import { getCurrencySymbol } from "@/lib/format-currency";
+import { getCurrencySymbol, formatINR } from "@/lib/format-currency";
 
 interface Props {
   onComplete: () => void;
@@ -184,7 +184,7 @@ export function OnboardingWizard({ onComplete }: Props) {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <span className="text-[var(--text-muted)]">Income:</span>
-                    <span className="ml-2 text-[var(--text-heading)] font-semibold">{symbol}{parseFloat(income || "0").toLocaleString()}/mo</span>
+                    <span className="ml-2 text-[var(--text-heading)] font-semibold">{formatINR(parseFloat(income || "0"))}/mo</span>
                   </div>
                   <div>
                     <span className="text-[var(--text-muted)]">Currency:</span>

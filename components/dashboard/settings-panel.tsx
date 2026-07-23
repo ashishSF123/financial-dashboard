@@ -145,7 +145,7 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
           </div>
 
           {/* Income & Currency */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Monthly Income</label>
               <input type="number" value={profileIncome} onChange={(e) => setProfileIncome(e.target.value)}
@@ -166,11 +166,6 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
                 <option value="GBP">{"\u00a3"} GBP (British Pound)</option>
                 <option value="JPY">{"\u00a5"} JPY (Japanese Yen)</option>
               </select>
-            </div>
-            <div>
-              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Net Worth Goal</label>
-              <input type="number" value={profileNetWorthTarget} onChange={(e) => setProfileNetWorthTarget(e.target.value)} placeholder="e.g. 10000000"
-                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all tabular-nums" />
             </div>
           </div>
 

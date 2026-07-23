@@ -196,7 +196,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
                       placeholder={col.label}
                       value={newRow[col.key] || ""}
                       onChange={(e) => setNewRow((p) => ({ ...p, [col.key]: e.target.value }))}
-                      className="bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-md px-2.5 py-1 text-xs text-[var(--text-heading)] w-full outline-none focus:border-indigo-400 placeholder:text-slate-700"
+                      className="bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-md px-2.5 py-1 text-xs text-[var(--text-heading)] w-full outline-none focus:border-indigo-400 placeholder:text-[var(--text-muted)]"
                     />
                   </td>
                 ))}
@@ -234,7 +234,7 @@ export function EditableTable({ title, description, accent = "indigo", columns, 
             <span className="text-[var(--text-muted)] text-lg">∅</span>
           </div>
           <p className="text-[var(--text-muted)] text-xs">No records yet</p>
-          <p className="text-slate-700 text-[10px] mt-1">Click &quot;+ Add Row&quot; to begin</p>
+          <p className="text-[var(--text-muted)] text-[10px] mt-1">Click &quot;+ Add Row&quot; to begin</p>
         </div>
       )}
     </div>

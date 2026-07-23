@@ -40,7 +40,7 @@ export function getExpenses(filters?: { month?: string; category?: string }): Da
   if (filters?.category) {
     expenses = expenses.filter((e) => e.category === filters.category);
   }
-  return expenses.sort((a, b) => b.date.localeCompare(a.date) || b.createdAt!.localeCompare(a.createdAt!));
+  return expenses.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || "").localeCompare(a.createdAt || ""));
 }
 
 export function addExpense(expense: Omit<DailyExpense, "id" | "createdAt">): DailyExpense {
