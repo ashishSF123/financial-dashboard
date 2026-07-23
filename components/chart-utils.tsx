@@ -50,7 +50,7 @@ export function formatTick(value: number): string {
   const abs = Math.abs(value);
   if (abs >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
   if (abs >= 1_000) return `${(value / 1_000).toFixed(0)}K`;
-  return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  return Math.round(value).toLocaleString("en-IN");
 }
 
 interface TooltipPayloadEntry {
@@ -98,7 +98,7 @@ export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
       )}
       {payload.map((entry) => (
         <p key={entry.dataKey} style={{ color: entry.color, margin: 0 }}>
-          {entry.name}: {Number(entry.value).toLocaleString()}
+          {entry.name}: {Math.round(Number(entry.value)).toLocaleString("en-IN")}
         </p>
       ))}
     </div>
