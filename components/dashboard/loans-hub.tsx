@@ -131,12 +131,12 @@ export function LoansHub({ data, onUpdate }: Props) {
   const recommendation = sorted[0] || null;
 
   const sections = [
-    { id: "overview" as const, label: "Priority View", icon: "🎯" },
+    { id: "overview" as const, label: "Which to Pay First", icon: "🎯" },
     { id: "gold" as const, label: "Gold Loans", icon: "🥇" },
-    { id: "house" as const, label: "House Loans", icon: "🏠" },
-    { id: "other-loans" as const, label: "All Other Loans", icon: "💳" },
-    { id: "settlements" as const, label: "Settlements", icon: "🤝" },
-    { id: "leases" as const, label: "Lease Liabilities", icon: "📋" },
+    { id: "house" as const, label: "Home & Property", icon: "🏠" },
+    { id: "other-loans" as const, label: "Cards & EMIs", icon: "💳" },
+    { id: "settlements" as const, label: "Borrowed & Lent", icon: "🤝" },
+    { id: "leases" as const, label: "Deposits & Leases", icon: "📋" },
   ];
 
   return (
@@ -145,7 +145,7 @@ export function LoansHub({ data, onUpdate }: Props) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-[var(--text-heading)]">Loans & Debt</h2>
-          <p className="text-[0.78rem] text-[var(--text-muted)] mt-0.5">All liabilities in one place with payoff recommendations</p>
+          <p className="text-[0.78rem] text-[var(--text-muted)] mt-0.5">Track everything you owe — see what to close first to save the most money</p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -342,7 +342,7 @@ export function LoansHub({ data, onUpdate }: Props) {
       {section === "gold" && (
         <EditableTable
           title="Gold Loans"
-          description="Edit principal, interest rate, or gold weight. Monthly interest recalculates automatically."
+          description="Gold pledged as security for quick loans. High interest (12-18% p.a.) — pay these off first to save the most."
           accent="amber"
           columns={[
             { key: "accountName", label: "Account", type: "text" },
@@ -367,7 +367,7 @@ export function LoansHub({ data, onUpdate }: Props) {
       {section === "house" && (
         <EditableTable
           title="House Loans"
-          description="Update EMI, interest rate, or loan amount to see impact on monthly outflows."
+          description="Home loans, plot loans, construction loans. Long tenure (15-30 years) with fixed EMIs. Your biggest asset builder."
           accent="indigo"
           columns={[
             { key: "loanType", label: "Type", type: "text" },
@@ -389,7 +389,7 @@ export function LoansHub({ data, onUpdate }: Props) {
         <div className="space-y-8">
           <EditableTable
             title="Money Borrowed (You Owe)"
-            description="People you owe money to — principal + monthly interest."
+            description="Money borrowed from friends or family. Track who you owe, how much interest is accumulating, and when to repay."
             accent="rose"
             columns={[
               { key: "personName", label: "Person", type: "text" },
@@ -405,7 +405,7 @@ export function LoansHub({ data, onUpdate }: Props) {
           />
           <EditableTable
             title="Money Lended (Owed to You)"
-            description="People who owe you money."
+            description="Money you've lent to others. Track who owes you and the interest they're paying you."
             accent="emerald"
             columns={[
               { key: "personName", label: "Person", type: "text" },
@@ -501,7 +501,7 @@ export function LoansHub({ data, onUpdate }: Props) {
           {/* Grouped by type */}
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl overflow-hidden">
             <div className="px-5 py-3.5 border-b border-[var(--border-subtle)] flex items-center justify-between">
-              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">All Loans & Dues</h3>
+              <h3 className="text-[0.85rem] font-semibold text-[var(--text-heading)]">Credit Cards, Vehicle Loans, EMIs & More</h3>
               <span className="text-[0.65rem] text-[var(--text-muted)]">{additionalLoans.length} entries</span>
             </div>
             {additionalLoans.length === 0 ? (
@@ -557,7 +557,7 @@ export function LoansHub({ data, onUpdate }: Props) {
       {section === "leases" && (
         <EditableTable
           title="Lease Liabilities"
-          description="Zero-interest principal obligations (e.g., borrowed items, equipment deposits, advance payments)."
+          description="Security deposits, advance payments, and other obligations with no interest. These reduce your net worth but don't cost monthly."
           accent="cyan"
           columns={[
             { key: "name", label: "Description", type: "text" },
