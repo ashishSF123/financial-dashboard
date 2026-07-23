@@ -438,6 +438,12 @@ export function saveUserProfile(profile: Partial<UserProfile> & { name: string; 
   const saved: UserProfile = {
     id: existing?.id || generateId(),
     name: profile.name,
+    email: profile.email ?? existing?.email,
+    mobile: profile.mobile ?? existing?.mobile,
+    dateOfBirth: profile.dateOfBirth ?? existing?.dateOfBirth,
+    occupation: profile.occupation ?? existing?.occupation,
+    profileImage: profile.profileImage ?? existing?.profileImage,
+    netWorthTarget: profile.netWorthTarget ?? existing?.netWorthTarget,
     monthlyIncome: profile.monthlyIncome,
     currency: profile.currency || existing?.currency || "INR",
     numberFormat: profile.numberFormat || existing?.numberFormat || "indian",

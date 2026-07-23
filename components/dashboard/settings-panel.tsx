@@ -21,6 +21,12 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
   const [saved, setSaved] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
+  const [profileMobile, setProfileMobile] = useState("");
+  const [profileDob, setProfileDob] = useState("");
+  const [profileOccupation, setProfileOccupation] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [profileNetWorthTarget, setProfileNetWorthTarget] = useState("");
   const [profileIncome, setProfileIncome] = useState("");
   const [profileCurrency, setProfileCurrency] = useState<Currency>("INR");
   const [profileGoals, setProfileGoals] = useState<FinancialGoal[]>([]);
@@ -30,6 +36,12 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
     if (p) {
       setProfile(p);
       setProfileName(p.name);
+      setProfileEmail(p.email || "");
+      setProfileMobile(p.mobile || "");
+      setProfileDob(p.dateOfBirth || "");
+      setProfileOccupation(p.occupation || "");
+      setProfileImage(p.profileImage || "");
+      setProfileNetWorthTarget(String(p.netWorthTarget || ""));
       setProfileIncome(String(p.monthlyIncome));
       setProfileCurrency(p.currency);
       setProfileGoals(p.goals);
@@ -50,6 +62,89 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
 
   return (
     <div className="space-y-6 max-w-3xl">
+      {/* Personal Profile Card */}
+      <div className="relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-card)] rounded-2xl p-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.02] via-transparent to-emerald-500/[0.01] pointer-events-none" />
+        <div className="relative">
+          <div className="flex items-center gap-4 mb-6">
+            {/* Profile Image */}
+            <div className="relative">
+              <div className="w-16 h-16 rounded-full bg-[var(--bg-card-hover)] border-2 border-[var(--border-card)] flex items-center justify-center overflow-hidden">
+                {profileImage ? (
+                  <img src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                ) : (
+                  <span className="text-2xl text-[var(--text-muted)]">{profileName ? profileName[0].toUpperCase() : "U"}</span>
+                )}
+              </div>
+            </div>
+            <div>
+              <h2 className="text-[var(--text-heading)] text-lg font-semibold tracking-tight">{profileName || "Your Profile"}</h2>
+              <p className="text-[var(--text-muted)] text-[11px] mt-0.5">Update your personal details and preferences</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Full Name</label>
+              <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)}
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all" />
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Email</label>
+              <input type="email" value={profileEmail} onChange={(e) => setProfileEmail(e.target.value)} placeholder="you@example.com"
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all" />
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Mobile Number</label>
+              <input type="tel" value={profileMobile} onChange={(e) => setProfileMobile(e.target.value)} placeholder="+91 98765 43210"
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all" />
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Date of Birth</label>
+              <input type="date" value={profileDob} onChange={(e) => setProfileDob(e.target.value)}
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] outline-none focus:border-indigo-500/40 transition-all" />
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Occupation</label>
+              <input type="text" value={profileOccupation} onChange={(e) => setProfileOccupation(e.target.value)} placeholder="e.g. Software Engineer"
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all" />
+            </div>
+            <div>
+              <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Net Worth Goal</label>
+              <input type="number" value={profileNetWorthTarget} onChange={(e) => setProfileNetWorthTarget(e.target.value)} placeholder="e.g. 10000000"
+                className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all tabular-nums" />
+              <p className="text-[var(--text-muted)] text-[9px] mt-1.5">Your target net worth to achieve</p>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[1px] block mb-2">Profile Photo URL</label>
+            <input type="url" value={profileImage} onChange={(e) => setProfileImage(e.target.value)} placeholder="https://example.com/your-photo.jpg"
+              className="w-full bg-[var(--bg-input)] border border-[var(--border-card)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/40 transition-all" />
+          </div>
+
+          <button onClick={() => {
+            const updated = saveUserProfile({
+              name: profileName,
+              monthlyIncome: parseFloat(profileIncome) || 0,
+              currency: profileCurrency,
+              goals: profileGoals,
+              email: profileEmail,
+              mobile: profileMobile,
+              dateOfBirth: profileDob,
+              occupation: profileOccupation,
+              profileImage: profileImage,
+              netWorthTarget: parseFloat(profileNetWorthTarget) || undefined,
+              onboardingComplete: true,
+            });
+            setProfile(updated);
+            showSaved("personal");
+          }} className="bg-indigo-500/[0.1] text-indigo-300 border border-indigo-500/20 px-5 py-2.5 rounded-lg text-[11px] font-semibold hover:bg-indigo-500/[0.18] transition-all">
+            {saved === "personal" ? "✓ Profile Saved" : "Save Profile"}
+          </button>
+        </div>
+      </div>
+
       {/* Header */}
       <div>
         <h2 className="text-[var(--text-heading)] text-lg font-semibold tracking-tight">Global Settings</h2>

@@ -298,6 +298,12 @@ export type FinancialGoal = "debt_free" | "emergency_fund" | "retirement" | "wea
 export interface UserProfile {
   id: string;
   name: string;
+  email?: string;
+  mobile?: string;
+  dateOfBirth?: string;
+  occupation?: string;
+  profileImage?: string;
+  netWorthTarget?: number;
   monthlyIncome: number;
   currency: Currency;
   numberFormat: NumberFormat;
