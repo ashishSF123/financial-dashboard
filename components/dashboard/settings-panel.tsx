@@ -193,35 +193,37 @@ export function SettingsPanel({ monthlyCredit, goldRate, leases, onUpdateCredit,
             </div>
           </div>
 
-          <button onClick={() => {
-            const updated = saveUserProfile({
-              name: profileName,
-              monthlyIncome: parseFloat(profileIncome) || 0,
-              currency: profileCurrency,
-              goals: profileGoals,
-              email: profileEmail,
-              mobile: profileMobile,
-              dateOfBirth: profileDob,
-              occupation: profileOccupation,
-              profileImage: profileImage,
-              netWorthTarget: parseFloat(profileNetWorthTarget) || undefined,
-              onboardingComplete: true,
-            });
-            setProfile(updated);
-            showSaved("personal");
-          }} className="bg-indigo-500/[0.1] text-indigo-300 border border-indigo-500/20 px-5 py-2.5 rounded-lg text-[11px] font-semibold hover:bg-indigo-500/[0.18] transition-all">
-            {saved === "personal" ? "\u2713 Profile Saved" : "Save Profile"}
-          </button>
+          <div className="flex items-center gap-3 mt-4 pt-4 border-t border-[var(--border-subtle)]">
+            <button onClick={() => {
+              const updated = saveUserProfile({
+                name: profileName,
+                monthlyIncome: parseFloat(profileIncome) || 0,
+                currency: profileCurrency,
+                goals: profileGoals,
+                email: profileEmail,
+                mobile: profileMobile,
+                dateOfBirth: profileDob,
+                occupation: profileOccupation,
+                profileImage: profileImage,
+                netWorthTarget: parseFloat(profileNetWorthTarget) || undefined,
+                onboardingComplete: true,
+              });
+              setProfile(updated);
+              showSaved("personal");
+            }} className="bg-indigo-500 text-white px-6 py-2.5 rounded-lg text-[0.78rem] font-semibold hover:bg-indigo-600 transition-all">
+              {saved === "personal" ? "\u2713 Saved!" : "Save Profile"}
+            </button>
 
-          {profile && (
-            <span className={`ml-3 text-[10px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider ${
-              profile.incomeTier === "high" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-              profile.incomeTier === "mid" ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" :
-              "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-            }`}>
-              {profile.incomeTier} tier
-            </span>
-          )}
+            {profile && (
+              <span className={`text-[10px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider ${
+                profile.incomeTier === "high" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
+                profile.incomeTier === "mid" ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" :
+                "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+              }`}>
+                {profile.incomeTier} tier
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
